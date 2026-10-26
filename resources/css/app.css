@@ -2,8 +2,77 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Tipografía Prussian Precision & Portal Público */
+    --font-sans: 'Jost', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Josefin Sans', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Geist', ui-monospace, SFMono-Regular, monospace;
+
+    /* Paleta de Colores TecnoFix Solutions (Prussian Precision & Technical Noir) */
+    --color-brand-navy: #14213d;
+    --color-brand-navy-hover: #0e172a;
+    --color-brand-amber: #d97706;
+    --color-brand-amber-noir: #fca311;
+    --color-brand-amber-light: #fef3c7;
+    --color-brand-amber-border: #fcd34d;
+    --color-brand-slate: #0f172a;
+    --color-brand-muted: #64748b;
+    --color-brand-border: #e2e8f0;
+    --color-brand-canvas: #f8fafc;
+    --color-brand-card: #ffffff;
+
+    /* Tokens Modo Noir (Technical Noir Precision) */
+    --color-noir-canvas: #000000;
+    --color-noir-base: #080d18;
+    --color-noir-card: #0e172a;
+    --color-noir-border: #1f2e4d;
+    --color-noir-alabaster: #e5e5e5;
+    --color-noir-muted: #7a889b;
+
+    /* Radios de Borde */
+    --radius-card: 8px;
+    --radius-btn: 6px;
+
+    /* Sombras (Zero Glow Policy) */
+    --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+    --shadow-elevated: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+    --shadow-overlay: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    --shadow-noir: 4px 4px 0px 0px #000000;
+}
+
+@layer base {
+    body {
+        font-family: var(--font-sans);
+        background-color: var(--color-brand-canvas);
+        color: var(--color-brand-slate);
+    }
+
+    h1, h2, h3, .font-display {
+        font-family: var(--font-display);
+    }
+
+    .tabular-nums {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 20;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
 }
