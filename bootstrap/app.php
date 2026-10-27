@@ -12,7 +12,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'rol' => \App\Http\Middleware\CheckRole::class,
+            'activo' => \App\Http\Middleware\EnsureUserIsActive::class,
+            'cliente.propietario' => \App\Http\Middleware\EnsureClientOwnsResource::class,
+        ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\ShareTallerData::class,
+        ]);
+
+        $middleware->redirectGuestsTo(fn () => route('portal.publico'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
