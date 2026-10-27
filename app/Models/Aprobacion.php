@@ -11,7 +11,7 @@ class Aprobacion extends Model
 
     protected $primaryKey = 'id_aprobacion';
 
-    protected $fillable = ['id_version', 'id_cliente', 'estado', 'fecha_respuesta', 'comentarios'];
+    protected $fillable = ['id_version', 'id_cliente', 'estado', 'fecha_respuesta', 'comentarios', 'motivo_rechazo'];
 
     protected function casts(): array
     {

@@ -14,8 +14,9 @@ class OrdenServicio extends Model
     protected $primaryKey = 'id_orden';
 
     protected $fillable = [
-        'id_equipo', 'id_recepcionista', 'fecha_recepcion', 'falla_reportada',
+        'folio', 'id_equipo', 'id_recepcionista', 'fecha_recepcion', 'falla_reportada',
         'accesorios_recibidos', 'estado_fisico_ingreso', 'estado_orden', 'observaciones',
+        'es_reingreso', 'id_orden_origen',
     ];
 
     protected function casts(): array

@@ -13,7 +13,7 @@ class Garantia extends Model
 
     protected $fillable = [
         'id_orden', 'id_cliente', 'id_usuario', 'fecha_inicio', 'fecha_fin',
-        'duracion', 'condiciones', 'estado', 'observaciones',
+        'duracion', 'condiciones', 'conceptos_cubiertos', 'estado', 'observaciones',
     ];
 
     protected function casts(): array

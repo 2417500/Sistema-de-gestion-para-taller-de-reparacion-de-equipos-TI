@@ -54,7 +54,7 @@ class UsuarioService
             ]);
 
             $this->bitacora->registrar('registro_usuario', 'User', $user->id,
-                'Auto-registro desde portal público');
+                'Auto-registro desde portal público', $user->id);
 
             return $user;
         });

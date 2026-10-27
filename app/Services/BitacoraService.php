@@ -39,7 +39,7 @@ class BitacoraService
         ?int $idUsuario = null,
         ?Request $request = null,
     ): BitacoraAccion {
-        $idUsuario ??= Auth::id();
+        $idUsuario ??= Auth::id(); // null = acción de sistema (sin sesión activa)
         $ip = $request?->ip() ?? request()->ip();
         $detalleTexto = is_array($detalle) ? json_encode($detalle, JSON_UNESCAPED_UNICODE) : $detalle;
 

@@ -84,10 +84,13 @@ return new class extends Migration
         // Bitácora de acciones importantes
         Schema::create('bitacora_acciones', function (Blueprint $table) {
             $table->id('id_bitacora');
-            $table->foreignId('id_usuario')->constrained('users', 'id');
-            $table->string('accion', 80);          // cambio_estado|aprobacion|rechazo|pago|etc.
-            $table->string('modulo', 60);           // OrdenServicio|Cotizacion|Pago|Inventario|etc.
-            $table->unsignedBigInteger('id_referencia')->nullable(); // PK del registro afectado
+            $table->foreignId('id_usuario')
+                ->nullable()
+                ->constrained('users', 'id')
+                ->nullOnDelete();
+            $table->string('accion', 80);
+            $table->string('modulo', 60);
+            $table->unsignedBigInteger('id_referencia')->nullable();
             $table->text('detalle')->nullable();
             $table->string('ip', 45)->nullable();
             $table->timestamps();
