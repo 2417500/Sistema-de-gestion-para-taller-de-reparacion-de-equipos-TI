@@ -28,8 +28,30 @@ Desarrollar un sistema web para el control y administracion de un taller de repa
 
 \section{Alcance}
 
+El presente proyecto abarca el análisis, diseño e implementación de un sistema web desarrollado con el framework Laravel para la gestión centralizada de un taller de reparación de equipos de Tecnologías de la Información (computadoras, impresoras y periféricos). El sistema contempla los siguientes módulos y funcionalidades principales:
+
+\begin{itemize}
+    \item \textbf{Gestión de usuarios y control de acceso por roles:} Administración de cuentas de usuario, inicio y cierre de sesión, recuperación de contraseña mediante token por correo electrónico y asignación de permisos específicos para cinco roles: Administrador, Recepción, Técnico, Almacén y Cliente.
+    \item \textbf{Gestión de clientes y recepción de equipos:} Registro y actualización de datos de clientes, control de antigüedad e historial de servicio, así como el ingreso de dispositivos con folio único, registro de características físicas, número de serie, accesorios y evidencias fotográficas.
+    \item \textbf{Diagnóstico técnico y gestión de cotizaciones:} Captura de fallas detectadas, pruebas técnicas y posibles soluciones; generación de cotizaciones con control de versiones, mano de obra, refacciones, vigencia y aplicación de descuentos autorizados.
+    \item \textbf{Flujo de aprobaciones y seguimiento de reparaciones:} Registro de aceptación o rechazo de presupuestos por parte del cliente o administrador, asignación de técnicos, bitácora de tareas, tiempos de trabajo, registro de incidencias y actualización de estados en tiempo real.
+    \item \textbf{Control de almacén e inventario:} Administración de entradas, salidas, existencias mínimas y reserva de refacciones vinculadas a órdenes autorizadas, así como alertas por faltantes de material o reemplazo de herramientas.
+    \item \textbf{Gestión de pagos, entregas y garantías:} Registro de anticipos (50\,\% requerido para iniciar la reparación, salvo excepción autorizada), pagos parciales, liquidaciones, emisión de comprobantes de pago, validación de pruebas finales previas a la entrega y administración de garantías y reingresos.
+    \item \textbf{Portal de consulta para clientes, reportes y bitácora:} Interfaz para que el cliente consulte el avance de sus órdenes, apruebe o rechace cotizaciones y verifique sus pagos y garantías, complementada con un módulo de reportes operativos y auditoría de acciones relevantes en el sistema.
+\end{itemize}
 
 \section{Limitación}
+
+Durante el desarrollo y operación del sistema se consideran las siguientes limitaciones técnicas y operativas:
+
+\begin{itemize}
+    \item \textbf{Procesamiento de pagos en línea:} El sistema registra y controla anticipos, pagos parciales, saldos pendientes y comprobantes, pero no integra pasarelas de pago bancarias en línea ni terminales punto de venta físicas; la validación del cobro se realiza mediante registro administrativo.
+    \item \textbf{Facturación electrónica fiscal:} Los comprobantes generados por el sistema son de carácter interno y de control operativo para el taller y el cliente, por lo que no sustituyen comprobantes fiscales digitales (CFDI) ante autoridades tributarias.
+    \item \textbf{Adquisición y compras automatizadas a proveedores:} El módulo de almacén notifica faltantes de inventario y necesidades de reposición de herramientas al administrador, pero no realiza órdenes de compra automáticas ni se conecta con sistemas externos de proveedores.
+    \item \textbf{Dependencia de conectividad e infraestructura:} Al ser una aplicación web accesible desde navegadores modernos, su disponibilidad durante el horario operativo del taller depende de la conexión a red y de la infraestructura del servidor donde se aloje.
+    \item \textbf{Alcance del diagnóstico por software:} El sistema documenta y da trazabilidad a los diagnósticos, pruebas y tiempos de reparación capturados por el personal técnico, pero no ejecuta diagnósticos de hardware o telemetría de forma automatizada sobre los equipos recibidos.
+    \item \textbf{Restricciones de flujo operativo:} Conforme a las reglas de negocio establecidas, el sistema no permite iniciar reparaciones sin cotización vigente aprobada y anticipo registrado (salvo autorización expresa del administrador), ni permite cancelar órdenes por vía ordinaria una vez iniciada la reparación.
+\end{itemize}
 
 \section{Problemática}
 
