@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500;600;700&family=Josefin+Sans:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .film-grid {
+        background-size: 24px 24px;
+        background-image: 
+            linear-gradient(to right, rgba(229, 229, 229, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(229, 229, 229, 0.03) 1px, transparent 1px);
+    }
+    .noir-card {
+        border: 1px solid rgba(229, 229, 229, 0.12);
+        box-shadow: 0 4px 0px 0px rgba(0, 0, 0, 0.85);
+        border-radius: 0px !important;
+    }
+    .amber-glow {
+        box-shadow: 0 0 10px rgba(252, 163, 17, 0.28);
+    }
+    .amber-line {
+        border-top: 2px solid #fca311;
+    }
+    .table-cell-mono {
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+    }
+    .thermal-receipt {
+        background: #fdfbf7;
+        color: #111111;
+        font-family: 'JetBrains Mono', monospace;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        border-radius: 0px;
+    }
+    * {
+        border-radius: 0px !important;
+    }
+}
+
+/* ==========================================================================
+   MODO CLARO (INVERSIÓN DIAGNÓSTICA - TECHNICAL NOIR WORKSHOP)
+   Activo cuando se remueve la clase .dark del elemento raíz <html>
+   ========================================================================== */
+html:not(.dark) {
+    color-scheme: light;
+}
+
+html:not(.dark) body {
+    background-color: #f4f4f5 !important;
+    color: #18181b !important;
+}
+
+html:not(.dark) .film-grid {
+    background-image: 
+        linear-gradient(to right, rgba(20, 33, 61, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20, 33, 61, 0.06) 1px, transparent 1px) !important;
+}
+
+html:not(.dark) header,
+html:not(.dark) footer,
+html:not(.dark) aside,
+html:not(.dark) .bg-background {
+    background-color: #f4f4f5 !important;
+}
+
+html:not(.dark) .bg-surface-container-lowest,
+html:not(.dark) .bg-surface {
+    background-color: #ffffff !important;
+    border-color: rgba(20, 33, 61, 0.18) !important;
+}
+
+html:not(.dark) .bg-surface-container-low {
+    background-color: #fafafa !important;
+    border-color: rgba(20, 33, 61, 0.18) !important;
+}
+
+html:not(.dark) .bg-surface-container {
+    background-color: #f4f4f5 !important;
+    border-color: rgba(20, 33, 61, 0.15) !important;
+}
+
+html:not(.dark) .bg-surface-container-high {
+    background-color: #e4e4e7 !important;
+    border-color: rgba(20, 33, 61, 0.2) !important;
+}
+
+html:not(.dark) .bg-surface-container-highest {
+    background-color: #d4d4d8 !important;
+    border-color: rgba(20, 33, 61, 0.2) !important;
+}
+
+html:not(.dark) .noir-card {
+    background-color: #ffffff !important;
+    border-color: rgba(20, 33, 61, 0.18) !important;
+    box-shadow: 0 4px 0px 0px rgba(20, 33, 61, 0.10) !important;
+}
+
+html:not(.dark) .text-white,
+html:not(.dark) .text-on-surface {
+    color: #09090b !important;
+}
+
+html:not(.dark) .text-on-surface-variant {
+    color: #52525b !important;
+}
+
+html:not(.dark) .text-primary,
+html:not(.dark) .text-primary-container {
+    color: #b45309 !important; /* Ámbar contrastado AA/AAA para fondos claros */
+}
+
+html:not(.dark) .bg-primary-container {
+    background-color: #d97706 !important;
+    color: #ffffff !important;
+    border-color: #d97706 !important;
+}
+
+html:not(.dark) .bg-primary-container * {
+    color: #ffffff !important;
+}
+
+html:not(.dark) .bg-primary-container:hover {
+    background-color: #14213d !important;
+    color: #ffffff !important;
+    border-color: #14213d !important;
+}
+
+html:not(.dark) .bg-noir-blue {
+    background-color: #14213d !important;
+    color: #ffffff !important;
+}
+
+html:not(.dark) .bg-noir-blue .text-white,
+html:not(.dark) .bg-noir-blue * {
+    color: #ffffff !important;
+}
+
+html:not(.dark) thead tr.bg-noir-blue th {
+    background-color: #14213d !important;
+    color: #ffffff !important;
+}
+
+html:not(.dark) .amber-line {
+    border-top-color: #d97706 !important;
+}
+
+html:not(.dark) .amber-glow {
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.25) !important;
+}
+
+html:not(.dark) .border-outline-variant,
+html:not(.dark) .border-outline {
+    border-color: rgba(20, 33, 61, 0.18) !important;
+}
+
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+    background-color: #ffffff !important;
+    color: #09090b !important;
+    border-color: rgba(20, 33, 61, 0.25) !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+    color: #71717a !important;
+}
+
+html:not(.dark) input:focus,
+html:not(.dark) textarea:focus,
+html:not(.dark) select:focus {
+    border-color: #d97706 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #d97706 !important;
+}
+
+html:not(.dark) table {
+    border-color: rgba(20, 33, 61, 0.18) !important;
+}
+
+html:not(.dark) tbody tr:hover {
+    background-color: #f4f4f5 !important;
+}
+
+html:not(.dark) .hover\:bg-surface-container:hover {
+    background-color: #e4e4e7 !important;
+}
+
+html:not(.dark) .table-cell-mono {
+    color: #09090b !important;
+}
+
+html:not(.dark) .hover\:text-white:hover {
+    color: #09090b !important;
+}

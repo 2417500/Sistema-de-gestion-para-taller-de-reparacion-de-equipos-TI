@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TecnoFix Solutions - Portal del Cliente: Avance de Servicio y Aprobación de Cotización</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Space Grotesk, JetBrains Mono, Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed-variant": "#653e00",
+            "surface-container-highest": "#353535",
+            "on-secondary-container": "#abb8db",
+            "error": "#ffb4ab",
+            "secondary-fixed": "#d9e2ff",
+            "on-surface-variant": "#d9c3ad",
+            "tertiary": "#d1d2d2",
+            "inverse-surface": "#e2e2e2",
+            "inverse-on-surface": "#303030",
+            "on-tertiary-container": "#464848",
+            "inverse-primary": "#855300",
+            "surface-container": "#1f1f1f",
+            "surface-variant": "#353535",
+            "on-secondary-fixed-variant": "#3a4664",
+            "on-primary-fixed": "#2a1700",
+            "error-container": "#93000a",
+            "tertiary-container": "#b6b6b6",
+            "surface-dim": "#131313",
+            "secondary-container": "#3c4967",
+            "on-error": "#690005",
+            "primary-fixed-dim": "#ffb95f",
+            "outline": "#a18e79",
+            "surface-container-lowest": "#0e0e0e",
+            "surface": "#131313",
+            "tertiary-fixed": "#e2e2e2",
+            "surface-tint": "#ffb95f",
+            "primary": "#ffc887",
+            "tertiary-fixed-dim": "#c6c6c6",
+            "on-tertiary": "#2f3131",
+            "surface-container-low": "#1b1b1b",
+            "secondary": "#b9c6ea",
+            "surface-container-high": "#2a2a2a",
+            "on-background": "#e2e2e2",
+            "on-secondary-fixed": "#0d1b36",
+            "on-surface": "#e2e2e2",
+            "on-tertiary-fixed-variant": "#454747",
+            "background": "#131313",
+            "outline-variant": "#534433",
+            "on-secondary": "#23304d",
+            "secondary-fixed-dim": "#b9c6ea",
+            "surface-bright": "#393939",
+            "on-primary-container": "#663f00",
+            "primary-container": "#fca311",
+            "on-error-container": "#ffdad6",
+            "on-tertiary-fixed": "#1a1c1c",
+            "primary-fixed": "#ffddb8",
+            "on-primary": "#472a00"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1rem",
+            "margin-tablet": "1.5rem",
+            "space-xl": "2.5rem",
+            "margin-desktop": "2.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "label-lg": ["JetBrains Mono"],
+            "body-sm": ["Hanken Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "headline-lg-mobile": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Precision Monospace & Hardware Blueprint Elements */
+    .blueprint-grid {
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(83, 68, 51, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(83, 68, 51, 0.08) 1px, transparent 1px);
+    }
+    .noir-glow {
+      box-shadow: 0 0 12px rgba(252, 163, 17, 0.22);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #0e0e0e;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #353535;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #fca311;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-surface-container-lowest">
+<!-- ========================================== -->
+<!-- 1. TOP NAV BAR (Shared Component Anchor)  -->
+<!-- ========================================== -->
+<header class="w-full h-16 flex items-center justify-between px-6 z-30 bg-surface-container-lowest border-b border-outline-variant sticky top-0">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="w-2.5 h-2.5 bg-primary-container inline-block"></span>
+<span class="text-headline-md font-headline-md font-bold tracking-wider text-primary-container uppercase">TecnoFix Solutions</span>
+</div>
+<!-- Quick Search Bar (Left aligned) -->
+<div class="hidden lg:flex items-center border border-outline-variant bg-surface-container-low px-2.5 py-1 text-on-surface-variant text-label-sm font-label-sm w-72">
+<span class="material-symbols-outlined text-outline text-[16px] mr-2">search</span>
+<input class="bg-transparent border-0 p-0 text-on-surface text-label-sm font-label-sm focus:ring-0 focus:outline-none w-full placeholder:text-outline-variant" placeholder="BUSCAR S/N, FOLIO O COMPONENTE..." readonly="" type="text" value="ORD-9905 / SRV-4420-TI"/>
+<span class="px-1 bg-surface-variant text-on-surface text-[9px] font-label-sm">ESC</span>
+</div>
+<nav class="hidden xl:flex items-center gap-6">
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#">Taller</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#">Horarios</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#">Políticas</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#">Ubicación</a>
+</nav>
+</div>
+<!-- Trailing Actions & Customer Profile Anchor -->
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 border border-outline-variant px-3 py-1 bg-surface-container-low">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-none animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-primary uppercase">TELEMETRÍA EN VIVO: LAB-04</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors duration-150 p-1.5 border border-transparent hover:border-outline-variant" title="Terminal de Diagnóstico">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</button>
+<button class="relative text-on-surface-variant hover:text-primary-container transition-colors duration-150 p-1.5 border border-transparent hover:border-outline-variant" title="Alertas">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1 right-1 w-1.5 h-1.5 bg-primary-container"></span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1"></div>
+<!-- User Badge: Alejandro Morales (Client Persona) -->
+<div class="flex items-center gap-3 pl-1">
+<div class="text-right hidden md:block">
+<p class="text-label-sm font-label-sm text-on-surface font-semibold uppercase">Alejandro Morales</p>
+<div class="flex items-center justify-end gap-1.5 text-label-sm font-label-sm text-outline">
+<span>CLI-8821</span>
+<span class="w-1 h-1 bg-outline-variant inline-block"></span>
+<span class="text-primary-container font-bold">PLATINO (6 EQP)</span>
+</div>
+</div>
+<div class="w-8 h-8 border border-primary-container bg-surface-container-high flex items-center justify-center text-primary-container font-headline-md font-bold text-xs" title="Avatar de operador de estación de diagnóstico">
+          AM
+        </div>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- 2. MAIN APPLICATION SHELL (SIDEBAR + WORK) -->
+<!-- ========================================== -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SIDEBAR (SideNavBar Component with 'Portal Cliente' ACTIVE) -->
+<aside class="w-64 flex flex-col justify-between p-4 z-40 bg-surface-container-low border-r border-outline-variant shrink-0 min-h-[calc(100vh-4rem)]">
+<div>
+<!-- Brand & System Version Header -->
+<div class="flex items-center gap-3 pb-5 mb-5 border-b border-outline-variant">
+<div class="w-9 h-9 border border-outline-variant bg-surface-container-lowest flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">memory</span>
+</div>
+<div>
+<div class="text-headline-md font-headline-md font-bold tracking-tight text-on-surface uppercase leading-none">TecnoFix OS</div>
+<div class="text-label-sm font-label-sm text-outline mt-1">SoporTec v4.2</div>
+</div>
+</div>
+<!-- Main Navigation Items (Exactly 5 tabs from JSON) -->
+<div class="text-[10px] font-label-sm text-outline uppercase tracking-widest px-2 mb-2">Módulos de Sistema</div>
+<nav class="space-y-1">
+<!-- Admin -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+<!-- Recepción -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_ind</span>
+<span>Recepción</span>
+</a>
+<!-- Técnico -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">build_circle</span>
+<span>Técnico</span>
+</a>
+<!-- Almacén -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span>Almacén</span>
+</a>
+<!-- Portal Cliente (ACTIVE ITEM per Semantic Anchor Protocol) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface bg-surface-container-highest border-l-2 border-primary-container font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-[18px] text-primary-container" style="font-variation-settings: 'FILL' 1;">devices</span>
+<span class="font-bold text-primary">Portal Cliente</span>
+</a>
+</nav>
+<!-- CTA Button from JSON -->
+<div class="mt-8 pt-4 border-t border-outline-variant">
+<button class="w-full bg-primary-container text-surface-container-lowest font-label-sm text-label-sm uppercase font-bold py-2.5 px-3 flex items-center justify-center gap-2 hover:bg-on-background transition-colors duration-150 active:translate-y-px">
+<span class="material-symbols-outlined text-[16px]">add_box</span>
+<span>Nueva Orden</span>
+</button>
+</div>
+<!-- Telemetry Status Box -->
+<div class="mt-6 border border-outline-variant p-2.5 bg-surface-container-lowest">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline mb-1">
+<span>SLA GARANTIZADO</span>
+<span class="text-primary-container">24 HORAS</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5">
+<div class="bg-primary-container h-1.5 w-3/4"></div>
+</div>
+<div class="text-[9px] font-label-sm text-outline mt-1.5 flex justify-between">
+<span>REVISIÓN TÉCNICA</span>
+<span class="text-on-surface">18h RESTANTES</span>
+</div>
+</div>
+</div>
+<!-- Footer navigation tabs from JSON -->
+<div class="pt-4 border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">contrast</span>
+<span>Modo Luz/Oscuro</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- ========================================== -->
+<!-- 3. MAIN WORKSPACE / CONTENT CANVAS        -->
+<!-- ========================================== -->
+<main class="flex-1 overflow-y-auto custom-scroll bg-surface blueprint-grid p-6 space-y-6">
+<!-- TOP BANNER: PROGRAMA PLATINO & HEADER INTENT -->
+<div class="border border-outline-variant bg-surface-container-lowest p-5 relative overflow-hidden">
+<!-- Noir corner geometric marker -->
+<div class="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden">
+<div class="absolute transform rotate-45 bg-primary-container text-surface-container-lowest font-label-sm text-[9px] font-bold py-0.5 right-[-35px] top-[18px] w-[120px] text-center">
+            PLATINUM QA
+          </div>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 border border-primary-container text-primary-container text-label-sm font-label-sm uppercase bg-surface-container-low">
+                ÁREA AUTORIZADA DE CLIENTES
+              </span>
+<span class="text-outline text-label-sm font-label-sm">TELEMETRÍA ID #SOPORTEC-2024</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">
+              Portal del Cliente • Trazabilidad y Aprobación de Órdenes
+            </h1>
+<p class="text-body-sm font-body-sm text-outline mt-1">
+              Auditoría en tiempo real de intervenciones de hardware, reemplazo de componentes y aprobación formal de presupuestos técnicos.
+            </p>
+</div>
+<!-- Platinum Benefit Badge Box -->
+<div class="border border-primary-container bg-surface-container-low p-3.5 max-w-md shrink-0">
+<div class="flex items-center gap-2 text-primary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>PROGRAMA PLATINO ACTIVO: 15% DE DESCUENTO APLICADO</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+              Condición: &gt;5 equipos previos. Dispositivos históricos reparados: <strong class="text-on-surface font-bold">6 equipos certificados</strong>.
+            </p>
+</div>
+</div>
+<!-- ACTIVE ORDER SELECTOR STRIP -->
+<div class="mt-4 pt-4 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3 text-label-sm font-label-sm">
+<div class="flex items-center gap-3">
+<span class="text-outline uppercase">EQUIPO EN INSPECCIÓN:</span>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface border border-outline-variant font-bold">
+              Dell PowerEdge R750xs Dual Xeon - Servidor de Producción
+            </span>
+<span class="text-outline-variant">|</span>
+<span class="text-outline">ORDEN: <span class="text-primary-container font-bold">#ORD-9905</span></span>
+<span class="text-outline">SERVICIO: <span class="text-on-surface font-mono font-bold">#SRV-4420-TI</span></span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 border border-outline-variant text-on-surface-variant hover:text-on-surface hover:border-primary-container transition-colors duration-150 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">history</span>
+<span>Conmutar Orden (2 Activas)</span>
+</button>
+<button class="px-2.5 py-1 bg-surface-container-high border border-outline-variant text-on-surface hover:bg-surface-variant flex items-center gap-1.5" title="Imprimir Ficha Técnica">
+<span class="material-symbols-outlined text-[14px]">print</span>
+<span>Ficha Técnica</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- 2. DIAGNOSTIC WORKBENCH TIMELINE (3 GRANDES MOMENTOS EXACTOS)  -->
+<!-- ============================================================== -->
+<section class="border border-outline-variant bg-surface-container-low p-5">
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface uppercase text-sm tracking-wider">
+              Ciclo de Vida del Servicio: Línea de Tiempo de Intervención
+            </h2>
+</div>
+<span class="text-label-sm font-label-sm text-outline">ESTADO ACTUAL: ETAPA 2 EN ESPERA DE CONFIRMACIÓN</span>
+</div>
+<!-- 3-STAGE GRID WORKBENCH -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- ETAPA 1: RECEPCIÓN & REGISTRO FÍSICO (TERMINADO) -->
+<div class="border border-outline-variant bg-surface-container-lowest p-4 relative">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-outline">FASE 01/03</span>
+<span class="px-2 py-0.5 border border-on-surface text-surface-container-lowest bg-on-surface text-label-sm font-label-sm font-bold uppercase">
+                Terminado
+              </span>
+</div>
+<h3 class="text-label-lg font-headline-md font-bold text-on-surface">Recepción &amp; Registro Físico</h3>
+<div class="mt-3 space-y-1.5 text-label-sm font-label-sm text-outline">
+<div class="flex justify-between">
+<span>Ingreso:</span>
+<span class="text-on-surface font-mono">14-Nov-2024 09:42 hrs</span>
+</div>
+<div class="flex justify-between">
+<span>Puesto:</span>
+<span class="text-on-surface">Recepción B-02 (Est. Central)</span>
+</div>
+<div class="flex justify-between">
+<span>Inspección 360°:</span>
+<span class="text-primary font-mono">Completada (4 Capturas)</span>
+</div>
+<div class="flex justify-between">
+<span>Acta de Depósito:</span>
+<span class="text-on-surface font-mono">FOL-8831-RC</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/60 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Custodia de Chasis:</span>
+<span class="text-on-surface font-semibold">Bahía de Montaje 4</span>
+</div>
+</div>
+<!-- ETAPA 2: TÉCNICO & DIAGNÓSTICO / COTIZACIÓN (EN VALIDACIÓN - ACTIVO) -->
+<div class="border-2 border-primary-container bg-surface-container-lowest p-4 relative noir-glow">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-primary-container font-bold">FASE 02/03 • PUNTO CRÍTICO</span>
+<span class="px-2 py-0.5 border border-primary-container text-primary-container bg-primary-container/10 text-label-sm font-label-sm font-bold uppercase animate-pulse">
+                En Validación de Cotización
+              </span>
+</div>
+<h3 class="text-label-lg font-headline-md font-bold text-on-surface">Técnico &amp; Diagnóstico / Cotización</h3>
+<div class="mt-3 space-y-1.5 text-label-sm font-label-sm text-outline">
+<div class="flex justify-between">
+<span>Especialista a Cargo:</span>
+<span class="text-on-surface font-bold">Ing. Jesús Ramírez</span>
+</div>
+<div class="flex justify-between">
+<span>Dictamen Técnico:</span>
+<span class="text-primary font-mono">Falla en Etapa VRM + Microfisura</span>
+</div>
+<div class="flex justify-between">
+<span>Prueba de Osciloscopio:</span>
+<span class="text-on-surface font-mono">Rizado Anómalo 1.48V</span>
+</div>
+<div class="flex justify-between">
+<span>Diagnóstico Inicial:</span>
+<span class="text-primary-container font-bold">$0.00 MXN (100% Bonificado)</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/60 flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-primary-container font-bold">ACCIÓN REQUERIDA:</span>
+<span class="text-on-surface uppercase font-semibold">Autorización de Cliente</span>
+</div>
+</div>
+<!-- ETAPA 3: RECEPCIÓN & ENTREGA FINAL (PENDIENTE) -->
+<div class="border border-outline-variant bg-surface-container-lowest p-4 relative opacity-60">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-sm font-label-sm text-outline">FASE 03/03</span>
+<span class="px-2 py-0.5 border border-outline-variant text-outline text-label-sm font-label-sm uppercase">
+                Pendiente
+              </span>
+</div>
+<h3 class="text-label-lg font-headline-md font-bold text-on-surface">Recepción &amp; Entrega Final</h3>
+<div class="mt-3 space-y-1.5 text-label-sm font-label-sm text-outline">
+<div class="flex justify-between">
+<span>Ejecución Reparación:</span>
+<span class="text-outline font-mono">En espera de autorización</span>
+</div>
+<div class="flex justify-between">
+<span>Control de Calidad (QA):</span>
+<span class="text-outline">Prueba de Estrés 4h AIDA64</span>
+</div>
+<div class="flex justify-between">
+<span>Certificado de Garantía:</span>
+<span class="text-outline">90 Días en Banco de Trabajo</span>
+</div>
+<div class="flex justify-between">
+<span>Acta de Liberación:</span>
+<span class="text-outline">Ticket + Fotografía Térmica</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/60 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Entrega estimada post-aprobación:</span>
+<span class="text-outline font-mono">24 Horas hábiles</span>
+</div>
+</div>
+</div>
+<!-- Segmented Block Progress Bar (Industrial Metric) -->
+<div class="mt-4 pt-4 border-t border-outline-variant flex items-center gap-1.5">
+<div class="h-2 bg-on-surface flex-1" title="Paso 1 Completado"></div>
+<div class="h-2 bg-on-surface flex-1" title="Paso 1.5 Completado"></div>
+<div class="h-2 bg-primary-container flex-1 animate-pulse" title="Paso 2 En Progreso"></div>
+<div class="h-2 bg-surface-container-highest flex-1" title="Paso 2.5 Pendiente"></div>
+<div class="h-2 bg-surface-container-highest flex-1" title="Paso 3 Pendiente"></div>
+<div class="h-2 bg-surface-container-highest flex-1" title="Paso 3 Final Pendiente"></div>
+</div>
+</section>
+<!-- ============================================================== -->
+<!-- 3. CENTRAL MODULE: REVISIÓN Y DECISIÓN DE COTIZACIÓN INTERACTIVA -->
+<!-- ============================================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LEFT COLUMN: DICTAMEN TÉCNICO & FOTOGRAFÍAS FORENSES (5 COLS) -->
+<div class="lg:col-span-5 space-y-6">
+<!-- Dictamen Técnico Card -->
+<div class="border border-outline-variant bg-surface-container-lowest">
+<div class="bg-secondary-container/40 px-4 py-2.5 border-b border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-label-sm font-bold text-on-surface uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary-container">biotech</span>
+                Dictamen Técnico Oficial (Laboratorio)
+              </span>
+<span class="text-label-sm font-label-sm text-outline font-mono">LOG #9905-DIAG</span>
+</div>
+<div class="p-4 space-y-3">
+<div class="p-3 bg-surface-container border-l-2 border-primary-container">
+<div class="text-label-sm font-label-sm text-primary uppercase font-bold">Diagnóstico Gratuito Aplicado</div>
+<div class="text-body-sm font-body-sm text-outline mt-0.5">
+                  Conforme a la política de transparencia TecnoFix, el análisis e inspección minuciosa de osciloscopio y circuito integrado no genera ningún cargo: <strong class="text-on-surface font-mono">$0.00 MXN Garantizado</strong>.
+                </div>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-outline uppercase block mb-1">Informe del Técnico Asignado:</span>
+<p class="text-body-sm font-body-sm text-on-surface bg-surface-container-low p-3 border border-outline-variant font-mono text-[11px] leading-relaxed">
+                  "Servidor Dell PowerEdge ingresa con falla de encendido crítico (LED naranja ámbar en panel de diagnóstico iDRAC). Al desarmar módulo de sockets Xeon, se detecta sobrecalentamiento severo en el módulo de regulación de voltaje (VRM fase 3 y 4). Los MOSFETs controladores sufrieron degradación dieléctrica impidiendo la alimentación a los 1.2V del bus PCIe primario. Solución dictaminada: Sustitución de matriz VRM SMD + limpieza por ultrasonido y reaplicación de compuesto térmico industrial Kryonaut Extreme con conductividad 14.2 W/mK."
+                </p>
+</div>
+<!-- Telemetry indicators -->
+<div class="grid grid-cols-2 gap-2 pt-2 border-t border-outline-variant text-label-sm font-label-sm">
+<div class="border border-outline-variant p-2 bg-surface-container-low">
+<span class="text-outline block text-[9px]">RESISTENCIA TÉRMICA</span>
+<span class="text-on-surface font-mono font-bold">0.0032 K/W</span>
+</div>
+<div class="border border-outline-variant p-2 bg-surface-container-low">
+<span class="text-outline block text-[9px]">VOLTAJE EN CORTO</span>
+<span class="text-primary-container font-mono font-bold">12.2V -&gt; 0.08V (FAIL)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspección Fotográfica Pericial de Recepción -->
+<div class="border border-outline-variant bg-surface-container-lowest">
+<div class="bg-surface-container px-4 py-2 border-b border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-label-sm font-bold text-on-surface uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">photo_camera</span>
+                Inspección Pericial de Recepción (4 Puntos)
+              </span>
+<span class="text-label-sm font-label-sm text-outline">S/N: 7B9X4L2-PROD</span>
+</div>
+<div class="p-4 space-y-3">
+<div class="grid grid-cols-2 gap-2">
+<!-- Foto 1: Registro Chasis Frontal -->
+<div class="border border-outline-variant p-1 bg-surface-container-low">
+<div class="w-full h-24 bg-surface-container-high flex flex-col items-center justify-center text-outline border border-outline-variant/40 relative">
+<span class="material-symbols-outlined text-2xl text-outline-variant">camera_indoor</span>
+<span class="text-[9px] font-label-sm uppercase mt-1">Frente iDRAC / Bahías</span>
+<span class="absolute bottom-1 right-1 px-1 bg-surface-container-lowest text-[8px] font-label-sm text-on-surface">F-01</span>
+</div>
+<div class="text-[9px] font-label-sm text-outline mt-1 truncate">Desgaste leve en rack bracket</div>
+</div>
+<!-- Foto 2: Microfotografía PCB VRM -->
+<div class="border border-primary-container/80 p-1 bg-surface-container-low">
+<div class="w-full h-24 bg-surface-container-high flex flex-col items-center justify-center text-primary-container border border-primary-container/40 relative">
+<span class="material-symbols-outlined text-2xl text-primary-container">smb_share</span>
+<span class="text-[9px] font-label-sm uppercase mt-1 text-primary-container">VRM Fase 3 Quemada</span>
+<span class="absolute bottom-1 right-1 px-1 bg-surface-container-lowest text-[8px] font-label-sm text-primary-container font-bold">F-02 DIAG</span>
+</div>
+<div class="text-[9px] font-label-sm text-primary mt-1 truncate">Daño térmico localizado</div>
+</div>
+</div>
+<div class="text-label-sm font-label-sm text-outline border-t border-outline-variant pt-2 space-y-1">
+<div class="flex justify-between">
+<span>Accesorios entregados:</span>
+<span class="text-on-surface">Rieles de montaje + 2 Fuentes Redundantes 800W</span>
+</div>
+<div class="flex justify-between">
+<span>Marcas pre-existentes:</span>
+<span class="text-on-surface">Micro-rayón en cubierta superior chasis metal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: FICHA DETALLADA DE COTIZACIÓN & TOMA DE DECISIÓN (7 COLS) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Ficha de Cotización Propuesta -->
+<div class="border-2 border-outline-variant bg-surface-container-lowest">
+<div class="bg-surface-container-high px-5 py-3 border-b border-outline-variant flex items-center justify-between">
+<div>
+<span class="text-headline-md font-headline-md font-bold text-on-surface uppercase text-sm block">
+                  Propuesta Económica &amp; Desglose Técnico
+                </span>
+<span class="text-label-sm font-label-sm text-outline">FOLIO COTIZACIÓN: #COT-4420-VRM-REV1</span>
+</div>
+<span class="px-2.5 py-1 bg-primary-container text-surface-container-lowest font-label-sm text-label-sm font-bold uppercase">
+                VIGENCIA: 5 DÍAS HÁBILES
+              </span>
+</div>
+<!-- Tabla de Costos y Partes -->
+<div class="p-5">
+<table class="w-full border-collapse text-left text-label-sm font-label-sm">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container text-outline uppercase">
+<th class="py-2.5 px-3">CÓDIGO / ITEM</th>
+<th class="py-2.5 px-3">DESCRIPCIÓN TÉCNICA</th>
+<th class="py-2.5 px-3 text-center">GARANTÍA</th>
+<th class="py-2.5 px-3 text-right">IMPORTE (MXN)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-mono">
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="py-3 px-3 text-on-surface font-bold">REP-VRM-880</td>
+<td class="py-3 px-3 text-on-surface-variant font-body-sm">
+                      Reemplazo de matriz de regulación de voltaje VRM de 16 fases + Pasta Térmica industrial Kryonaut Extreme
+                    </td>
+<td class="py-3 px-3 text-center text-outline">90 Días</td>
+<td class="py-3 px-3 text-right text-on-surface font-bold">$3,800.00</td>
+</tr>
+<tr class="hover:bg-surface-container-high transition-colors">
+<td class="py-3 px-3 text-on-surface font-bold">SRV-CAL-LAB</td>
+<td class="py-3 px-3 text-on-surface-variant font-body-sm">
+                      Mano de Obra Especializada de Microelectrónica &amp; Calibración de Banco en Cámara Térmica
+                    </td>
+<td class="py-3 px-3 text-center text-outline">Garantizada</td>
+<td class="py-3 px-3 text-right text-on-surface font-bold">$1,600.00</td>
+</tr>
+<tr class="bg-surface-container-low/40">
+<td class="py-2 px-3 text-primary-container font-bold">DIAG-GRATIS</td>
+<td class="py-2 px-3 text-outline font-body-sm italic">
+                      Inspección forense de hardware, test osciloscopio y diagnóstico de entrada
+                    </td>
+<td class="py-2 px-3 text-center text-outline">—</td>
+<td class="py-2 px-3 text-right text-primary-container font-bold">$0.00 (Bonificado)</td>
+</tr>
+</tbody>
+</table>
+<!-- Totales y Descuento Platino -->
+<div class="mt-5 pt-4 border-t-2 border-outline-variant grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+<div class="p-3 border border-outline-variant bg-surface-container-low">
+<div class="text-label-sm font-label-sm text-outline uppercase font-semibold">Trazabilidad Fiscal y Forma:</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1 text-[11px]">
+                    Precios en Moneda Nacional (MXN). Facturación electrónica inmediata disponible al confirmar el método de liquidación.
+                  </div>
+</div>
+<div class="space-y-1.5 text-label-sm font-label-sm">
+<div class="flex justify-between text-outline">
+<span>SUBTOTAL SERVICIOS:</span>
+<span class="font-mono text-on-surface">$5,400.00 MXN</span>
+</div>
+<div class="flex justify-between text-primary-container font-bold bg-primary-container/10 px-2 py-1 border border-primary-container">
+<span>DESCUENTO PROGRAMA PLATINO (-15%):</span>
+<span class="font-mono">-$810.00 MXN</span>
+</div>
+<div class="flex justify-between text-outline text-[11px]">
+<span>DIAGNÓSTICO INICIAL BONIFICADO:</span>
+<span class="font-mono text-on-surface">$0.00 MXN</span>
+</div>
+<div class="flex justify-between items-baseline pt-2 border-t border-outline-variant text-on-surface">
+<span class="text-headline-md font-headline-md font-bold uppercase text-xs tracking-wider">TOTAL A PAGAR:</span>
+<span class="text-headline-lg font-headline-lg font-bold text-primary-container font-mono">
+                      $4,590.00 <span class="text-xs text-on-surface">MXN</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel de Decisiones y Opciones Claras del Cliente -->
+<div class="bg-surface-container-low p-5 border-t border-outline-variant space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider font-semibold">
+                  SELECCIÓN DE ACCIÓN OPERATIVA:
+                </span>
+<span class="text-label-sm font-label-sm text-primary">GARANTÍA DE 90 DÍAS POR ESCRITO</span>
+</div>
+<!-- OPCIÓN 1: ACEPTAR (PRIMARIO) -->
+<div class="border-2 border-primary-container bg-surface-container-lowest p-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-lg font-headline-md font-bold text-primary-container uppercase">
+                        [✓] Aceptar Cotización y Autorizar Reparación
+                      </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-1 text-xs">
+                      Pasa inmediatamente a la bahía del técnico Jesús Ramírez para reemplazo de componentes e inicio del protocolo de 24 horas.
+                    </p>
+</div>
+<button class="bg-primary-container text-surface-container-lowest font-label-sm text-label-sm font-bold uppercase px-5 py-3 border border-primary-container hover:bg-on-background hover:border-on-background hover:text-surface-container-lowest transition-all duration-150 active:translate-y-px shrink-0">
+                    AUTORIZAR ($4,590 MXN)
+                  </button>
+</div>
+<!-- Método de Pago Preferido Selection -->
+<div class="mt-3 pt-3 border-t border-outline-variant/60 flex flex-wrap items-center gap-4 text-label-sm font-label-sm">
+<span class="text-outline uppercase text-[10px]">Método de pago al entregar:</span>
+<label class="flex items-center gap-2 text-on-surface cursor-pointer">
+<input checked="" class="rounded-none border-outline-variant bg-surface text-primary-container focus:ring-0" name="pago" type="radio"/>
+<span>Efectivo en Recepción</span>
+</label>
+<label class="flex items-center gap-2 text-on-surface cursor-pointer">
+<input class="rounded-none border-outline-variant bg-surface text-primary-container focus:ring-0" name="pago" type="radio"/>
+<span>Tarjeta Débito/Crédito</span>
+</label>
+<label class="flex items-center gap-2 text-on-surface cursor-pointer">
+<input class="rounded-none border-outline-variant bg-surface text-primary-container focus:ring-0" name="pago" type="radio"/>
+<span>Transferencia SPEI</span>
+</label>
+</div>
+</div>
+<!-- OPCIÓN 2 & 3: RECHAZAR O REEVALUAR -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+<!-- Botón Secundario: Rechazar y costo cero -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3 flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm font-bold text-on-surface uppercase block">
+                      [X] Rechazar Reparación
+                    </span>
+<p class="text-body-sm font-body-sm text-outline mt-1 text-[11px] leading-snug">
+                      Mantiene solo el diagnóstico gratuito. <strong class="text-on-surface">Usted paga $0.00 MXN</strong>. El equipo se reensambla y se envía a recepción para entrega con hoja pericial sin costo.
+                    </p>
+</div>
+<button class="mt-3 w-full border border-outline-variant text-on-surface font-label-sm text-label-sm uppercase py-2 hover:border-error hover:text-error transition-colors duration-150">
+                    DECLINAR (COSTO $0 MXN)
+                  </button>
+</div>
+<!-- Botón Terciario: Solicitar Reevaluación -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3 flex flex-col justify-between">
+<div>
+<span class="text-label-sm font-label-sm font-bold text-outline uppercase block">
+                      Solicitar Reevaluación
+                    </span>
+<p class="text-body-sm font-body-sm text-outline mt-1 text-[11px] leading-snug">
+                      Si requiere evaluar repuestos alternativos o una cotización parcial, envíe un requerimiento directo al líder de laboratorio técnico.
+                    </p>
+</div>
+<button class="mt-3 w-full border border-outline-variant text-on-surface-variant font-label-sm text-label-sm uppercase py-2 hover:border-primary-container hover:text-primary-container transition-colors duration-150">
+                    CONTACTAR AL TÉCNICO
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- 4. BOTTOM PANEL: HISTORIAL PLATINO (LOS 6 EQUIPOS PREVIOS)    -->
+<!-- ============================================================== -->
+<section class="border border-outline-variant bg-surface-container-low p-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-outline-variant gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary-container">military_tech</span>
+<h3 class="text-headline-md font-headline-md font-bold text-on-surface uppercase text-sm tracking-wider">
+                Historial de Dispositivos del Cliente (Aval de Programa Platino 15% Off)
+              </h3>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-0.5">
+              Registro histórico consolidado de los 6 equipos atendidos satisfactoriamente en TecnoFix Solutions.
+            </p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-primary-container font-mono font-bold">TOTAL EQUIPOS: 6 / 6 CERTIFICADOS</span>
+</div>
+</div>
+<!-- Matrix of 6 historic repaired devices -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+<!-- Dispositivo 1 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-1029</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">ThinkPad X1 Carbon</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Reemplazo Display OLED</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+<!-- Dispositivo 2 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-1844</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">MacBook Pro 16 M1</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Reparación Puerto MagSafe</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+<!-- Dispositivo 3 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-2290</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">HP ProLiant DL380</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Rebuild Arreglo RAID 10</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+<!-- Dispositivo 4 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-3100</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">Workstation 5820</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Upgrade Dual GPU RTX</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+<!-- Dispositivo 5 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-3520</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">iPad Pro 12.9 M2</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Cambio Centro de Carga USB-C</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+<!-- Dispositivo 6 -->
+<div class="border border-outline-variant bg-surface-container-lowest p-3">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-outline font-mono">#SRV-4011</span>
+<span class="text-on-surface font-bold text-[9px] px-1 bg-surface-variant">REPARADO</span>
+</div>
+<div class="text-label-sm font-headline-md font-bold text-on-surface truncate">iMac 27 5K Retina</div>
+<div class="text-[10px] font-label-sm text-outline mt-1">Fusión Drive a NVMe 2TB</div>
+<div class="text-[9px] font-label-sm text-primary mt-2">Garantía Cumplida ✓</div>
+</div>
+</div>
+<!-- Documentation & Fiscal Download Bar -->
+<div class="mt-4 pt-3 border-t border-outline-variant flex flex-wrap items-center justify-between gap-3 text-label-sm font-label-sm">
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span>POLIZA DE PRIVACIDAD DE DATOS Y RESGUARDO FORENSE APLICADA SEGÚN NORMA ISO/IEC 27001</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-primary-container flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">download</span>
+<span>Descargar Hoja de Ingreso (PDF)</span>
+</button>
+<span class="text-outline-variant">•</span>
+<button class="text-on-surface-variant hover:text-primary-container flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">receipt_long</span>
+<span>Pre-Ticket con Desglose Fiscal (XML / PDF)</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- ========================================== -->
+<!-- 4. FOOTER (Shared Component Anchor)       -->
+<!-- ========================================== -->
+<footer class="w-full px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container-lowest border-t border-outline-variant shrink-0 z-30">
+<div class="flex items-center gap-4">
+<span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider">
+        TecnoFix Solutions
+      </span>
+<span class="text-body-sm font-body-sm text-outline text-[11px] hidden sm:inline">
+        © 2024 TecnoFix Solutions (SoporTec). Industrial Diagnostic &amp; Telemetry Framework. Todos los derechos reservados.
+      </span>
+</div>
+<!-- Navigation links strictly from JSON -->
+<div class="flex flex-wrap items-center gap-4 text-label-sm font-label-sm">
+<a class="text-tertiary-container hover:text-primary-container transition-colors duration-150" href="#">Protocolo SLA</a>
+<span class="text-outline-variant">/</span>
+<a class="text-tertiary-container hover:text-primary-container transition-colors duration-150" href="#">Términos de Servicio</a>
+<span class="text-outline-variant">/</span>
+<a class="text-tertiary-container hover:text-primary-container transition-colors duration-150" href="#">Trazabilidad QA</a>
+<span class="text-outline-variant">/</span>
+<a class="text-tertiary-container hover:text-primary-container transition-colors duration-150" href="#">Garantía de Hardware</a>
+<span class="text-outline-variant">/</span>
+<a class="text-tertiary-container hover:text-primary-container transition-colors duration-150" href="#">Soporte Técnico</a>
+</div>
+</footer>
+</body></html>

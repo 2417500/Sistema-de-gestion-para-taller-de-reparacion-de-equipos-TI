@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TecnoFix Solutions - Cierre de Servicio &amp; Certificado de Garantía</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-lowest": "#0e0e0e",
+            "primary": "#ffc887",
+            "on-tertiary": "#2f3131",
+            "tertiary-fixed": "#e2e2e2",
+            "tertiary": "#d1d2d2",
+            "on-primary": "#472a00",
+            "outline": "#a18e79",
+            "primary-fixed-dim": "#ffb95f",
+            "on-primary-container": "#663f00",
+            "tertiary-fixed-dim": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3a4664",
+            "primary-fixed": "#ffddb8",
+            "secondary-fixed": "#d9e2ff",
+            "background": "#131313",
+            "on-primary-fixed": "#2a1700",
+            "on-tertiary-fixed": "#1a1c1c",
+            "on-background": "#e2e2e2",
+            "surface-container-highest": "#353535",
+            "surface-container-high": "#2a2a2a",
+            "surface-container": "#1f1f1f",
+            "on-tertiary-container": "#464848",
+            "error": "#ffb4ab",
+            "surface-container-low": "#1b1b1b",
+            "surface-variant": "#353535",
+            "secondary-fixed-dim": "#b9c6ea",
+            "surface-tint": "#ffb95f",
+            "secondary-container": "#3c4967",
+            "surface-bright": "#393939",
+            "surface": "#131313",
+            "inverse-surface": "#e2e2e2",
+            "secondary": "#b9c6ea",
+            "on-surface": "#e2e2e2",
+            "outline-variant": "#534433",
+            "on-secondary-container": "#abb8db",
+            "tertiary-container": "#b6b6b6",
+            "inverse-primary": "#855300",
+            "surface-dim": "#131313",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#23304d",
+            "on-error": "#690005",
+            "on-surface-variant": "#d9c3ad",
+            "error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#454747",
+            "primary-container": "#fca311",
+            "on-primary-fixed-variant": "#653e00",
+            "on-secondary-fixed": "#0d1b36",
+            "inverse-on-surface": "#303030"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "margin-desktop": "2.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-lg": "1.5rem",
+            "margin-tablet": "1.5rem",
+            "space-sm": "0.5rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "space-xl": "2.5rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "body-sm": ["Hanken Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"],
+            "body-md": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Technical Grid Texture */
+    .blueprint-grid {
+      background-image: linear-gradient(to right, rgba(83, 68, 51, 0.15) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(83, 68, 51, 0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    /* Micro-barcodes */
+    .barcode-strip {
+      background: repeating-linear-gradient(
+        90deg,
+        #e2e2e2,
+        #e2e2e2 2px,
+        transparent 2px,
+        transparent 4px,
+        #e2e2e2 4px,
+        #e2e2e2 7px,
+        transparent 7px,
+        transparent 9px,
+        #e2e2e2 9px,
+        #e2e2e2 12px
+      );
+    }
+
+    /* Print Styles Professional Setup */
+    @media print {
+      @page {
+        margin: 10mm;
+        size: auto;
+      }
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+      }
+      .no-print, header, aside:not(#thermal-slip-aside), footer, #toast-notification {
+        display: none !important;
+      }
+      body.print-thermal header,
+      body.print-thermal aside,
+      body.print-thermal footer,
+      body.print-thermal #main-document-sheet,
+      body.print-thermal #sidebar-nav,
+      body.print-thermal #top-ribbon-actions,
+      body.print-thermal #checklist-panel {
+        display: none !important;
+      }
+      body:not(.print-thermal) #thermal-slip-aside {
+        display: none !important;
+      }
+      .flex.pt-16 {
+        padding-top: 0 !important;
+      }
+      main {
+        padding: 0 !important;
+        background: transparent !important;
+        overflow: visible !important;
+      }
+      /* Clean white document printing */
+      #main-document-sheet {
+        background: #ffffff !important;
+        color: #111111 !important;
+        border: 1px solid #777777 !important;
+        box-shadow: none !important;
+        padding: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      #main-document-sheet * {
+        color: #111111 !important;
+        border-color: #999999 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+      }
+      #main-document-sheet .bg-surface-container-lowest,
+      #main-document-sheet .bg-surface-container,
+      #main-document-sheet .bg-surface-container-low,
+      #main-document-sheet .bg-surface-container-high,
+      #main-document-sheet .bg-surface-container-highest {
+        background-color: #f8f8f8 !important;
+      }
+      #main-document-sheet .barcode-strip {
+        background: repeating-linear-gradient(
+          90deg,
+          #000000,
+          #000000 2px,
+          transparent 2px,
+          transparent 4px,
+          #000000 4px,
+          #000000 7px,
+          transparent 7px,
+          transparent 9px,
+          #000000 9px,
+          #000000 12px
+        ) !important;
+      }
+      #main-document-sheet svg {
+        color: #000000 !important;
+      }
+      /* Thermal 80mm Print Setup */
+      body.print-thermal {
+        width: 80mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+      }
+      body.print-thermal @page {
+        size: 80mm auto;
+        margin: 2mm;
+      }
+      body.print-thermal #thermal-slip-aside {
+        display: block !important;
+        width: 76mm !important;
+        margin: 0 auto !important;
+      }
+      body.print-thermal #thermal-receipt-box {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px dashed #000000 !important;
+        box-shadow: none !important;
+        padding: 4mm !important;
+      }
+      body.print-thermal #thermal-receipt-box * {
+        color: #000000 !important;
+        border-color: #000000 !important;
+        background: transparent !important;
+      }
+      body.print-thermal #thermal-receipt-box .barcode-strip {
+        background: repeating-linear-gradient(
+          90deg,
+          #000000,
+          #000000 2px,
+          transparent 2px,
+          transparent 4px,
+          #000000 4px,
+          #000000 7px,
+          transparent 7px,
+          transparent 9px,
+          #000000 9px,
+          #000000 12px
+        ) !important;
+      }
+      /* Avoid breaking critical blocks */
+      .page-break-avoid, section, table, tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary-container selection:text-black min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden">
+<!-- Toast Notification for Print/System Trigger -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 ease-out max-w-md bg-surface-container-highest border border-primary-container p-4 shadow-2xl flex items-start gap-3" id="toast-notification">
+<span class="material-symbols-outlined text-primary-container text-2xl animate-spin" data-icon="progress_activity">progress_activity</span>
+<div class="space-y-0.5">
+<p class="text-label-md font-label-md text-white font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+      Impresión Técnica
+    </p>
+<p class="text-body-sm font-body-sm text-tertiary" id="toast-message">
+      Preparando documento para impresión... Diálogo del sistema iniciado.
+    </p>
+</div>
+</div>
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full h-16 flex items-center justify-between px-6 z-30 bg-surface-container-lowest border-b border-outline-variant fixed top-0 left-0 no-print">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-2xl" data-icon="terminal">terminal</span>
+<span class="text-headline-md font-headline-md font-bold tracking-wider text-primary-container uppercase">TecnoFix Solutions</span>
+</div>
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-surface-container border border-outline-variant/60 rounded-none w-72">
+<span class="material-symbols-outlined text-on-surface-variant text-base" data-icon="search">search</span>
+<input class="bg-transparent border-0 p-0 text-label-sm font-label-sm text-on-surface focus:ring-0 placeholder:text-outline w-full" placeholder="Buscar folio, serial o cliente..." type="text" value="ORD-9905"/>
+</div>
+</div>
+<!-- Center Navigation Links -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" href="#">Taller</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" href="#">Horarios</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" href="#">Políticas</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" href="#">Ubicación</a>
+</nav>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 text-label-sm font-label-sm uppercase bg-surface-container hover:bg-surface-container-high text-primary-container border border-outline-variant transition-all cursor-pointer active:scale-95">
+          Simulador Rol
+        </button>
+<button class="px-3 py-1 text-label-sm font-label-sm uppercase bg-primary-container text-black font-bold border border-primary-container hover:bg-white hover:border-white transition-all cursor-pointer active:scale-95">
+          Acceso Universal
+        </button>
+</div>
+<div class="h-6 w-px bg-outline-variant hidden sm:block"></div>
+<div class="flex items-center gap-3">
+<button class="p-1 text-on-surface-variant hover:text-primary-container transition-colors cursor-pointer" title="Notificaciones">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-3">
+<div class="w-8 h-8 rounded-none border border-primary-container bg-surface-container-highest flex items-center justify-center font-label-md text-label-md text-primary font-bold">
+            RM
+          </div>
+<div class="hidden xl:block text-left">
+<p class="text-label-sm font-label-sm text-on-surface leading-tight">Roberto Méndez</p>
+<p class="text-label-sm font-label-sm text-primary-container leading-tight">Estación B-02</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-[calc(100vh-60px)]">
+<!-- SideNavBar (Shared Component) -->
+<aside class="w-64 h-[calc(100vh-4rem)] sticky top-16 bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 z-20 shrink-0 no-print" id="sidebar-nav">
+<div class="space-y-6">
+<!-- Brand/Telemetry Header -->
+<div class="px-3 py-2 bg-surface-container-lowest border border-outline-variant">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-primary font-bold">TecnoFix OS</span>
+<span class="inline-flex items-center px-1.5 py-0.5 text-[9px] font-label-sm bg-surface-container-highest text-primary-container border border-outline-variant">v4.2 PROD</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">SoporTec Telemetry Node</p>
+<div class="mt-2 flex items-center gap-1.5 text-label-sm font-label-sm text-primary-container">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span>Online: Bench Lab 03</span>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+<!-- Active Tab: Recepción (Delivery of finished equipment) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface bg-surface-container-highest border-l-2 border-primary-container font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg text-primary-container" data-icon="assignment_ind">assignment_ind</span>
+<span class="font-bold text-on-surface">Recepción</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="build_circle">build_circle</span>
+<span>Técnico</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="inventory_2">inventory_2</span>
+<span>Almacén</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="devices">devices</span>
+<span>Portal Cliente</span>
+</a>
+</nav>
+<!-- CTA Action -->
+<div class="pt-2">
+<button class="w-full py-2.5 px-3 bg-surface-container border border-outline-variant hover:border-primary-container hover:text-primary-container text-on-surface flex items-center justify-center gap-2 font-label-md text-label-md uppercase font-bold transition-all cursor-pointer active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" data-icon="add_box">add_box</span>
+            Nueva Orden
+          </button>
+</div>
+</div>
+<!-- SideNavBar Footer -->
+<div class="border-t border-outline-variant pt-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="contrast">contrast</span>
+<span>Modo Luz/Oscuro</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-error font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span>Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area: Workbench & Print Previews -->
+<main class="flex-1 bg-surface-container-lowest p-6 space-y-6 overflow-y-auto">
+<!-- Top Operational Ribbon: Title & Fast Quick-Actions -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-4 border-b border-outline-variant no-print" id="top-ribbon-actions">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 text-label-sm font-label-sm uppercase bg-surface-container border border-outline-variant text-primary-container">
+              MÓDULO RECEPCIÓN :: CIERRE FINAL DE SERVICIO
+            </span>
+<span class="px-2 py-0.5 text-label-sm font-label-sm uppercase bg-surface-container-highest text-white border border-white/20">
+              EQUIPO REPARADO &amp; QA APROBADO
+            </span>
+</div>
+<h1 class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight mt-1 flex items-center gap-3">
+            Liquidación, Acta de Entrega &amp; Póliza Garantía
+            <span class="text-label-md font-label-md text-primary-container font-normal">#ORD-9905</span>
+</h1>
+</div>
+<!-- 5 Key Operational Actions -->
+<div class="flex flex-wrap items-center gap-2">
+<!-- Button 1: Imprimir Ticket Térmico 80mm -->
+<button class="px-3 py-2 bg-surface-container border border-outline-variant hover:border-primary-container hover:text-primary-container active:scale-95 text-on-surface text-label-sm font-label-sm uppercase flex items-center gap-1.5 transition-all cursor-pointer" onclick="handlePrint('thermal')">
+<span class="material-symbols-outlined text-base" data-icon="receipt">receipt</span>
+<span>Ticket Térmico 80mm</span>
+</button>
+<!-- Button 2: Imprimir Hoja Carta / A4 (PDF) -->
+<button class="px-3 py-2 bg-primary-container text-black font-bold border border-primary-container hover:bg-white hover:border-white active:scale-95 text-label-sm font-label-sm uppercase flex items-center gap-1.5 transition-all shadow-[0_0_8px_rgba(252,163,17,0.3)] cursor-pointer" onclick="handlePrint('a4')">
+<span class="material-symbols-outlined text-base text-black" data-icon="print">print</span>
+<span>Imprimir Hoja / Factura (A4)</span>
+</button>
+<!-- Button 3: Enviar Digital WhatsApp / Email -->
+<button class="px-3 py-2 bg-surface-container border border-outline-variant hover:border-primary active:scale-95 text-on-surface text-label-sm font-label-sm uppercase flex items-center gap-1.5 transition-all cursor-pointer" onclick="showToast('Enlace de descarga enviado por WhatsApp y Correo.')">
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+<span>Enviar Copia WhatsApp/Email</span>
+</button>
+<!-- Button 4: Descargar XML / CFDI 4.0 -->
+<button class="px-3 py-2 bg-surface-container border border-outline-variant hover:border-white active:scale-95 text-on-surface text-label-sm font-label-sm uppercase flex items-center gap-1.5 transition-all cursor-pointer" onclick="showToast('Generando paquete XML CFDI 4.0 certificado...')">
+<span class="material-symbols-outlined text-base" data-icon="code">code</span>
+<span>CFDI 4.0 XML</span>
+</button>
+<!-- Button 5: Marcar Entregada / Finalizada -->
+<button class="px-3.5 py-2 bg-surface-container-highest border border-outline-variant text-white font-bold hover:bg-surface-bright active:scale-95 text-label-sm font-label-sm uppercase flex items-center gap-1.5 transition-all cursor-pointer" onclick="showToast('Orden #ORD-9905 marcada oficialmente como ENTREGADA')">
+<span class="material-symbols-outlined text-base text-primary-container" data-icon="check_circle">check_circle</span>
+<span>Marcar Orden Finalizada</span>
+</button>
+</div>
+</div>
+<!-- Split Layout: Main Technical Document (8.5x11 Sheet) + Right-Hand 80mm Thermal Slip Preview -->
+<div class="grid grid-cols-1 2xl:grid-cols-12 gap-6 items-start">
+<!-- Left: Official Engineering Document Sheet (Cols 1-8 / 9) -->
+<section class="2xl:col-span-8 bg-surface-container-low border border-outline-variant relative p-6 sm:p-8 space-y-6 shadow-2xl page-break-avoid" id="main-document-sheet">
+<!-- Decorative Top Accent Stripe -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary-container no-print"></div>
+<!-- Watermark / Stamp: PAGADO / LIBERADO & PLATINO -->
+<div class="absolute top-8 right-8 flex flex-col items-end gap-2 pointer-events-none opacity-90">
+<div class="border-2 border-primary-container px-3 py-1 text-label-md font-label-md uppercase font-bold text-primary-container tracking-wider rotate-[-3deg] bg-surface-container-lowest/80">
+              [✓] LIQUIDADO &amp; LIBERADO
+            </div>
+<div class="border border-white/60 px-2 py-0.5 text-label-sm font-label-sm uppercase font-bold text-white tracking-widest bg-surface-container-highest/90">
+              ★ CLIENTE PLATINO -15%
+            </div>
+</div>
+<!-- Document Header -->
+<div class="border-b border-outline-variant pb-6">
+<div class="flex flex-col sm:flex-row justify-between items-start gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="memory">memory</span>
+<span class="text-headline-lg font-headline-lg font-bold tracking-tight text-white uppercase">SOPORTEC DIAGNOSTICS</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                  División de Alta Disponibilidad &amp; Microelectrónica Industrial
+                </p>
+<p class="text-body-sm font-body-sm text-tertiary">
+                  Parque Industrial Delta, Módulo G-14 • RFC: TFX-180422-KL9 • Tel: +52 (55) 8439-0092
+                </p>
+</div>
+<div class="text-left sm:text-right space-y-1 pt-2 sm:pt-0">
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase">DOCUMENTO OFICIAL DE LIQUIDACIÓN</p>
+<p class="text-headline-md font-headline-md font-bold text-primary-container">FOLIO: LQD-9905-MXN</p>
+<p class="text-label-sm font-label-sm text-on-surface">FECHA: 24/OCT/2024 • 17:42:10 CST</p>
+<p class="text-label-sm font-label-sm text-outline font-mono">UUID: 7A3F-E89C-421B-AA90-CFDI4</p>
+</div>
+</div>
+</div>
+<!-- Personnel, Client & Device Metadata Bento Matrix -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Box 1: Datos de Recepción & Taller -->
+<div class="bg-surface-container-lowest border border-outline-variant p-3.5 space-y-2">
+<div class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">1. Atendido Por</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="badge">badge</span>
+</div>
+<div class="text-body-sm font-body-sm space-y-1">
+<p><span class="text-on-surface-variant font-label-sm">Recepción:</span> <span class="text-white font-medium">B-02 Roberto Méndez</span></p>
+<p><span class="text-on-surface-variant font-label-sm">Técnico Lead:</span> <span class="text-white font-medium">Ing. Jesús Ramírez</span> <span class="text-primary-container font-label-sm">(TEC-042)</span></p>
+<p><span class="text-on-surface-variant font-label-sm">Bahía de Trabajo:</span> <span class="text-on-surface">Banco Limpio #04 (ESD Safe)</span></p>
+</div>
+</div>
+<!-- Box 2: Datos de Cliente Platino -->
+<div class="bg-surface-container-lowest border border-outline-variant p-3.5 space-y-2">
+<div class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">2. Titular / Razón Social</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="verified_user">verified_user</span>
+</div>
+<div class="text-body-sm font-body-sm space-y-1">
+<p class="text-white font-bold">Alejandro Morales Mendoza</p>
+<p><span class="text-on-surface-variant font-label-sm">ID Cliente:</span> <span class="text-primary font-label-sm font-bold">CLI-8821</span></p>
+<p class="flex items-center gap-1.5">
+<span class="text-on-surface-variant font-label-sm">Nivel:</span>
+<span class="bg-surface-container-highest px-1.5 py-0.2 text-[10px] font-label-sm text-primary-container font-bold border border-outline-variant">PLATINO (6 Eq. en Historial)</span>
+</p>
+<p class="text-label-sm font-label-sm text-tertiary">morales.techops@infraenterprise.net</p>
+</div>
+</div>
+<!-- Box 3: Especificaciones de Hardware & Accesorios Devueltos -->
+<div class="bg-surface-container-lowest border border-outline-variant p-3.5 space-y-2">
+<div class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">3. Unidad &amp; Devolución</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="dns">dns</span>
+</div>
+<div class="text-body-sm font-body-sm space-y-1">
+<p class="text-white font-bold">Dell PowerEdge R750xs Dual Xeon</p>
+<p><span class="text-on-surface-variant font-label-sm">Serial / Service Tag:</span> <span class="font-mono text-primary font-label-sm">7B9X4L2-PROD</span></p>
+<p class="text-label-sm font-label-sm text-tertiary">
+<span class="text-on-surface-variant font-label-sm">Inventario Retorno:</span> Rieles rack 2U + 2x PSUs 800W Platinum devueltos y testeados íntegros.
+                </p>
+</div>
+</div>
+</div>
+<!-- Technical Diagnosis & Intervention Report (Detailed) -->
+<div class="bg-surface-container-lowest border border-outline-variant p-4 space-y-3">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="biotech">biotech</span>
+<h3 class="text-label-lg font-label-lg uppercase font-bold text-white tracking-wide">
+                  Informe Técnico de Intervención &amp; Telemetría de Salida
+                </h3>
+</div>
+<span class="text-label-sm font-label-sm text-primary-container uppercase bg-surface-container px-2 py-0.5 border border-outline-variant">
+                STRESS TEST QA PASS (4H / 64°C MAX)
+              </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-body-sm font-body-sm">
+<div class="space-y-1.5 border-r border-outline-variant/40 pr-2">
+<p class="text-label-sm font-label-sm text-primary uppercase font-semibold">Diagnóstico Inicial de Entrada:</p>
+<p class="text-on-surface-variant leading-relaxed">
+                  Fallo recurrente en línea de riel VCORE de CPU secundario con apagado intempestivo bajo carga superior al 40%. Código de error iDRAC: <code class="text-white bg-surface-container px-1 font-mono">PWR0022 - Voltage Degraded</code>.
+                </p>
+<p class="text-label-sm font-label-sm text-primary uppercase font-semibold pt-1">Acción Microelectrónica Aplicada:</p>
+<p class="text-on-surface-variant leading-relaxed">
+                  Reemplazo y resoldado de matriz reguladora VRM de 16 fases discretas (REP-VRM-880). Limpieza ultrasónica de sustrato y sustitución de compuesto térmico por Thermal Grizzly Kryonaut Extreme.
+                </p>
+</div>
+<div class="space-y-2">
+<p class="text-label-sm font-label-sm text-primary uppercase font-semibold">Métricas de Certificación (Telemetría Validada):</p>
+<!-- Benchmark telemetry readout -->
+<div class="bg-surface-container p-2.5 border border-outline-variant font-mono text-label-sm space-y-1">
+<div class="flex justify-between text-on-surface">
+<span>TEST BENCH SUITE:</span>
+<span class="text-white font-bold">AIDA64 Server Stress Suite</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>DURACIÓN EN BANCO:</span>
+<span class="text-white">04:00:00 Horas continuas</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>TEMPERATURA PEAK (VRM):</span>
+<span class="text-primary-container font-bold">64.2°C (Margen nominal 85°C)</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>DELTA VCORE VARIANCE:</span>
+<span class="text-white">±0.008V (Tolerancia estricta QA)</span>
+</div>
+</div>
+<!-- Photographic Evidence Thumbnail Callouts -->
+<div>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Registro de Evidencia de Inspección:</span>
+<div class="flex items-center gap-2 mt-1">
+<div class="flex-1 bg-surface-container border border-outline-variant px-2 py-1.5 flex items-center justify-between text-label-sm">
+<span class="text-tertiary">IMG-01: Termografía Infrarroja Salida</span>
+<span class="text-primary-container font-mono">OK</span>
+</div>
+<div class="flex-1 bg-surface-container border border-outline-variant px-2 py-1.5 flex items-center justify-between text-label-sm">
+<span class="text-tertiary">IMG-02: Micro-solder 16-Phase Pad</span>
+<span class="text-primary-container font-mono">OK</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Itemized Financial Settlement (Liquidación Económica y Desglose Fiscal) -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<h3 class="text-label-lg font-label-lg uppercase font-bold text-white tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Desglose Financiero &amp; Fiscal de Liquidación
+              </h3>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-mono">TASA IVA: 16.00% MXN</span>
+</div>
+<!-- Table -->
+<div class="border border-outline-variant overflow-hidden">
+<table class="w-full text-left border-collapse font-body-sm">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant text-label-sm font-label-sm text-on-surface uppercase">
+<th class="py-2.5 px-3">Código / Concepto</th>
+<th class="py-2.5 px-2 text-center w-16">Cant.</th>
+<th class="py-2.5 px-3 text-right">P. Unitario</th>
+<th class="py-2.5 px-3 text-right">Bonificación</th>
+<th class="py-2.5 px-3 text-right">Total Neto</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-mono text-label-sm">
+<!-- Row 1: Diagnóstico Bonificado -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-2.5 px-3">
+<span class="text-white font-bold block">SRV-DIAG-SPEC</span>
+<span class="text-on-surface-variant text-[11px] font-sans">Diagnóstico Especializado de Servidor Dual Socket (Bonificado 100%)</span>
+</td>
+<td class="py-2.5 px-2 text-center text-on-surface">1</td>
+<td class="py-2.5 px-3 text-right text-on-surface-variant line-through">$850.00</td>
+<td class="py-2.5 px-3 text-right text-primary-container">-$850.00 (100%)</td>
+<td class="py-2.5 px-3 text-right text-white font-bold">$0.00</td>
+</tr>
+<!-- Row 2: Refacción VRM -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-2.5 px-3">
+<span class="text-white font-bold block">REP-VRM-880</span>
+<span class="text-on-surface-variant text-[11px] font-sans">Matriz VRM 16 fases discretas para Xeon Scalable (Refacción Original OEM)</span>
+</td>
+<td class="py-2.5 px-2 text-center text-on-surface">1</td>
+<td class="py-2.5 px-3 text-right text-on-surface">$3,800.00</td>
+<td class="py-2.5 px-3 text-right text-tertiary font-sans">—</td>
+<td class="py-2.5 px-3 text-right text-white">$3,800.00</td>
+</tr>
+<!-- Row 3: Mano de Obra -->
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-2.5 px-3">
+<span class="text-white font-bold block">SRV-CAL-LAB</span>
+<span class="text-on-surface-variant text-[11px] font-sans">Mano de Obra en Banco Limpio, Calibración &amp; Microelectrónica SMD</span>
+</td>
+<td class="py-2.5 px-2 text-center text-on-surface">1</td>
+<td class="py-2.5 px-3 text-right text-on-surface">$1,600.00</td>
+<td class="py-2.5 px-3 text-right text-tertiary font-sans">—</td>
+<td class="py-2.5 px-3 text-right text-white">$1,600.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Financial Calculation Totals Strip -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+<!-- Payment Method Details -->
+<div class="bg-surface-container-lowest border border-outline-variant p-3 space-y-2">
+<span class="text-label-sm font-label-sm uppercase font-bold text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="payments">payments</span>
+                  Detalle de Transacción Registrada en Caja:
+                </span>
+<div class="text-body-sm font-body-sm space-y-1">
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-label-sm">Forma de Pago:</span>
+<span class="text-white font-mono font-medium">Transferencia Electrónica SPEI</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-label-sm">Institución Emisora:</span>
+<span class="text-white font-mono">BBVA México (Cta *9914)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant font-label-sm">Clave de Rastreo / Folio:</span>
+<span class="text-primary-container font-mono font-bold">20241024-8842-SPEI-9905</span>
+</div>
+<div class="flex justify-between text-label-sm">
+<span class="text-on-surface-variant">Estado en Caja:</span>
+<span class="text-white uppercase font-bold bg-surface-container px-1.5 py-0.5 border border-outline-variant">Acreditado / En Firme</span>
+</div>
+</div>
+</div>
+<!-- Numerical Totals Table -->
+<div class="bg-surface-container-lowest border border-outline-variant p-3 space-y-1.5 font-mono text-label-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal Bruto Reparación:</span>
+<span class="text-white">$5,400.00 MXN</span>
+</div>
+<!-- Platinum Discount 15% Highlight -->
+<div class="flex justify-between text-primary-container font-bold bg-surface-container px-2 py-1 border border-outline-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="loyalty">loyalty</span>
+                    DESCUENTO PLATINO (-15% Fidelidad):
+                  </span>
+<span>-$810.00 MXN</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal Neto con Descuento:</span>
+<span class="text-white">$4,590.00 MXN</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>I.V.A. Trasladado (16.00%):</span>
+<span class="text-white">$734.40 MXN</span>
+</div>
+<div class="h-px bg-outline-variant my-1"></div>
+<div class="flex justify-between items-baseline text-on-surface font-bold text-body-lg">
+<span class="text-label-md font-label-md uppercase text-primary">TOTAL LIQUIDADO:</span>
+<span class="text-headline-md font-headline-md text-primary-container">$5,324.40 MXN</span>
+</div>
+<p class="text-[10px] text-right text-tertiary">CINCO MIL TRESCIENTOS VEINTICUATRO PESOS 40/100 M.N.</p>
+</div>
+</div>
+</div>
+<!-- Official Written Warranty Policy (Póliza de Garantía Certificada) -->
+<div class="border border-outline-variant bg-surface-container-lowest p-4 space-y-2">
+<div class="flex items-center justify-between border-b border-outline-variant pb-1.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="verified">verified</span>
+<span class="text-label-md font-label-md uppercase font-bold text-white">
+                  PÓLIZA DE GARANTÍA LIMITADA &amp; CUMPLIMIENTO TÉCNICO (90 DÍAS NATURALES)
+                </span>
+</div>
+<span class="text-label-sm font-label-sm font-mono text-primary">VIGENCIA HASTA: 22/ENE/2025</span>
+</div>
+<p class="text-body-sm font-body-sm text-tertiary leading-relaxed">
+              TecnoFix Solutions S.A. de C.V. (SoporTec) certifica que la intervención sobre la unidad <strong class="text-white">Dell PowerEdge R750xs S/N 7B9X4L2-PROD</strong> cuenta con cobertura de garantía integral por <strong class="text-primary-container">90 días naturales</strong> a partir de la firma de este documento. La garantía cubre cualquier anomalía en componentes sustituidos (<code class="text-white font-mono">REP-VRM-880</code>) y mano de obra de microelectrónica. Esta póliza se apega a las normativas de servicio técnico industrial NOM-174-SCFI y prácticas ISO-9001:2015.
+            </p>
+<p class="text-label-sm font-label-sm text-outline">
+              * Exclusiones: Ruptura de sellos de seguridad térmicos colocados en bahía, sobrevoltajes externos no protegidos por PDU/SAI, daño físico por manipulación inadecuada o derrames de líquidos.
+            </p>
+</div>
+<!-- Dual Official Signature Matrix & Digital Stamp -->
+<div class="pt-4 border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Signature 1: Cliente Conformidad -->
+<div class="border border-outline-variant bg-surface-container-lowest p-4 flex flex-col justify-between h-44">
+<div class="flex justify-between items-start">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">Firma de Conformidad del Cliente</span>
+<span class="text-[10px] font-mono text-outline">CLIENTE SATISFECHO</span>
+</div>
+<!-- Stylized Signature Trace Simulation -->
+<div class="text-center py-2 relative">
+<svg class="w-48 h-12 mx-auto text-primary-container/80" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 200 60">
+<path d="M10 45 C 30 10, 45 60, 60 20 C 75 -10, 85 45, 110 30 C 135 15, 140 50, 160 35 C 175 25, 185 40, 195 20" stroke-linecap="round"></path>
+</svg>
+<div class="border-t border-dashed border-outline-variant/80 w-3/4 mx-auto mt-1"></div>
+</div>
+<div class="text-center">
+<p class="text-label-md font-label-md text-white font-bold">Alejandro Morales Mendoza</p>
+<p class="text-[11px] font-mono text-tertiary">Recibe unidad en funcionamiento, rieles y fuentes originales.</p>
+</div>
+</div>
+<!-- Signature 2: Liberación Técnica & SHA-256 Stamp -->
+<div class="border border-outline-variant bg-surface-container-lowest p-4 flex flex-col justify-between h-44">
+<div class="flex justify-between items-start">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">Liberación de Laboratorio &amp; Recepción</span>
+<span class="text-[10px] font-mono text-primary-container font-bold">SHA-256 VERIFIED</span>
+</div>
+<!-- Stylized Engineer Signature & QR simulation -->
+<div class="flex items-center justify-center gap-4 py-1">
+<!-- QR Code Vector Box -->
+<div class="w-14 h-14 bg-surface-container border border-outline-variant p-1 flex items-center justify-center">
+<div class="grid grid-cols-4 gap-0.5 w-full h-full">
+<div class="bg-primary-container"></div><div class="bg-primary-container"></div><div class="bg-white"></div><div class="bg-primary-container"></div>
+<div class="bg-white"></div><div class="bg-transparent"></div><div class="bg-primary-container"></div><div class="bg-white"></div>
+<div class="bg-primary-container"></div><div class="bg-primary-container"></div><div class="bg-transparent"></div><div class="bg-primary-container"></div>
+<div class="bg-white"></div><div class="bg-primary-container"></div><div class="bg-white"></div><div class="bg-primary-container"></div>
+</div>
+</div>
+<div class="text-left font-mono text-[10px] text-tertiary space-y-0.5">
+<p class="text-white font-bold">Ing. Jesús Ramírez (TEC-042)</p>
+<p class="text-outline">SELLO: 8a4c0f12...bb99a</p>
+<p class="text-primary-container">VALIDACIÓN QA: AP-9905-24</p>
+</div>
+</div>
+<div class="border-t border-dashed border-outline-variant/80 pt-1 text-center">
+<p class="text-label-sm font-label-sm text-white">Roberto Méndez • Recepción Estación B-02</p>
+<p class="text-[10px] text-outline font-mono">24/10/2024 17:42:10 CST • Certificado Digital SoporTec</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Document Footer Technical Barcode Strip -->
+<div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-outline-variant text-[11px] font-mono text-outline">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold">ORD-9905</span>
+<span>//</span>
+<span>SRV-4420-TI</span>
+<span>//</span>
+<span>7B9X4L2-PROD</span>
+</div>
+<div class="barcode-strip h-6 w-52 opacity-80"></div>
+<span>PÁG 01/01 • FORMATO OFICIAL A4</span>
+</div>
+</section>
+<!-- Right: 80mm Thermal Slip Compact Preview (Cols 9-12 / 4) -->
+<aside class="2xl:col-span-4 space-y-4" id="thermal-slip-aside">
+<!-- Thermal Slip Container Header -->
+<div class="flex items-center justify-between px-2 no-print">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="point_of_sale">point_of_sale</span>
+<span class="text-label-sm font-label-sm uppercase font-bold text-white tracking-wider">Previsualizador Ticket Térmico 80mm</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline font-mono">ANCHO: 80MM / ESCALA 1:1</span>
+</div>
+<!-- The Physical 80mm Thermal Slip Mockup -->
+<div class="bg-[#050912] border-2 border-outline-variant p-5 font-mono text-label-sm shadow-[0_8px_0px_0px_rgba(0,0,0,0.9)] relative space-y-4 select-text max-w-sm mx-auto 2xl:max-w-none" id="thermal-receipt-box">
+<!-- Simulated paper zig-zag top edge -->
+<div class="absolute -top-1 left-0 right-0 h-1 bg-outline-variant/40"></div>
+<!-- Thermal Header -->
+<div class="text-center space-y-1 border-b border-dashed border-outline-variant pb-3">
+<p class="font-bold text-white text-base tracking-widest uppercase">TECNORFIX SOLUTIONS</p>
+<p class="text-[11px] text-tertiary">SOPORTEC DIAGNOSTICS LAB</p>
+<p class="text-[10px] text-outline">RFC: TFX-180422-KL9 • TEL: 55-8439-0092</p>
+<p class="text-[10px] text-outline">PARQUE IND. DELTA G-14, CDMX</p>
+<div class="pt-1">
+<span class="text-[10px] px-1.5 py-0.5 bg-surface-container text-primary-container font-bold border border-outline-variant">
+                  *** COMPROBANTE DE ENTREGA ***
+                </span>
+</div>
+</div>
+<!-- Order / Client Info -->
+<div class="space-y-1 text-[11px] border-b border-dashed border-outline-variant pb-2">
+<div class="flex justify-between">
+<span class="text-outline">ORDEN:</span>
+<span class="text-white font-bold">#ORD-9905</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">SERVICIO:</span>
+<span class="text-white">#SRV-4420-TI</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">FECHA:</span>
+<span class="text-white">24/10/2024 17:42:10</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">CLIENTE:</span>
+<span class="text-white font-bold">A. MORALES [CLI-8821]</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">CATEGORÍA:</span>
+<span class="text-primary-container font-bold">PLATINO (-15%)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-outline">ATENDIÓ:</span>
+<span class="text-white">MÉNDEZ B-02 / TEC-042</span>
+</div>
+</div>
+<!-- Hardware Quick Specs -->
+<div class="space-y-1 text-[11px] border-b border-dashed border-outline-variant pb-2">
+<p class="text-white font-bold">EQUIPO: DELL POWEREDGE R750xs</p>
+<p class="text-outline">S/N: <span class="text-white">7B9X4L2-PROD</span></p>
+<p class="text-outline text-[10px]">ACCESORIOS: 2x FUENTES 800W + RIELES ENTREGADOS</p>
+</div>
+<!-- Line Items Thermal Breakdown -->
+<div class="space-y-1 text-[11px] border-b border-dashed border-outline-variant pb-2">
+<div class="flex justify-between text-outline text-[10px] pb-1">
+<span>DESCRIPCIÓN</span>
+<span>IMPORTE</span>
+</div>
+<div class="flex justify-between">
+<span class="text-white">DIAGNOSTICO 100% BONIF.</span>
+<span class="text-white">$0.00</span>
+</div>
+<div class="flex justify-between">
+<span class="text-white">REP-VRM-880 (16 FASES)</span>
+<span class="text-white">$3,800.00</span>
+</div>
+<div class="flex justify-between">
+<span class="text-white">SRV-CAL-LAB MICRO-SMD</span>
+<span class="text-white">$1,600.00</span>
+</div>
+<div class="pt-2 space-y-0.5">
+<div class="flex justify-between text-outline">
+<span>SUBTOTAL BRUTO:</span>
+<span class="text-white">$5,400.00</span>
+</div>
+<div class="flex justify-between text-primary-container font-bold">
+<span>DESC. PLATINO (15%):</span>
+<span>-$810.00</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>SUBTOTAL NETO:</span>
+<span class="text-white">$4,590.00</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>IVA TRASLADADO (16%):</span>
+<span class="text-white">$734.40</span>
+</div>
+<div class="flex justify-between text-white font-bold text-sm pt-1 border-t border-outline-variant">
+<span>TOTAL PAGADO:</span>
+<span class="text-primary-container">$5,324.40</span>
+</div>
+</div>
+</div>
+<!-- Thermal Payment Details -->
+<div class="text-[10px] space-y-1 border-b border-dashed border-outline-variant pb-2">
+<p class="text-white font-bold">PAGO: SPEI BBVA RECIBIDO</p>
+<p class="text-outline">RASTREO: 20241024-8842-SPEI-9905</p>
+<p class="text-primary-container">ESTADO: TRANSACCIÓN APROBADA EN FIRME</p>
+</div>
+<!-- Warranty Note on Slip -->
+<div class="text-[10px] text-center space-y-1 border-b border-dashed border-outline-variant pb-3">
+<p class="text-white font-bold uppercase">GARANTÍA LIMITADA: 90 DÍAS</p>
+<p class="text-tertiary">Vence el: 22 de Enero de 2025</p>
+<p class="text-outline text-[9px]">Conserve este ticket como constancia para cualquier aclaración o soporte futuro.</p>
+</div>
+<!-- Thermal Barcode Simulation -->
+<div class="text-center pt-1 space-y-1">
+<div class="barcode-strip h-10 w-44 mx-auto"></div>
+<p class="text-[9px] text-outline font-mono">* 9 9 0 5 - 4 4 2 0 - 8 8 2 1 *</p>
+<p class="text-[9px] text-primary">GRACIAS POR SU PREFERENCIA</p>
+</div>
+<div class="pt-2 no-print">
+<button class="w-full py-1.5 bg-surface-container hover:bg-surface-container-high active:scale-95 border border-outline-variant text-label-sm font-label-sm uppercase text-primary-container flex items-center justify-center gap-1.5 transition-all cursor-pointer" onclick="handlePrint('thermal')">
+<span class="material-symbols-outlined text-sm" data-icon="print">print</span>
+                Imprimir Solo Ticket (80mm)
+              </button>
+</div>
+</div>
+<!-- Quick Telemetry Diagnostic Checklist in Sidebar -->
+<div class="bg-surface-container-low border border-outline-variant p-4 space-y-3 no-print" id="checklist-panel">
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base" data-icon="fact_check">fact_check</span>
+              Protocolo de Cierre &amp; Checklist de Recepción
+            </span>
+<div class="space-y-2 text-label-sm font-label-sm text-on-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="check_box">check_box</span>
+<span>Inspección visual de chasís libre de daños</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="check_box">check_box</span>
+<span>Prueba de arranque y POST redundante OK</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="check_box">check_box</span>
+<span>Firma de entrega física recabada en tablet</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-base" data-icon="check_box">check_box</span>
+<span>Factura fiscal timbrada ante SAT (CFDI 4.0)</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container-lowest border-t border-outline-variant z-30 no-print">
+<div class="flex items-center gap-3">
+<span class="text-label-md font-label-md font-bold text-on-surface">TecnoFix Solutions</span>
+<span class="text-outline hidden sm:inline">|</span>
+<p class="text-body-sm font-body-sm text-tertiary">
+        © 2024 TecnoFix Solutions (SoporTec). Industrial Diagnostic &amp; Telemetry Framework. Todos los derechos reservados.
+      </p>
+</div>
+<nav class="flex flex-wrap items-center gap-4 text-label-sm font-label-sm">
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#">Protocolo SLA</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#">Términos de Servicio</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#">Trazabilidad QA</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#">Garantía de Hardware</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#">Soporte Técnico</a>
+</nav>
+</footer>
+<!-- Interactive Print Script & Notification Logic -->
+<script>
+  let toastTimeout = null;
+
+  function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    const msgEl = document.getElementById('toast-message');
+    if (!toast || !msgEl) return;
+
+    msgEl.textContent = message;
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3800);
+  }
+
+  function handlePrint(format) {
+    if (format === 'thermal') {
+      document.body.classList.add('print-thermal');
+      showToast('Preparando ticket térmico 80mm... Diálogo del sistema iniciado.');
+    } else {
+      document.body.classList.remove('print-thermal');
+      showToast('Preparando documento para impresión... Diálogo del sistema iniciado.');
+    }
+
+    // Small timeout to allow toast animation and class application before system print dialog pauses event loop
+    setTimeout(() => {
+      window.print();
+      // Clean up after print dialog finishes/closes
+      setTimeout(() => {
+        document.body.classList.remove('print-thermal');
+      }, 500);
+    }, 150);
+  }
+
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('print-thermal');
+  });
+</script>
+</body></html>
