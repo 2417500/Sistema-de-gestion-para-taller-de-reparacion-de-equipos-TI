@@ -2,26 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EvidenciaIngreso extends Model
 {
-    protected $table = 'evidencias_ingreso';
+    use HasFactory;
 
-    protected $primaryKey = 'id_evidencia';
+    protected $table = 'evidencia_ingresos';
 
     protected $fillable = [
-        'id_orden', 'ruta_archivo', 'tipo_archivo', 'descripcion', 'id_usuario_registro',
+        'orden_servicio_id',
+        'ruta_imagen',
+        'descripcion_estado',
     ];
 
-    public function orden(): BelongsTo
+    public function ordenServicio()
     {
-        return $this->belongsTo(OrdenServicio::class, 'id_orden', 'id_orden');
-    }
-
-    public function usuarioRegistro(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'id_usuario_registro');
+        return $this->belongsTo(OrdenServicio::class, 'orden_servicio_id');
     }
 }

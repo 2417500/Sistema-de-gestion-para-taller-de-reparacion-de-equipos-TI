@@ -2,36 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Diagnostico extends Model
 {
-    protected $table = 'diagnosticos';
-
-    protected $primaryKey = 'id_diagnostico';
+    use HasFactory;
 
     protected $fillable = [
-        'id_orden', 'id_tecnico', 'fecha_diagnostico', 'falla_detectada', 'causa_probable',
-        'solucion_recomendada', 'requiere_refacciones', 'requiere_reparacion', 'observaciones',
+        'orden_servicio_id',
+        'tecnico_id',
+        'hallazgos',
+        'solucion_propuesta',
+        'costo_diagnostico',
     ];
 
     protected function casts(): array
     {
         return [
-            'fecha_diagnostico' => 'datetime',
-            'requiere_refacciones' => 'boolean',
-            'requiere_reparacion' => 'boolean',
+            'costo_diagnostico' => 'decimal:2',
         ];
     }
 
-    public function orden(): BelongsTo
+    public function ordenServicio()
     {
-        return $this->belongsTo(OrdenServicio::class, 'id_orden', 'id_orden');
+        return $this->belongsTo(OrdenServicio::class, 'orden_servicio_id');
     }
 
-    public function tecnico(): BelongsTo
+    public function tecnico()
     {
-        return $this->belongsTo(User::class, 'id_tecnico');
+        return $this->belongsTo(User::class, 'tecnico_id');
     }
 }

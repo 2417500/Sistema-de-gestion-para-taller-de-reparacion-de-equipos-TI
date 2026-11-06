@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TecnoFix Solutions - Vista Almacén: Validación de Despacho y Restitución de Stock</title>
+<!-- Material Symbols Google -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fuentes Técnicas: Space Grotesk, Hanken Grotesk, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,300..800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Engine -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#ffb95f",
+            "surface-container-low": "#1b1b1b",
+            "inverse-on-surface": "#303030",
+            "surface-bright": "#393939",
+            "primary-container": "#fca311",
+            "on-error-container": "#ffdad6",
+            "on-primary-container": "#663f00",
+            "on-surface-variant": "#d9c3ad",
+            "surface-container-lowest": "#0e0e0e",
+            "on-secondary": "#23304d",
+            "primary-fixed": "#ffddb8",
+            "tertiary-fixed": "#e2e2e2",
+            "outline-variant": "#534433",
+            "primary-fixed-dim": "#ffb95f",
+            "on-tertiary-fixed-variant": "#454747",
+            "tertiary-container": "#b6b6b6",
+            "tertiary-fixed-dim": "#c6c6c6",
+            "outline": "#a18e79",
+            "secondary-fixed": "#d9e2ff",
+            "surface": "#131313",
+            "inverse-surface": "#e2e2e2",
+            "on-primary-fixed-variant": "#653e00",
+            "secondary": "#b9c6ea",
+            "on-secondary-fixed-variant": "#3a4664",
+            "surface-dim": "#131313",
+            "on-error": "#690005",
+            "on-tertiary-container": "#464848",
+            "secondary-fixed-dim": "#b9c6ea",
+            "surface-variant": "#353535",
+            "surface-container-highest": "#353535",
+            "on-secondary-fixed": "#0d1b36",
+            "secondary-container": "#3c4967",
+            "tertiary": "#d1d2d2",
+            "background": "#131313",
+            "on-secondary-container": "#abb8db",
+            "on-primary": "#472a00",
+            "on-primary-fixed": "#2a1700",
+            "surface-container-high": "#2a2a2a",
+            "on-tertiary-fixed": "#1a1c1c",
+            "primary": "#ffc887",
+            "surface-container": "#1f1f1f",
+            "on-background": "#e2e2e2",
+            "on-tertiary": "#2f3131",
+            "inverse-primary": "#855300",
+            "error-container": "#93000a",
+            "error": "#ffb4ab",
+            "on-surface": "#e2e2e2"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "2.5rem",
+            "gutter-desktop": "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "margin": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "body-md": ["Hanken Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "body-sm": ["Hanken Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-xl-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Chiaroscuro scanline & industrial accents */
+    .bg-grid-pattern {
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .amber-glow {
+      box-shadow: 0 0 10px rgba(252, 163, 17, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased font-body-md text-body-md min-h-screen flex flex-col bg-grid-pattern">
+<!-- ========================================================================= -->
+<!-- SIDE NAVIGATION (SideNavBar: Rol Almacén Activo, Conforme a JSON de Brand) -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between p-4 z-40 bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant dark:border-outline-variant select-none">
+<!-- Branding & Telemetría Cabecera -->
+<div class="space-y-6">
+<div class="flex items-center gap-3 px-2 py-1">
+<div class="w-9 h-9 bg-surface-container-lowest border border-primary-container flex items-center justify-center text-primary-container shadow-inner">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<div class="text-headline-md font-headline-md font-bold tracking-tight text-on-surface dark:text-on-surface uppercase">TecnoFix OS</div>
+<div class="text-label-sm font-label-sm text-outline tracking-widest uppercase">SoporTec v4.2</div>
+</div>
+</div>
+<!-- Quick Action CTA -->
+<button class="w-full py-2.5 px-3 bg-primary-container text-on-primary-container font-label-md text-label-md font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-150 active:translate-y-px hover:bg-white hover:text-black">
+<span class="material-symbols-outlined text-sm font-bold">add_box</span>
+<span>Nueva Orden</span>
+</button>
+<!-- Navigation Tabs (Almacén está ACTIVO conforme a contexto de página) -->
+<nav class="space-y-1">
+<div class="text-label-sm font-label-sm text-tertiary-container uppercase tracking-wider px-3 pb-1">Módulos del Sistema</div>
+<!-- Admin -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary transition-colors duration-150" href="#admin">
+<span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+<!-- Recepción -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary transition-colors duration-150" href="#recepcion">
+<span class="material-symbols-outlined text-lg">assignment_ind</span>
+<span>Recepción</span>
+</a>
+<!-- Técnico -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary transition-colors duration-150" href="#tecnico">
+<span class="material-symbols-outlined text-lg">build_circle</span>
+<span>Técnico</span>
+</a>
+<!-- Almacén: ACTIVO (style_active_navigation aplicado puntualmente) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface dark:text-on-surface bg-surface-container-highest dark:bg-surface-container-highest border-l-2 border-primary-container dark:border-primary-container font-label-md text-label-md" href="#almacen">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-on-surface font-bold">Almacén</span>
+<span class="ml-auto w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+</a>
+<!-- Portal Cliente -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary transition-colors duration-150" href="#portal-cliente">
+<span class="material-symbols-outlined text-lg">devices</span>
+<span>Portal Cliente</span>
+</a>
+</nav>
+</div>
+<!-- Info Operador & Footer SideBar -->
+<div class="space-y-4 pt-4 border-t border-outline-variant">
+<!-- Usuario Activo -->
+<div class="p-2.5 bg-surface-container-lowest border border-outline-variant/60 flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-outline-variant flex items-center justify-center font-label-md text-label-md font-bold text-primary-container">
+          RM
+        </div>
+<div class="overflow-hidden">
+<div class="font-label-sm text-label-sm text-on-surface font-semibold truncate">Roberto Méndez</div>
+<div class="text-[10px] font-label-sm text-primary tracking-tight truncate">Jefe Custodia B-02</div>
+</div>
+</div>
+<!-- Footer Buttons -->
+<div class="space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-base">contrast</span>
+<span>Modo Luz/Oscuro</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md hover:text-error hover:bg-error-container/20 transition-colors">
+<span class="material-symbols-outlined text-base">logout</span>
+<span>Cerrar Sesión</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKBENCH WRAPPER (Offset por w-64 de la SideNavBar) -->
+<!-- ========================================================================= -->
+<div class="pl-64 flex-1 flex flex-col min-h-screen">
+<!-- TOP NAVIGATION BAR (TopNavBar: Conforme a JSON de Brand y Estilo Noir) -->
+<header class="w-full h-16 flex items-center justify-between px-6 z-30 bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant dark:border-outline-variant sticky top-0">
+<!-- Lado Izquierdo: Brand & Breadcrumbs Técnicos -->
+<div class="flex items-center gap-6">
+<div class="text-headline-md font-headline-md font-bold tracking-wider text-primary-container dark:text-primary-container uppercase select-none">
+          TecnoFix Solutions
+        </div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<!-- Breadcrumb / Estación Telemetría -->
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-tertiary-container tracking-wider">
+<span class="material-symbols-outlined text-xs text-primary-container">store</span>
+<span class="text-on-surface-variant">ESTACIÓN ALMACÉN CENTRAL</span>
+<span>•</span>
+<span class="text-primary-container font-semibold">VENTANILLA B (BAHÍA 3)</span>
+<span class="ml-2 px-1.5 py-0.5 bg-surface-container-high text-[9px] text-tertiary border border-outline-variant">EN LÍNEA</span>
+</div>
+</div>
+<!-- Lado Central: Navegación Estándar TopNavBar -->
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#taller">Taller</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#horarios">Horarios</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#politicas">Políticas</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors duration-150" href="#ubicacion">Ubicación</a>
+</div>
+<!-- Lado Derecho: Acciones, Terminal & Simulador de Rol -->
+<div class="flex items-center gap-3">
+<!-- Indicadores Rápidos -->
+<button class="p-1.5 text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors relative" title="Terminal de Comandos">
+<span class="material-symbols-outlined text-lg">terminal</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary-container hover:bg-surface-container transition-colors relative" title="Alertas de Inventario">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span class="absolute top-1 right-1 w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+</button>
+<div class="h-4 w-px bg-outline-variant mx-1"></div>
+<!-- Simulador Rol -->
+<button class="px-2.5 py-1.5 border border-outline-variant bg-surface-container text-tertiary hover:border-primary-container hover:text-primary-container font-label-sm text-label-sm uppercase transition-all duration-150">
+          Simulador Rol
+        </button>
+<!-- Botón Primario: Acceso Universal -->
+<button class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-150">
+          Acceso Universal
+        </button>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- CONTENIDO PRINCIPAL: BENTO WORKBENCH DE ALMACÉN -->
+<!-- ========================================================================= -->
+<main class="flex-1 p-6 space-y-6">
+<!-- 1. CABECERA TÉCNICA Y TELEMETRÍA DE INVENTARIO -->
+<section class="border border-outline-variant bg-surface-container-lowest p-5 relative overflow-hidden shadow-2xl">
+<!-- Borde Superior de Acento Ámbar Noir -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-outline-variant/60">
+<div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-2xl" style="font-variation-settings: 'FILL' 1;">warehouse</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+                Control de Almacén • Validación de Despachos y Retorno de Custodia
+              </h1>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-4xl">
+              Sistema de custodia nominal de herramientas e insumos críticos para la operación de taller SoporTec v4.2. Validación criptográfica de vales y actualización de Kardex en tiempo real.
+            </p>
+</div>
+<!-- Política Inquebrantable de Stock (Badge de Alta Visibilidad) -->
+<div class="inline-flex items-center gap-2.5 px-3.5 py-2 bg-surface-container border border-primary-container text-primary-container font-label-sm text-label-sm tracking-widest uppercase amber-glow">
+<span class="material-symbols-outlined text-base">verified_user</span>
+<span class="font-bold">REGLA DE EXISTENCIA CRÍTICA: NUNCA STOCK = 0 (RESERVA MÍNIMA GARANTIZADA)</span>
+</div>
+</div>
+<!-- Grid de Métricas Técnicas (Telemetría de Almacén) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+<!-- Tarjeta 1 -->
+<div class="bg-surface-container-low border border-outline-variant p-4 relative">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">Préstamos Activos en Taller</span>
+<span class="material-symbols-outlined text-primary-container text-lg">handyman</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight">12</span>
+<span class="font-label-sm text-label-sm text-primary">Unidades</span>
+</div>
+<div class="mt-2 font-body-sm text-body-sm text-outline flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+              En custodia técnica (8 bancos asignados)
+            </div>
+</div>
+<!-- Tarjeta 2 -->
+<div class="bg-surface-container-low border border-outline-variant p-4 relative">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">Vales Pendientes de Entrega</span>
+<span class="material-symbols-outlined text-primary-container text-lg">assignment_turned_in</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl font-bold text-primary-container tracking-tight">01</span>
+<span class="font-label-sm text-label-sm text-primary">Autorizado</span>
+</div>
+<div class="mt-2 font-body-sm text-body-sm text-outline truncate" title="REQ-ADMIN-8842 / AUTH-ADM-9941">
+              Req: <span class="text-on-surface font-label-sm">REQ-ADMIN-8842</span> (Vale ADM-9941)
+            </div>
+</div>
+<!-- Tarjeta 3 -->
+<div class="bg-surface-container-low border border-outline-variant p-4 relative">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">Retornos Pendientes Hoy</span>
+<span class="material-symbols-outlined text-tertiary-fixed text-lg">schedule</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight">03</span>
+<span class="font-label-sm text-label-sm text-tertiary">Programados</span>
+</div>
+<div class="mt-2 font-body-sm text-body-sm text-outline flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-surface-tint rounded-full"></span>
+              Cierre turno técnico (19:00 hrs)
+            </div>
+</div>
+<!-- Tarjeta 4 -->
+<div class="bg-surface-container-low border border-outline-variant p-4 relative">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">Tasa de Disponibilidad</span>
+<span class="material-symbols-outlined text-on-surface text-lg">stacked_bar_chart</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl font-bold text-white tracking-tight">94.8%</span>
+<span class="font-label-sm text-label-sm text-outline">En bahías</span>
+</div>
+<div class="mt-2 flex items-center gap-1">
+<div class="w-full bg-surface-container-highest h-1.5 flex gap-0.5">
+<div class="bg-primary-container h-full w-[95%]"></div>
+<div class="bg-error-container h-full w-[5%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. WORKBENCH PRINCIPAL: 2 COLUMNAS (MÓDULO A Y MÓDULO B) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- ========================================================================= -->
+<!-- MÓDULO A: VENTANILLA DE ENTREGA DE SUMINISTROS (VALIDAR VALE DIGITAL) -->
+<!-- ========================================================================= -->
+<section class="lg:col-span-7 border border-outline-variant bg-surface-container-lowest flex flex-col justify-between shadow-lg">
+<div>
+<!-- Header de Módulo -->
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 bg-primary-container"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">
+                  Módulo A: Ventanilla de Entrega de Suministros (Validar Vale Digital)
+                </h2>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-primary-container font-label-sm text-label-sm border border-outline-variant">
+                SESIÓN ACTIVA
+              </span>
+</div>
+<!-- Ficha del Vale Aprobado por el Administrador -->
+<div class="p-5 border-b border-outline-variant/60 bg-surface-container/40">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-label-sm text-label-sm">
+<div class="p-3 bg-surface-container-lowest border border-outline-variant">
+<div class="text-tertiary-container uppercase text-[10px]">Requisición de Origen</div>
+<div class="font-bold text-on-surface mt-1 text-label-md">REQ-ADMIN-8842</div>
+<div class="text-outline text-[11px] mt-0.5">Aprobada por Admin (Sesión Previa)</div>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant">
+<div class="text-tertiary-container uppercase text-[10px]">Técnico Solicitante</div>
+<div class="font-bold text-primary-container mt-1 text-label-md">Jesús Ramírez (TEC-042)</div>
+<div class="text-outline text-[11px] mt-0.5">Clúster Enterprise #ORD-9905</div>
+</div>
+<div class="p-3 bg-surface-container-lowest border border-primary-container/80 relative">
+<div class="text-primary uppercase text-[10px] flex items-center justify-between">
+<span>Vale de Retiro Digital</span>
+<span class="material-symbols-outlined text-xs">verified</span>
+</div>
+<div class="font-bold text-on-surface mt-1 text-label-md font-mono select-all">
+                    VALE-AUTH-ADM-9941-SHA256
+                  </div>
+<div class="text-[10px] text-tertiary mt-0.5">Firma Criptográfica SHA-256 Validada</div>
+</div>
+</div>
+</div>
+<!-- Tabla de Ítems Aprobados para Despacho -->
+<div class="p-5 space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-primary-container">format_list_bulleted</span>
+                  Ítems Listos para Despacho Físico
+                </span>
+<span class="text-outline font-label-sm text-[11px]">3 Categorías de Inventario</span>
+</div>
+<div class="overflow-x-auto border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-secondary-container/40 border-b border-outline-variant font-label-sm text-label-sm text-on-surface uppercase">
+<th class="p-2.5">Tipo / Ítem</th>
+<th class="p-2.5">Cant.</th>
+<th class="p-2.5">S/N / Lote de Trazabilidad</th>
+<th class="p-2.5">Efecto Stock</th>
+<th class="p-2.5 text-center">Estado</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-sm text-body-sm">
+<!-- 1. Consumible: Pasta Térmica -->
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-lowest">
+<td class="p-2.5">
+<div class="font-bold text-on-surface">Pasta Térmica Kryonaut Extreme 2g</div>
+<div class="font-label-sm text-[10px] text-error">Consumible • Despacho Permanente (No retorna)</div>
+</td>
+<td class="p-2.5 font-label-md font-bold text-primary-container">8x</td>
+<td class="p-2.5 font-label-sm text-[11px] text-on-surface">
+                        Lote: <span class="text-primary font-mono">TG-2024-K09</span>
+</td>
+<td class="p-2.5 font-label-sm text-[11px]">
+<div class="text-on-surface">Antes: 14 uds</div>
+<div class="text-primary-container font-semibold">Proyectado: 6 uds <span class="text-white font-bold">(&gt; 0 OK)</span></div>
+</td>
+<td class="p-2.5 text-center">
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-primary-container font-label-sm text-[10px] uppercase">
+                          Listo Pick
+                        </span>
+</td>
+</tr>
+<!-- 2. Herramienta: Estaciones de Soldar Weller -->
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-low/40">
+<td class="p-2.5">
+<div class="font-bold text-on-surface">Estación de Soldar Weller WT1010</div>
+<div class="font-label-sm text-[10px] text-primary">Herramienta en Préstamo • Custodia Reversible</div>
+</td>
+<td class="p-2.5 font-label-md font-bold text-primary-container">5x</td>
+<td class="p-2.5 font-label-sm text-[11px] text-on-surface font-mono">
+                        WEL-9021-01 <span class="text-outline">a</span> WEL-9021-05
+                      </td>
+<td class="p-2.5 font-label-sm text-[11px]">
+<div class="text-on-surface">Stock Bahía: 12 uds</div>
+<div class="text-tertiary-container">En taller: +5 uds</div>
+</td>
+<td class="p-2.5 text-center">
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-primary-container font-label-sm text-[10px] uppercase">
+                          Inspeccionado
+                        </span>
+</td>
+</tr>
+<!-- 3. Herramienta: Kits iFixit Pro Tech -->
+<tr class="hover:bg-surface-container transition-colors bg-surface-container-lowest">
+<td class="p-2.5">
+<div class="font-bold text-on-surface">Kits iFixit Pro Tech Precision</div>
+<div class="font-label-sm text-[10px] text-primary">Herramienta en Préstamo • Serializado Completo</div>
+</td>
+<td class="p-2.5 font-label-md font-bold text-primary-container">10x</td>
+<td class="p-2.5 font-label-sm text-[11px] text-on-surface font-mono">
+                        IFX-8840-01 <span class="text-outline">a</span> IFX-8840-10
+                      </td>
+<td class="p-2.5 font-label-sm text-[11px]">
+<div class="text-on-surface">Stock Bahía: 25 uds</div>
+<div class="text-tertiary-container">En taller: +10 uds</div>
+</td>
+<td class="p-2.5 text-center">
+<span class="px-2 py-0.5 bg-surface-container-high border border-outline-variant text-primary-container font-label-sm text-[10px] uppercase">
+                          Inspeccionado
+                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Acciones de Almacén para Despacho -->
+<div class="p-5 bg-surface-container-low border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="font-label-sm text-label-sm text-tertiary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary-container">security</span>
+<span>Custodia legal transferida a TEC-042 tras validación</span>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-3.5 py-2.5 bg-surface-container border border-outline text-white hover:bg-white hover:text-black font-label-sm text-label-sm uppercase transition-all duration-150 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">print</span>
+<span>Imprimir Acta de Responsabilidad y Custodia</span>
+</button>
+<button class="flex-1 sm:flex-none px-4 py-2.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-150 flex items-center justify-center gap-2 amber-glow">
+<span class="material-symbols-outlined text-base font-bold">check_circle</span>
+<span>[✓] Validar Vale y Efectuar Despacho Físico</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- MÓDULO B: RECEPCIÓN Y DEVOLUCIÓN: RESTITUCIÓN DE STOCK -->
+<!-- ========================================================================= -->
+<section class="lg:col-span-5 border border-outline-variant bg-surface-container-lowest flex flex-col justify-between shadow-lg">
+<div>
+<!-- Header de Módulo -->
+<div class="p-4 bg-surface-container-low border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 bg-white"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">
+                  Módulo B: Recepción y Devolución • Restitución de Stock
+                </h2>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-white font-label-sm text-label-sm border border-outline-variant">
+                RETORNO ACTIVO
+              </span>
+</div>
+<!-- Técnico en Ventanilla de Retorno -->
+<div class="p-5 border-b border-outline-variant/60 bg-surface-container/30">
+<div class="flex items-center justify-between">
+<div>
+<div class="text-[10px] font-label-sm text-tertiary-container uppercase tracking-wider">Técnico en Devolución</div>
+<div class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">Jesús Ramírez <span class="text-primary-container font-label-md">(TEC-042)</span></div>
+<div class="text-body-sm text-outline">Estación Asignada: Banco #01 • Cierre de Tarea Diagnóstica</div>
+</div>
+<div class="w-10 h-10 border border-outline-variant bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">assignment_return</span>
+</div>
+</div>
+</div>
+<!-- Lista de Herramientas a Reintegrar -->
+<div class="p-5 space-y-4">
+<div class="font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">
+                Herramientas Físicas a Reintegrar (2 Unidades):
+              </div>
+<!-- Herramienta 1: Estación JBC -->
+<div class="border border-outline-variant bg-surface-container-low p-3.5 space-y-2">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-bold text-on-surface text-body-md">Estación Cautín JBC CD-2BQF</div>
+<div class="font-label-sm text-[11px] text-tertiary">
+                      Marca: <span class="text-white">JBC</span> • Modelo: <span class="text-white">CD-2BQF</span> • S/N: <span class="text-primary font-mono">JBC-99210-ES</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 bg-surface-container-highest border border-outline text-[10px] font-label-sm text-white">
+                    BANCO #01
+                  </span>
+</div>
+<div class="p-2 bg-surface-container-lowest border border-outline-variant/60 font-body-sm text-[11px] flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary-container">task_alt</span>
+<span class="text-on-surface">Inspección física:</span>
+<span class="text-primary-container font-semibold">Inspeccionado OK • Puntas íntegras • Limpieza realizada</span>
+</div>
+<div class="flex items-center justify-between pt-1 font-label-sm text-[11px]">
+<span class="text-outline">Impacto Inmediato en Stock:</span>
+<span class="text-on-surface font-bold">Almacén: 2 uds → <span class="text-white bg-primary-container/20 px-1.5 py-0.5 border border-primary-container">3 uds (+1 Restituido)</span></span>
+</div>
+</div>
+<!-- Herramienta 2: Multímetro Fluke 87V -->
+<div class="border border-outline-variant bg-surface-container-low p-3.5 space-y-2">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-bold text-on-surface text-body-md">Multímetro Digital Fluke 87V Industrial</div>
+<div class="font-label-sm text-[11px] text-tertiary">
+                      Marca: <span class="text-white">Fluke</span> • Modelo: <span class="text-white">87V-MAX</span> • S/N: <span class="text-primary font-mono">FLK-87V-4421</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 bg-surface-container-highest border border-outline text-[10px] font-label-sm text-white">
+                    ISO-17025
+                  </span>
+</div>
+<div class="p-2 bg-surface-container-lowest border border-outline-variant/60 font-body-sm text-[11px] flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary-container">task_alt</span>
+<span class="text-on-surface">Inspección física:</span>
+<span class="text-primary-container font-semibold">Batería 98% • Cables de prueba calibrados</span>
+</div>
+<div class="flex items-center justify-between pt-1 font-label-sm text-[11px]">
+<span class="text-outline">Impacto Inmediato en Stock:</span>
+<span class="text-on-surface font-bold">Almacén: 1 ud → <span class="text-white bg-primary-container/20 px-1.5 py-0.5 border border-primary-container">2 uds (+1 Restituido)</span></span>
+</div>
+</div>
+<!-- Ejemplo Explícito de Trazabilidad Solicitado en Especificación -->
+<div class="p-3 bg-secondary-container/20 border-l-2 border-primary-container font-body-sm text-body-sm text-tertiary">
+<div class="font-label-sm text-[10px] text-primary-container uppercase font-bold tracking-wider mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+                  Ejemplo de Trazabilidad y Comportamiento de Stock:
+                </div>
+<p class="text-[12px] leading-relaxed text-on-surface-variant">
+                  Si había 5 pastas térmicas registradas y Jesús y María retiraron 1 cada uno, el stock marcó 3. Al reingresar herramientas reutilizables, el inventario regresa a su stock nominal original de forma automática.
+                </p>
+</div>
+</div>
+</div>
+<!-- Acciones de Reingreso y Firma Digital -->
+<div class="p-5 bg-surface-container-low border-t border-outline-variant space-y-3">
+<div class="flex items-center gap-2 font-label-sm text-[11px] text-on-surface-variant bg-surface-container-lowest p-2 border border-outline-variant/80">
+<span class="material-symbols-outlined text-sm text-primary-container">verified</span>
+<span>Firma de Conformidad de Almacén y Liberación de Custodia del Técnico TEC-042 emitida</span>
+</div>
+<button class="w-full py-3 bg-white text-black font-label-md text-label-md font-bold uppercase tracking-wider hover:bg-primary-container hover:text-black transition-all duration-150 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">sync</span>
+<span>[↻] Confirmar Devolución e Incrementar Stock en Sistema (+2 Unidades)</span>
+</button>
+</div>
+</section>
+</div>
+<!-- ========================================================================= -->
+<!-- MÓDULO C: KARDEX Y REGISTRO HISTÓRICO DE PRÉSTAMOS ACTIVOS (TRAZABILIDAD) -->
+<!-- ========================================================================= -->
+<section class="border border-outline-variant bg-surface-container-lowest p-5 shadow-2xl">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-outline-variant">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary-container">timeline</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">
+              Módulo C: Kardex y Registro Histórico de Préstamos Activos (Trazabilidad en Vivo)
+            </h2>
+</div>
+<!-- Búsqueda y Filtros Rápidos -->
+<div class="flex items-center gap-2">
+<div class="relative">
+<input class="bg-surface-container-lowest border border-outline-variant px-3 py-1.5 text-on-surface font-label-sm text-label-sm focus:border-primary-container focus:outline-none w-56 placeholder:text-outline" placeholder="Filtrar por S/N o Técnico..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-2 text-outline text-sm">search</span>
+</div>
+<button class="px-2.5 py-1.5 bg-surface-container border border-outline-variant text-tertiary font-label-sm text-label-sm hover:text-white">
+              Exportar CSV
+            </button>
+</div>
+</div>
+<!-- Tabla Completa de Kardex -->
+<div class="overflow-x-auto mt-4 border border-outline-variant">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant font-label-sm text-label-sm text-tertiary-container uppercase tracking-wider">
+<th class="p-3">S/N &amp; Herramienta</th>
+<th class="p-3">Marca &amp; Modelo</th>
+<th class="p-3">Técnico Asignado &amp; ID</th>
+<th class="p-3">Banco / Ubicación</th>
+<th class="p-3">Hora Salida / Est. Retorno</th>
+<th class="p-3">Estado Préstamo</th>
+<th class="p-3 text-right">Existencia (Actual vs Nominal)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-sm text-body-sm">
+<!-- Registro 1: En Proceso de Devolución -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest">
+<td class="p-3">
+<div class="font-bold text-on-surface font-mono text-primary">JBC-99210-ES</div>
+<div class="text-tertiary text-[11px]">Estación Cautín CD-2BQF</div>
+</td>
+<td class="p-3 font-label-sm text-label-sm">
+<span class="text-white">JBC</span> / CD-2BQF Precision
+                </td>
+<td class="p-3">
+<div class="font-bold text-on-surface">Jesús Ramírez</div>
+<div class="font-label-sm text-[10px] text-primary-container">ID: TEC-042</div>
+</td>
+<td class="p-3 font-label-sm text-[11px] text-tertiary">
+                  Banco Central #01
+                </td>
+<td class="p-3 font-label-sm text-[11px]">
+<div class="text-on-surface">09:15 hrs</div>
+<div class="text-primary">18:30 hrs (Hoy)</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-primary-container bg-primary-container/10 text-primary-container font-label-sm text-[10px] font-bold uppercase tracking-wider">
+                    En Devolución
+                  </span>
+</td>
+<td class="p-3 text-right font-label-sm text-label-sm">
+<span class="text-primary font-bold">2</span> <span class="text-outline">/</span> <span class="text-white">3 uds</span>
+</td>
+</tr>
+<!-- Registro 2: Multímetro en Devolución -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-low/30">
+<td class="p-3">
+<div class="font-bold text-on-surface font-mono text-primary">FLK-87V-4421</div>
+<div class="text-tertiary text-[11px]">Multímetro Industrial TRMS</div>
+</td>
+<td class="p-3 font-label-sm text-label-sm">
+<span class="text-white">Fluke</span> / 87V Heavy Duty
+                </td>
+<td class="p-3">
+<div class="font-bold text-on-surface">Jesús Ramírez</div>
+<div class="font-label-sm text-[10px] text-primary-container">ID: TEC-042</div>
+</td>
+<td class="p-3 font-label-sm text-[11px] text-tertiary">
+                  Banco Central #01
+                </td>
+<td class="p-3 font-label-sm text-[11px]">
+<div class="text-on-surface">09:20 hrs</div>
+<div class="text-primary">18:30 hrs (Hoy)</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-primary-container bg-primary-container/10 text-primary-container font-label-sm text-[10px] font-bold uppercase tracking-wider">
+                    En Devolución
+                  </span>
+</td>
+<td class="p-3 text-right font-label-sm text-label-sm">
+<span class="text-primary font-bold">1</span> <span class="text-outline">/</span> <span class="text-white">2 uds</span>
+</td>
+</tr>
+<!-- Registro 3: Osciloscopio Rigol Activo -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest">
+<td class="p-3">
+<div class="font-bold text-on-surface font-mono text-white">RGL-DS1054-99</div>
+<div class="text-tertiary text-[11px]">Osciloscopio Digital 4CH 50MHz</div>
+</td>
+<td class="p-3 font-label-sm text-label-sm">
+<span class="text-white">Rigol</span> / DS1054Z Plus
+                </td>
+<td class="p-3">
+<div class="font-bold text-on-surface">Carlos Mendoza</div>
+<div class="font-label-sm text-[10px] text-tertiary-container">ID: TEC-019</div>
+</td>
+<td class="p-3 font-label-sm text-[11px] text-tertiary">
+                  Banco Microelectrónica #04
+                </td>
+<td class="p-3 font-label-sm text-[11px]">
+<div class="text-on-surface">11:00 hrs</div>
+<div class="text-outline">19:00 hrs (Cierre)</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-outline bg-surface-container-highest text-white font-label-sm text-[10px] uppercase">
+                    Préstamo Activo
+                  </span>
+</td>
+<td class="p-3 text-right font-label-sm text-label-sm">
+<span class="text-white font-bold">4</span> <span class="text-outline">/</span> <span class="text-white">5 uds</span>
+</td>
+</tr>
+<!-- Registro 4: Microscopio AmScope Restituido -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-low/30">
+<td class="p-3">
+<div class="font-bold text-on-surface font-mono text-tertiary">AMS-SM4TP-03</div>
+<div class="text-tertiary text-[11px]">Microscopio Trinocular Estéreo</div>
+</td>
+<td class="p-3 font-label-sm text-label-sm">
+<span class="text-white">AmScope</span> / SM-4TP-144S
+                </td>
+<td class="p-3">
+<div class="font-bold text-on-surface">María Delgado</div>
+<div class="font-label-sm text-[10px] text-tertiary-container">ID: TEC-033</div>
+</td>
+<td class="p-3 font-label-sm text-[11px] text-tertiary">
+                  Bahía Almacén Estante C-1
+                </td>
+<td class="p-3 font-label-sm text-[11px]">
+<div class="text-on-surface">08:00 hrs</div>
+<div class="text-tertiary">14:10 hrs (Restituido)</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-0.5 border border-white bg-white text-black font-label-sm text-[10px] font-bold uppercase tracking-wider">
+                    Restituido OK
+                  </span>
+</td>
+<td class="p-3 text-right font-label-sm text-label-sm">
+<span class="text-white font-bold">4</span> <span class="text-outline">/</span> <span class="text-white">4 uds</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- ========================================================================= -->
+<!-- FOOTER INSTITUCIONAL (Footer: Conforme a JSON de Brand y Estilo Noir) -->
+<!-- ========================================================================= -->
+<footer class="w-full px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline-variant mt-auto">
+<!-- Copyright & Framework Notice -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-lg">verified</span>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+          © 2024 TecnoFix Solutions (SoporTec). Industrial Diagnostic &amp; Telemetry Framework. Todos los derechos reservados.
+        </div>
+</div>
+<!-- Links Técnicos Obligatorios según JSON -->
+<div class="flex flex-wrap items-center gap-4 font-label-sm text-label-sm">
+<a class="text-tertiary-container dark:text-tertiary-container hover:text-primary-container dark:hover:text-primary-container transition-colors duration-150" href="#protocolo-sla">
+          Protocolo SLA
+        </a>
+<span class="text-outline-variant">•</span>
+<a class="text-tertiary-container dark:text-tertiary-container hover:text-primary-container dark:hover:text-primary-container transition-colors duration-150" href="#terminos">
+          Términos de Servicio
+        </a>
+<span class="text-outline-variant">•</span>
+<a class="text-tertiary-container dark:text-tertiary-container hover:text-primary-container dark:hover:text-primary-container transition-colors duration-150" href="#qa">
+          Trazabilidad QA
+        </a>
+<span class="text-outline-variant">•</span>
+<a class="text-tertiary-container dark:text-tertiary-container hover:text-primary-container dark:hover:text-primary-container transition-colors duration-150" href="#garantia">
+          Garantía de Hardware
+        </a>
+<span class="text-outline-variant">•</span>
+<a class="text-tertiary-container dark:text-tertiary-container hover:text-primary-container dark:hover:text-primary-container transition-colors duration-150" href="#soporte">
+          Soporte Técnico
+        </a>
+</div>
+</footer>
+</div>
+</body></html>

@@ -13,16 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'rol' => \App\Http\Middleware\CheckRole::class,
-            'activo' => \App\Http\Middleware\EnsureUserIsActive::class,
-            'cliente.propietario' => \App\Http\Middleware\EnsureClientOwnsResource::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'tecnico' => \App\Http\Middleware\TecnicoMiddleware::class,
+            'recepcion' => \App\Http\Middleware\RecepcionMiddleware::class,
+            'almacen' => \App\Http\Middleware\AlmacenMiddleware::class,
+            'cliente' => \App\Http\Middleware\ClienteMiddleware::class,
+            'audit' => \App\Http\Middleware\AuditLogMiddleware::class,
         ]);
-
-        $middleware->web(append: [
-            \App\Http\Middleware\ShareTallerData::class,
-        ]);
-
-        $middleware->redirectGuestsTo(fn () => route('portal.publico'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

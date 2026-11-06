@@ -2,36 +2,39 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DetalleCotizacion extends Model
 {
-    protected $table = 'detalle_cotizacion';
+    use HasFactory;
 
-    protected $primaryKey = 'id_detalle';
+    protected $table = 'detalle_cotizacions';
 
     protected $fillable = [
-        'id_version', 'id_refaccion', 'tipo_concepto', 'descripcion',
-        'cantidad', 'precio_unitario', 'importe',
+        'cotizacion_id',
+        'refaccion_id',
+        'cantidad',
+        'precio_unitario',
+        'subtotal',
     ];
 
     protected function casts(): array
     {
         return [
-            'cantidad' => 'decimal:2',
+            'cantidad' => 'integer',
             'precio_unitario' => 'decimal:2',
-            'importe' => 'decimal:2',
+            'subtotal' => 'decimal:2',
         ];
     }
 
-    public function version(): BelongsTo
+    public function cotizacion()
     {
-        return $this->belongsTo(VersionCotizacion::class, 'id_version', 'id_version');
+        return $this->belongsTo(Cotizacion::class, 'cotizacion_id');
     }
 
-    public function refaccion(): BelongsTo
+    public function refaccion()
     {
-        return $this->belongsTo(Refaccion::class, 'id_refaccion', 'id_refaccion');
+        return $this->belongsTo(Refaccion::class, 'refaccion_id');
     }
 }

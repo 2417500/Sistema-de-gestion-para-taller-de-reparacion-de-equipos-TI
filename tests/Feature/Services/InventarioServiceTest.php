@@ -1,110 +1,48 @@
 <?php
 
-use App\Models\MovimientoInventario;
-use App\Models\ReservaRefaccion;
+use App\Models\Refaccion;
 use App\Services\InventarioService;
-use Illuminate\Validation\ValidationException;
 
-// ──────────────────────────────────────────────────────────────────────────────
-// InventarioService – Existencias, reservas y alertas de stock
-// ──────────────────────────────────────────────────────────────────────────────
+beforeEach(function () {
+    $this->service = new InventarioService();
 
-describe('InventarioService', function () {
+    $this->refaccion = Refaccion::create([
+        'nombre' => 'Pasta Térmica Thermal Grizzly',
+        'marca' => 'Kryonaut',
+        'modelo' => 'TG-K-001',
+        'precio_unitario' => 250.00,
+        'stock_disponible' => 8,
+    ]);
+});
 
-    beforeEach(function () {
-        $roles = crearRoles();
-        $datos = crearClienteConUsuario($roles['cliente']);
+test('verificar disponibilidad y despachar refaccion reduce stock', function () {
+    $disponible = $this->service->verificarDisponibilidad($this->refaccion->id, 3);
+    expect($disponible)->toBeTrue();
 
-        $this->cliente   = $datos['cliente'];
-        $this->recepcion = crearUsuarioEmpleado($roles['recepcion'], 'rec@taller.com');
-        $this->equipo    = crearEquipo($this->cliente->id_cliente);
-        $this->orden     = crearOrden($this->equipo->id_equipo, $this->recepcion->id);
-        $this->refaccion = crearRefaccion(10);
-        $this->service   = app(InventarioService::class);
-    });
+    $refaccionDespachada = $this->service->despacharRefaccion($this->refaccion->id, 3);
+    expect($refaccionDespachada->stock_disponible)->toBe(5);
+});
 
-    it('registra una entrada y aumenta existencia', function () {
-        $antes = $this->refaccion->existencia;
+test('despachar mas del stock disponible lanza excepcion', function () {
+    expect(fn () => $this->service->despacharRefaccion($this->refaccion->id, 20))
+        ->toThrow(RuntimeException::class);
+});
 
-        $this->service->registrarEntrada($this->refaccion->id_refaccion, $this->recepcion->id, 5, 80.0, 'Compra');
+test('restituir refaccion incrementa stock disponible', function () {
+    $restituida = $this->service->restituirRefaccion($this->refaccion->id, 4);
+    expect($restituida->stock_disponible)->toBe(12);
+});
 
-        expect($this->refaccion->fresh()->existencia)->toBe($antes + 5);
-        expect(MovimientoInventario::where('tipo_movimiento', 'Entrada')->exists())->toBeTrue();
-    });
+test('obtener refacciones con stock bajo segun umbral critico', function () {
+    Refaccion::create([
+        'nombre' => 'Batería HP HT03XL',
+        'marca' => 'HP Original',
+        'modelo' => 'HT03XL',
+        'precio_unitario' => 1100.00,
+        'stock_disponible' => 2, // Stock crítico
+    ]);
 
-    it('registra una salida y disminuye existencia', function () {
-        $antes = $this->refaccion->existencia;
-
-        $this->service->registrarSalida($this->refaccion->id_refaccion, $this->recepcion->id, 3, 'Baja');
-
-        expect($this->refaccion->fresh()->existencia)->toBe($antes - 3);
-    });
-
-    it('lanza excepción si la salida supera la existencia', function () {
-        expect(fn () =>
-            $this->service->registrarSalida($this->refaccion->id_refaccion, $this->recepcion->id, 999, 'Exceso')
-        )->toThrow(ValidationException::class);
-    });
-
-    it('reserva refacciones para una orden', function () {
-        $this->service->reservar(
-            $this->orden->id_orden,
-            [$this->refaccion->id_refaccion => 3],
-            $this->recepcion->id,
-        );
-
-        $reserva = ReservaRefaccion::where('id_orden', $this->orden->id_orden)->first();
-        expect($reserva)->not->toBeNull()
-            ->and($reserva->cantidad)->toBe(3)
-            ->and($reserva->estado)->toBe('Reservada');
-    });
-
-    it('no permite reservar más de lo disponible', function () {
-        expect(fn () =>
-            $this->service->reservar(
-                $this->orden->id_orden,
-                [$this->refaccion->id_refaccion => 999],
-                $this->recepcion->id,
-            )
-        )->toThrow(ValidationException::class);
-    });
-
-    it('libera reservas al cancelar una orden', function () {
-        $this->service->reservar(
-            $this->orden->id_orden,
-            [$this->refaccion->id_refaccion => 2],
-            $this->recepcion->id,
-        );
-
-        $this->service->liberarReservas($this->orden->id_orden, $this->recepcion->id);
-
-        $reserva = ReservaRefaccion::where('id_orden', $this->orden->id_orden)->first();
-        expect($reserva->estado)->toBe('Liberada');
-    });
-
-    it('entrega refacción para reparación y descuenta del inventario', function () {
-        $existenciaAntes = $this->refaccion->existencia;
-
-        $this->service->entregarParaReparacion(
-            $this->orden->id_orden,
-            $this->refaccion->id_refaccion,
-            2,
-        );
-
-        expect($this->refaccion->fresh()->existencia)->toBe($existenciaAntes - 2);
-    });
-
-    it('no cuenta como doble descuento piezas ya reservadas al entregarlas', function () {
-        $this->service->reservar(
-            $this->orden->id_orden,
-            [$this->refaccion->id_refaccion => 3],
-            $this->recepcion->id,
-        );
-
-        $existenciaAntes = $this->refaccion->fresh()->existencia;
-
-        $this->service->entregarParaReparacion($this->orden->id_orden, $this->refaccion->id_refaccion, 3);
-
-        expect($this->refaccion->fresh()->existencia)->toBe($existenciaAntes - 3);
-    });
+    $bajoStock = $this->service->obtenerRefaccionesConStockBajo(5);
+    expect($bajoStock)->toHaveCount(1)
+        ->and($bajoStock->first()->modelo)->toBe('HT03XL');
 });

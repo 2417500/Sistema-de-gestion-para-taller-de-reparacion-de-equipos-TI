@@ -2,29 +2,27 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'id_rol', 'id_cliente'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $fillable = [
+        'role_id',
+        'name',
+        'email',
+        'telefono',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -33,38 +31,83 @@ class User extends Authenticatable
         ];
     }
 
-    public function rol(): BelongsTo
+    public function role()
     {
-        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function cliente(): BelongsTo
+    public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
+        return $this->hasOne(Cliente::class, 'user_id');
     }
 
-    public function empleado(): HasOne
+    public function ordenesAtendidas()
     {
-        return $this->hasOne(Empleado::class, 'user_id');
+        return $this->hasMany(OrdenServicio::class, 'recepcion_id');
     }
 
-    public function ordenesRecibidas(): HasMany
+    public function ordenesAsignadas()
     {
-        return $this->hasMany(OrdenServicio::class, 'id_recepcionista');
+        return $this->hasMany(OrdenServicio::class, 'tecnico_id');
     }
 
-    public function diagnosticos(): HasMany
+    public function diagnosticos()
     {
-        return $this->hasMany(Diagnostico::class, 'id_tecnico');
+        return $this->hasMany(Diagnostico::class, 'tecnico_id');
     }
 
-    public function reparaciones(): HasMany
+    public function prestamosHerramientas()
     {
-        return $this->hasMany(Reparacion::class, 'id_tecnico');
+        return $this->hasMany(PrestamoHerramienta::class, 'tecnico_id');
     }
 
-    public function notificacionesSistema(): HasMany
+    public function aprobacionesAdmin()
     {
-        return $this->hasMany(Notificacion::class, 'id_usuario');
+        return $this->hasMany(AprobacionAdmin::class, 'admin_id');
+    }
+
+    public function historiales()
+    {
+        return $this->hasMany(HistorialEstado::class, 'usuario_id');
+    }
+
+    /**
+     * Comprueba si el usuario tiene un rol determinado o alguno de los roles provistos.
+     */
+    public function hasRole(string|array $roles): bool
+    {
+        if (!$this->role) {
+            return false;
+        }
+
+        $rolesArray = is_array($roles) ? $roles : explode(',', $roles);
+        $rolesNormalized = array_map(fn($r) => strtolower(trim($r)), $rolesArray);
+
+        return in_array(strtolower($this->role->nombre), $rolesNormalized, true);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('Administrador');
+    }
+
+    public function isRecepcion(): bool
+    {
+        return $this->hasRole('Recepcion');
+    }
+
+    public function isTecnico(): bool
+    {
+        return $this->hasRole('Tecnico');
+    }
+
+    public function isAlmacen(): bool
+    {
+        return $this->hasRole('Almacen');
+    }
+
+    public function isCliente(): bool
+    {
+        return $this->hasRole('Cliente');
     }
 }

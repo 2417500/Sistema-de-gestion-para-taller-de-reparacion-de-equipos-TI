@@ -4,252 +4,162 @@ namespace App\Services;
 
 use App\Models\Equipo;
 use App\Models\EvidenciaIngreso;
+use App\Models\HistorialEstado;
 use App\Models\OrdenServicio;
-use App\Models\SolicitudAutorizacion;
-use Illuminate\Http\UploadedFile;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 
-/**
- * OrdenServicioService
- * --------------------
- * Gestiona la recepción de equipos y la creación de órdenes de servicio.
- *
- * Reglas de negocio cubiertas:
- *  - Cada equipo recibido genera una orden con folio único.
- *  - Si el cliente desea múltiples equipos, verifica autorización del administrador.
- *  - Recepción registra características, accesorios, estado físico y evidencias.
- *  - Reingreso por garantía: crea nueva orden relacionada con la original.
- *  - Una vez iniciada la reparación, la orden no puede cancelarse ordinariamente.
- *  - Conserva historial completo de cambios de estado.
- */
 class OrdenServicioService
 {
-    public function __construct(
-        private readonly BitacoraService    $bitacora,
-        private readonly NotificacionService $notificaciones,
-    ) {}
-
-    // ── Creación de orden ────────────────────────────────────────────────────
-
     /**
-     * Crea una nueva orden de servicio para un equipo.
+     * Registra un nuevo equipo e ingresa una orden de servicio al taller.
      *
-     * @param  array           $datosOrden   Campos de ordenes_servicio
-     * @param  array           $datosEquipo  Campos de equipos (si el equipo es nuevo)
-     * @param  UploadedFile[]  $evidencias   Imágenes/videos de ingreso
-     * @param  int             $idEquipo     Si el equipo ya existe, omitir datosEquipo
+     * @param array $equipoData [cliente_id, tipo_equipo, marca, modelo, numero_serie]
+     * @param array $ordenData [recepcion_id, tipo_servicio, falla_reportada, tecnico_id (opcional)]
+     * @param array $evidencias Lista opcional de [ruta_imagen, descripcion_estado]
      */
-    public function crearOrden(
-        array $datosOrden,
-        int $idRecepcionista,
-        int $idEquipo,
-        array $evidencias = [],
-    ): OrdenServicio {
-        return DB::transaction(function () use ($datosOrden, $idRecepcionista, $idEquipo, $evidencias) {
-            $equipo = Equipo::findOrFail($idEquipo);
+    public function crearOrden(array $equipoData, array $ordenData, array $evidencias = []): OrdenServicio
+    {
+        return DB::transaction(function () use ($equipoData, $ordenData, $evidencias) {
+            // 1. Obtener o registrar equipo por número de serie
+            $equipo = Equipo::firstOrCreate(
+                ['numero_serie' => $equipoData['numero_serie']],
+                [
+                    'cliente_id' => $equipoData['cliente_id'],
+                    'tipo_equipo' => $equipoData['tipo_equipo'],
+                    'marca' => $equipoData['marca'],
+                    'modelo' => $equipoData['modelo'],
+                ]
+            );
 
-            // Verificar si el cliente ya tiene órdenes activas y necesita autorización
-            $this->verificarLimiteEquipos($equipo->id_cliente);
+            // 2. Generar código único de servicio (ej: ST-2026-0001)
+            $anio = date('Y');
+            $consecutivo = OrdenServicio::whereYear('created_at', $anio)->count() + 1;
+            $codigoServicio = sprintf('ST-%s-%04d', $anio, $consecutivo);
 
-            $orden = OrdenServicio::create([
-                'folio'                  => $this->generarFolio(),
-                'id_equipo'              => $idEquipo,
-                'id_recepcionista'       => $idRecepcionista,
-                'fecha_recepcion'        => now(),
-                'falla_reportada'        => $datosOrden['falla_reportada'],
-                'accesorios_recibidos'   => $datosOrden['accesorios_recibidos'] ?? null,
-                'estado_fisico_ingreso'  => $datosOrden['estado_fisico_ingreso'] ?? null,
-                'estado_orden'           => 'Recibida',
-                'observaciones'          => $datosOrden['observaciones'] ?? null,
-                'es_reingreso'           => false,
-            ]);
-
-            $this->registrarEvidencias($orden, $evidencias, $idRecepcionista);
-            $this->registrarHistorial($orden, null, 'Recibida', $idRecepcionista, 'Orden creada');
-            $this->bitacora->cambioEstadoOrden($orden->id_orden, 'Nueva', 'Recibida', $idRecepcionista);
-
-            return $orden;
-        });
-    }
-
-    /**
-     * Crea una orden de reingreso relacionada con la orden original (garantía).
-     */
-    public function crearReingreso(
-        OrdenServicio $ordenOriginal,
-        array $datosOrden,
-        int $idRecepcionista,
-        array $evidencias = [],
-    ): OrdenServicio {
-        // Verificar que la garantía siga vigente
-        $garantia = $ordenOriginal->garantia;
-
-        if (! $garantia || $garantia->estado !== 'Vigente' || today()->gt($garantia->fecha_fin)) {
-            throw ValidationException::withMessages([
-                'garantia' => 'La garantía de esta orden ya no está vigente.',
-            ]);
-        }
-
-        return DB::transaction(function () use ($ordenOriginal, $datosOrden, $idRecepcionista, $evidencias) {
-            $orden = OrdenServicio::create([
-                'folio'                 => $this->generarFolio('RE'),
-                'id_equipo'             => $ordenOriginal->id_equipo,
-                'id_recepcionista'      => $idRecepcionista,
-                'id_orden_origen'       => $ordenOriginal->id_orden,
-                'es_reingreso'          => true,
-                'fecha_recepcion'       => now(),
-                'falla_reportada'       => $datosOrden['falla_reportada'],
-                'accesorios_recibidos'  => $datosOrden['accesorios_recibidos'] ?? null,
-                'estado_fisico_ingreso' => $datosOrden['estado_fisico_ingreso'] ?? null,
-                'estado_orden'          => 'Reingreso',
-                'observaciones'         => $datosOrden['observaciones'] ?? null,
-            ]);
-
-            $this->registrarEvidencias($orden, $evidencias, $idRecepcionista);
-            $this->registrarHistorial($orden, null, 'Reingreso', $idRecepcionista, 'Reingreso por garantía');
-            $this->bitacora->cambioEstadoOrden($orden->id_orden, 'Nueva', 'Reingreso', $idRecepcionista);
-
-            return $orden;
-        });
-    }
-
-    // ── Cambio de estado ─────────────────────────────────────────────────────
-
-    /**
-     * Actualiza el estado de la orden y registra el cambio en el historial.
-     */
-    public function cambiarEstado(
-        OrdenServicio $orden,
-        string $nuevoEstado,
-        int $idUsuario,
-        ?string $comentario = null,
-    ): void {
-        $estadosNoEditables = ['En Reparación', 'Entregada', 'Cancelada'];
-
-        if (in_array($orden->estado_orden, ['Entregada', 'Cancelada'], true)) {
-            throw ValidationException::withMessages([
-                'estado' => "La orden en estado '{$orden->estado_orden}' no puede modificarse.",
-            ]);
-        }
-
-        $estadoAnterior = $orden->estado_orden;
-
-        DB::transaction(function () use ($orden, $nuevoEstado, $idUsuario, $comentario, $estadoAnterior) {
-            $orden->update(['estado_orden' => $nuevoEstado]);
-            $this->registrarHistorial($orden, $estadoAnterior, $nuevoEstado, $idUsuario, $comentario);
-            $this->bitacora->cambioEstadoOrden($orden->id_orden, $estadoAnterior, $nuevoEstado, $idUsuario);
-
-            $idCliente = $orden->equipo?->id_cliente;
-            if ($idCliente) {
-                $this->notificaciones->cambioEstadoOrden($idCliente, $orden->folio ?? "#{$orden->id_orden}", $nuevoEstado);
+            // Asegurar unicidad
+            while (OrdenServicio::where('codigo_servicio', $codigoServicio)->exists()) {
+                $consecutivo++;
+                $codigoServicio = sprintf('ST-%s-%04d', $anio, $consecutivo);
             }
-        });
-    }
 
-    /**
-     * Cancela una orden que aún NO ha iniciado reparación.
-     * Si ya está en reparación, lanza excepción (debe usarse incidencia).
-     */
-    public function cancelarOrden(OrdenServicio $orden, int $idUsuario, string $motivo): void
-    {
-        if (in_array($orden->estado_orden, ['En Reparación'], true)) {
-            throw ValidationException::withMessages([
-                'estado' => 'Una orden en reparación no puede cancelarse por el procedimiento ordinario. Registre una incidencia.',
+            // 3. Crear la orden de servicio
+            $orden = OrdenServicio::create([
+                'codigo_servicio' => $codigoServicio,
+                'equipo_id' => $equipo->id,
+                'recepcion_id' => $ordenData['recepcion_id'],
+                'tecnico_id' => $ordenData['tecnico_id'] ?? null,
+                'tipo_servicio' => $ordenData['tipo_servicio'] ?? 'Reparacion',
+                'falla_reportada' => $ordenData['falla_reportada'],
+                'estado' => 'Pendiente',
+                'requiere_aprobacion_admin' => false,
             ]);
-        }
 
-        if (in_array($orden->estado_orden, ['Entregada', 'Cancelada'], true)) {
-            throw ValidationException::withMessages([
-                'estado' => "La orden ya está en estado '{$orden->estado_orden}'.",
-            ]);
-        }
-
-        DB::transaction(function () use ($orden, $idUsuario, $motivo) {
-            // Liberar reservas de refacciones si existen
-            $orden->load('equipo');
-            $this->liberarReservas($orden->id_orden);
-
-            $this->cambiarEstado($orden, 'Cancelada', $idUsuario, $motivo);
-            $this->bitacora->cancelacionOrden($orden->id_orden, $motivo);
-        });
-    }
-
-    // ── Helpers privados ─────────────────────────────────────────────────────
-
-    private function generarFolio(string $prefijo = 'OS'): string
-    {
-        $fecha = now()->format('Ymd');
-        do {
-            $sufijo = strtoupper(Str::random(5));
-            $folio  = "{$prefijo}-{$fecha}-{$sufijo}";
-        } while (OrdenServicio::where('folio', $folio)->exists());
-
-        return $folio;
-    }
-
-    private function verificarLimiteEquipos(int $idCliente): void
-    {
-        $ordenesActivas = OrdenServicio::whereHas('equipo', fn ($q) => $q->where('id_cliente', $idCliente))
-            ->whereNotIn('estado_orden', ['Entregada', 'Cancelada'])
-            ->count();
-
-        if ($ordenesActivas >= 1) {
-            $autorizado = SolicitudAutorizacion::where('id_cliente', $idCliente)
-                ->where('tipo', 'multiple_equipo')
-                ->where('estado', 'Aprobada')
-                ->whereDate('created_at', '>=', today()->subDays(30))
-                ->exists();
-
-            if (! $autorizado) {
-                throw ValidationException::withMessages([
-                    'autorizacion' => 'El cliente ya tiene una orden activa. Para ingresar múltiples equipos se requiere autorización del administrador.',
+            // 4. Registrar evidencias fotográficas o de estado inicial
+            foreach ($evidencias as $evidencia) {
+                EvidenciaIngreso::create([
+                    'orden_servicio_id' => $orden->id,
+                    'ruta_imagen' => $evidencia['ruta_imagen'] ?? 'evidencias/default.jpg',
+                    'descripcion_estado' => $evidencia['descripcion_estado'] ?? 'Inspección inicial de recepción',
                 ]);
             }
-        }
-    }
 
-    private function registrarEvidencias(OrdenServicio $orden, array $archivos, int $idUsuario): void
-    {
-        foreach ($archivos as $archivo) {
-            if (! ($archivo instanceof UploadedFile)) continue;
-
-            $ruta = Storage::putFile("evidencias/{$orden->id_orden}", $archivo);
-            EvidenciaIngreso::create([
-                'id_orden'            => $orden->id_orden,
-                'ruta_archivo'        => $ruta,
-                'tipo_archivo'        => $archivo->getMimeType(),
-                'descripcion'         => 'Evidencia de ingreso',
-                'id_usuario_registro' => $idUsuario,
+            // 5. Asentar en historial de auditoría
+            HistorialEstado::create([
+                'orden_servicio_id' => $orden->id,
+                'modulo' => 'Recepción',
+                'estado' => 'Pendiente',
+                'comentarios' => 'Ingreso de hardware registrado en recepción. Ticket generado: ' . $codigoServicio,
+                'usuario_id' => $ordenData['recepcion_id'],
             ]);
-        }
+
+            return $orden->load(['equipo', 'recepcion', 'evidencias']);
+        });
     }
 
-    private function registrarHistorial(
-        OrdenServicio $orden,
-        ?string $anterior,
-        string $nuevo,
-        int $idUsuario,
-        ?string $comentario,
-    ): void {
-        $orden->historialEstados()->create([
-            'id_usuario'     => $idUsuario,
-            'estado_anterior' => $anterior,
-            'estado_nuevo'   => $nuevo,
-            'comentario'     => $comentario,
-            'fecha_cambio'   => now(),
-        ]);
-    }
-
-    private function liberarReservas(int $idOrden): void
+    /**
+     * Asigna un técnico de banco a una orden de servicio.
+     */
+    public function asignarTecnico(int $ordenId, int $tecnicoId): OrdenServicio
     {
-        \App\Models\ReservaRefaccion::where('id_orden', $idOrden)
-            ->where('estado', 'Reservada')
-            ->each(function ($reserva) {
-                $reserva->refaccion->increment('existencia', $reserva->cantidad);
-                $reserva->update(['estado' => 'Liberada']);
-            });
+        $orden = OrdenServicio::findOrFail($ordenId);
+        $tecnico = User::findOrFail($tecnicoId);
+
+        $orden->update([
+            'tecnico_id' => $tecnico->id,
+            'estado' => $orden->estado === 'Pendiente' ? 'En_Proceso' : $orden->estado,
+        ]);
+
+        HistorialEstado::create([
+            'orden_servicio_id' => $orden->id,
+            'modulo' => 'Técnico',
+            'estado' => $orden->estado,
+            'comentarios' => "Orden asignada al técnico: {$tecnico->name}",
+            'usuario_id' => $tecnicoId,
+        ]);
+
+        return $orden->fresh(['tecnico', 'equipo']);
+    }
+
+    /**
+     * Actualiza el estado de la orden de servicio asentando en bitácora.
+     */
+    public function actualizarEstado(int $ordenId, string $nuevoEstado, int $usuarioId, ?string $comentarios = null): OrdenServicio
+    {
+        $estadosPermitidos = ['Pendiente', 'En_Proceso', 'Terminado', 'Entregado', 'Cancelado'];
+
+        if (!in_array($nuevoEstado, $estadosPermitidos, true)) {
+            throw new InvalidArgumentException("Estado de servicio no válido: [{$nuevoEstado}].");
+        }
+
+        $orden = OrdenServicio::findOrFail($ordenId);
+        $estadoAnterior = $orden->estado;
+
+        $orden->update(['estado' => $nuevoEstado]);
+
+        $usuario = User::find($usuarioId);
+        $modulo = $usuario?->role?->nombre ?? 'Sistema';
+
+        HistorialEstado::create([
+            'orden_servicio_id' => $orden->id,
+            'modulo' => $modulo,
+            'estado' => $nuevoEstado,
+            'comentarios' => $comentarios ?? "Transición de estado: [{$estadoAnterior}] a [{$nuevoEstado}]",
+            'usuario_id' => $usuarioId,
+        ]);
+
+        return $orden->fresh();
+    }
+
+    /**
+     * Búsqueda por código de servicio para portal público o interno.
+     */
+    public function buscarPorCodigo(string $codigo): ?OrdenServicio
+    {
+        return OrdenServicio::with([
+            'equipo.cliente.user',
+            'recepcion',
+            'tecnico',
+            'diagnosticos',
+            'cotizaciones.detalles.refaccion',
+            'ticketPago',
+            'historiales.usuario'
+        ])->where('codigo_servicio', trim($codigo))->first();
+    }
+
+    /**
+     * Búsqueda de órdenes por número de serie del equipo.
+     */
+    public function buscarPorNumeroSerie(string $numeroSerie): Collection
+    {
+        return OrdenServicio::with(['equipo', 'tecnico', 'ticketPago'])
+            ->whereHas('equipo', function ($query) use ($numeroSerie) {
+                $query->where('numero_serie', 'LIKE', '%' . trim($numeroSerie) . '%');
+            })
+            ->latest()
+            ->get();
     }
 }
+

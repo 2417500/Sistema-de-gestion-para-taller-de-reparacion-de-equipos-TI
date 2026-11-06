@@ -2,62 +2,57 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cliente extends Model
 {
-    protected $table = 'clientes';
-
-    protected $primaryKey = 'id_cliente';
+    use HasFactory;
 
     protected $fillable = [
-        'nombre', 'apellido', 'telefono', 'correo_contacto',
-        'direccion', 'fecha_registro', 'estado',
+        'user_id',
+        'equipos_reparados_count',
+        'aplica_descuento',
     ];
 
     protected function casts(): array
     {
         return [
-            'fecha_registro' => 'date',
-            'estado' => 'boolean',
+            'equipos_reparados_count' => 'integer',
+            'aplica_descuento' => 'boolean',
         ];
     }
 
-    public function usuario(): HasOne
+    public function user()
     {
-        return $this->hasOne(User::class, 'id_cliente', 'id_cliente');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function equipos(): HasMany
+    public function equipos()
     {
-        return $this->hasMany(Equipo::class, 'id_cliente', 'id_cliente');
+        return $this->hasMany(Equipo::class, 'cliente_id');
     }
 
-    public function ordenesServicio(): HasManyThrough
+    public function ordenesServicio()
     {
-        return $this->hasManyThrough(OrdenServicio::class, Equipo::class, 'id_cliente', 'id_equipo', 'id_cliente', 'id_equipo');
+        return $this->hasManyThrough(
+            OrdenServicio::class,
+            Equipo::class,
+            'cliente_id', // Foreign key en equipos
+            'equipo_id',  // Foreign key en orden_servicios
+            'id',         // Local key en clientes
+            'id'          // Local key en equipos
+        );
     }
 
-    public function aprobaciones(): HasMany
+    /**
+     * Actualiza el estado de descuento del 15% (aplica al superar 5 equipos reparados).
+     */
+    public function actualizarElegibilidadDescuento(): bool
     {
-        return $this->hasMany(Aprobacion::class, 'id_cliente', 'id_cliente');
-    }
+        $this->aplica_descuento = ($this->equipos_reparados_count > 5);
+        $this->save();
 
-    public function pagos(): HasMany
-    {
-        return $this->hasMany(Pago::class, 'id_cliente', 'id_cliente');
-    }
-
-    public function garantias(): HasMany
-    {
-        return $this->hasMany(Garantia::class, 'id_cliente', 'id_cliente');
-    }
-
-    public function getNombreCompletoAttribute(): string
-    {
-        return trim("{$this->nombre} {$this->apellido}");
+        return $this->aplica_descuento;
     }
 }

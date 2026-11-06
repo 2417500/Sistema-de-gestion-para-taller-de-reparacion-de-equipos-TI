@@ -2,70 +2,123 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrdenServicio extends Model
 {
-    protected $table = 'ordenes_servicio';
+    use HasFactory;
 
-    protected $primaryKey = 'id_orden';
+    protected $table = 'orden_servicios';
 
     protected $fillable = [
-        'folio', 'id_equipo', 'id_recepcionista', 'fecha_recepcion', 'falla_reportada',
-        'accesorios_recibidos', 'estado_fisico_ingreso', 'estado_orden', 'observaciones',
-        'es_reingreso', 'id_orden_origen',
+        'codigo_servicio',
+        'equipo_id',
+        'recepcion_id',
+        'tecnico_id',
+        'tipo_servicio',
+        'falla_reportada',
+        'estado',
+        'requiere_aprobacion_admin',
     ];
 
     protected function casts(): array
     {
-        return ['fecha_recepcion' => 'datetime'];
+        return [
+            'requiere_aprobacion_admin' => 'boolean',
+        ];
     }
 
-    public function equipo(): BelongsTo
+    public function equipo()
     {
-        return $this->belongsTo(Equipo::class, 'id_equipo', 'id_equipo');
+        return $this->belongsTo(Equipo::class, 'equipo_id');
     }
 
-    public function recepcionista(): BelongsTo
+    public function cliente()
     {
-        return $this->belongsTo(User::class, 'id_recepcionista');
+        return $this->hasOneThrough(
+            Cliente::class,
+            Equipo::class,
+            'id',          // Local key en equipos
+            'id',          // Local key en clientes
+            'equipo_id',   // Foreign key en orden_servicios
+            'cliente_id'   // Foreign key en equipos
+        );
     }
 
-    public function evidencias(): HasMany
+    public function recepcion()
     {
-        return $this->hasMany(EvidenciaIngreso::class, 'id_orden', 'id_orden');
+        return $this->belongsTo(User::class, 'recepcion_id');
     }
 
-    public function diagnosticos(): HasMany
+    public function tecnico()
     {
-        return $this->hasMany(Diagnostico::class, 'id_orden', 'id_orden');
+        return $this->belongsTo(User::class, 'tecnico_id');
     }
 
-    public function cotizacion(): HasOne
+    public function evidencias()
     {
-        return $this->hasOne(Cotizacion::class, 'id_orden', 'id_orden');
+        return $this->hasMany(EvidenciaIngreso::class, 'orden_servicio_id');
     }
 
-    public function reparacion(): HasOne
+    public function diagnosticos()
     {
-        return $this->hasOne(Reparacion::class, 'id_orden', 'id_orden');
+        return $this->hasMany(Diagnostico::class, 'orden_servicio_id');
     }
 
-    public function historialEstados(): HasMany
+    public function cotizaciones()
     {
-        return $this->hasMany(HistorialEstadoOrden::class, 'id_orden', 'id_orden');
+        return $this->hasMany(Cotizacion::class, 'orden_servicio_id');
     }
 
-    public function pagos(): HasMany
+    public function cotizacionActual()
     {
-        return $this->hasMany(Pago::class, 'id_orden', 'id_orden');
+        return $this->hasOne(Cotizacion::class, 'orden_servicio_id')->latestOfMany();
     }
 
-    public function garantia(): HasOne
+    public function prestamosHerramientas()
     {
-        return $this->hasOne(Garantia::class, 'id_orden', 'id_orden');
+        return $this->hasMany(PrestamoHerramienta::class, 'orden_servicio_id');
+    }
+
+    public function aprobacionesAdmin()
+    {
+        return $this->hasMany(AprobacionAdmin::class, 'orden_servicio_id');
+    }
+
+    public function historiales()
+    {
+        return $this->hasMany(HistorialEstado::class, 'orden_servicio_id');
+    }
+
+    public function ticketPago()
+    {
+        return $this->hasOne(TicketPago::class, 'orden_servicio_id');
+    }
+
+    // Scopes de Estado
+    public function scopePendientes($query)
+    {
+        return $query->where('estado', 'Pendiente');
+    }
+
+    public function scopeEnProceso($query)
+    {
+        return $query->where('estado', 'En_Proceso');
+    }
+
+    public function scopeTerminados($query)
+    {
+        return $query->where('estado', 'Terminado');
+    }
+
+    public function scopeEntregados($query)
+    {
+        return $query->where('estado', 'Entregado');
+    }
+
+    public function scopePorCodigo($query, string $codigo)
+    {
+        return $query->where('codigo_servicio', $codigo);
     }
 }

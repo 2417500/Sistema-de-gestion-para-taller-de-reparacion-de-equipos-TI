@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TecnoFix Solutions | SoporTec v4.2</title>
+<!-- Google Fonts obligatorias: Josefin Sans, Jost, Ubuntu + JetBrains & Space Grotesk tokens -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Josefin+Sans:wght@400;600;700&amp;family=Jost:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Ubuntu:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-container": "#b6b6b6",
+            "surface-container-highest": "#353535",
+            "surface-tint": "#ffb95f",
+            "on-secondary-fixed": "#0d1b36",
+            "primary-fixed-dim": "#ffb95f",
+            "background": "#131313",
+            "inverse-surface": "#e2e2e2",
+            "surface-container-lowest": "#0e0e0e",
+            "on-primary-fixed-variant": "#653e00",
+            "on-secondary-container": "#abb8db",
+            "primary": "#ffc887",
+            "tertiary": "#d1d2d2",
+            "primary-fixed": "#ffddb8",
+            "on-tertiary-fixed": "#1a1c1c",
+            "error-container": "#93000a",
+            "secondary-container": "#3c4967",
+            "outline": "#a18e79",
+            "on-error": "#690005",
+            "on-primary": "#472a00",
+            "surface-container-high": "#2a2a2a",
+            "surface-container": "#1f1f1f",
+            "outline-variant": "#534433",
+            "on-background": "#e2e2e2",
+            "on-surface": "#e2e2e2",
+            "surface-dim": "#131313",
+            "tertiary-fixed": "#e2e2e2",
+            "on-error-container": "#ffdad6",
+            "secondary": "#b9c6ea",
+            "on-tertiary-container": "#464848",
+            "on-primary-container": "#663f00",
+            "primary-container": "#fca311",
+            "secondary-fixed-dim": "#b9c6ea",
+            "surface-container-low": "#1b1b1b",
+            "inverse-on-surface": "#303030",
+            "on-tertiary": "#2f3131",
+            "on-primary-fixed": "#2a1700",
+            "surface-bright": "#393939",
+            "error": "#ffb4ab",
+            "secondary-fixed": "#d9e2ff",
+            "tertiary-fixed-dim": "#c6c6c6",
+            "on-secondary": "#23304d",
+            "on-secondary-fixed-variant": "#3a4664",
+            "inverse-primary": "#855300",
+            "surface-variant": "#353535",
+            "surface": "#131313",
+            "on-tertiary-fixed-variant": "#454747",
+            "on-surface-variant": "#d9c3ad",
+            // Noir exact palette mapping
+            "noir-black": "#000000",
+            "noir-blue": "#14213d",
+            "noir-amber": "#fca311",
+            "noir-grey": "#e5e5e5",
+            "noir-white": "#ffffff"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            "body-sm": ["Hanken Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "body-md": ["Hanken Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "headline-lg-mobile": ["Space Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "josefin": ["Josefin Sans", "sans-serif"],
+            "jost": ["Jost", "sans-serif"],
+            "ubuntu": ["Ubuntu", "sans-serif"]
+          },
+          fontSize: {
+            "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+            "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "headline-xl-mobile": ["30px", { lineHeight: "38px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.08em", fontWeight: "500" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+            "headline-lg-mobile": ["22px", { lineHeight: "30px", letterSpacing: "0em", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Custom Industrial Noir Accents & Micro-borders */
+    .film-grid {
+      background-size: 24px 24px;
+      background-image: linear-gradient(to right, rgba(229, 229, 229, 0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(229, 229, 229, 0.03) 1px, transparent 1px);
+    }
+    .noir-card {
+      border: 1px solid rgba(229, 229, 229, 0.12);
+      box-shadow: 0 4px 0px 0px rgba(0, 0, 0, 0.85);
+    }
+    .amber-glow {
+      box-shadow: 0 0 10px rgba(252, 163, 17, 0.28);
+    }
+    .amber-line {
+      border-top: 2px solid #fca311;
+    }
+    .table-cell-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Thermal paper receipt effect */
+    .thermal-receipt {
+      background: #fdfbf7;
+      color: #111111;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    }
+    /* Hide scrollbars for crisp industrial display */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md selection:bg-primary-container selection:text-noir-black transition-colors duration-200">
+<!-- ========================================================================= -->
+<!-- TOP APP BAR (Centrado Técnico & Acciones Universales)                     -->
+<!-- ========================================================================= -->
+<header class="fixed top-0 left-0 right-0 h-16 z-30 flex items-center justify-between px-6 bg-surface-container-lowest border-b border-outline-variant select-none">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-noir-blue border border-primary-container flex items-center justify-center font-josefin font-bold text-primary-container text-base">
+          SF
+        </div>
+<div>
+<span class="text-headline-md font-headline-md font-bold tracking-wider text-primary-container uppercase">TecnoFix Solutions</span>
+<span class="hidden sm:inline-block ml-2 px-1.5 py-0.5 text-[9px] font-label-sm uppercase bg-surface-container-high text-primary border border-outline-variant">SoporTec v4.2</span>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-6 pl-6 border-l border-outline-variant">
+<button class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" onclick="switchRole('publico')">Taller</button>
+<button class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" onclick="showSectionInPublic('horarios')">Horarios</button>
+<button class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" onclick="showSectionInPublic('politicas')">Políticas</button>
+<button class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-on-surface transition-colors" onclick="showSectionInPublic('ubicacion')">Ubicación</button>
+</nav>
+</div>
+<!-- Acciones Trailing y Selector Rápido de Rol -->
+<div class="flex items-center gap-3">
+<!-- Indicador de Rol Activo Actual -->
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">MÓDULO:</span>
+<span class="text-label-sm font-label-sm text-primary font-bold uppercase" id="top-role-badge">Técnico • Jesús Ramírez (TEC-042)</span>
+</div>
+<!-- Botón Simulador Rol -->
+<div class="relative">
+<button class="px-3 py-1.5 text-label-sm font-label-sm uppercase bg-surface-container-high border border-outline-variant hover:border-primary-container text-on-surface flex items-center gap-1.5 transition-all" onclick="toggleRoleDropdown()">
+<span class="material-symbols-outlined text-sm text-primary-container">terminal</span>
+<span class="">Simulador Rol</span>
+<span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</button>
+<div class="hidden absolute right-0 mt-2 w-48 bg-surface-container-lowest border border-outline-variant shadow-2xl py-1 z-50" id="role-dropdown">
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('publico')">
+<span class="material-symbols-outlined text-xs">devices</span> Público / Landing
+          </button>
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('admin')">
+<span class="material-symbols-outlined text-xs">admin_panel_settings</span> Administrador
+          </button>
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('recepcion')">
+<span class="material-symbols-outlined text-xs">assignment_ind</span> Recepción
+          </button>
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('tecnico')">
+<span class="material-symbols-outlined text-xs">build_circle</span> Técnico
+          </button>
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('almacen')">
+<span class="material-symbols-outlined text-xs">inventory_2</span> Almacén
+          </button>
+<button class="w-full text-left px-4 py-2 text-label-sm hover:bg-surface-container hover:text-primary-container flex items-center gap-2" onclick="switchRole('cliente')">
+<span class="material-symbols-outlined text-xs">account_circle</span> Portal Cliente
+          </button>
+</div>
+</div>
+<!-- Toggle Modo Luz / Oscuro -->
+<button class="p-2 text-on-surface-variant hover:text-primary-container border border-outline-variant bg-surface-container transition-colors" onclick="toggleTheme()" title="Conmutar Modo Luz / Oscuro">
+<span class="material-symbols-outlined text-base" id="theme-icon">contrast</span>
+</button>
+<!-- Botón Acceso Universal / Login Modal -->
+<button class="px-4 py-1.5 bg-primary-container text-noir-black font-label-sm text-label-sm font-bold uppercase tracking-wider border border-primary-container hover:bg-white hover:border-white transition-all active:translate-y-px" onclick="openAuthModal()">
+        Acceso Universal
+      </button>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN LAYOUT WRAPPER (Sidebar Izquierdo + Área de Trabajo)                 -->
+<!-- ========================================================================= -->
+<div class="pt-16 min-h-screen flex">
+<!-- SIDEBAR NAVIGATION (Fijo / Docked) -->
+<aside class="fixed top-16 left-0 bottom-0 w-64 bg-surface-container-low border-r border-outline-variant z-20 flex flex-col justify-between p-4 select-none">
+<!-- Bloque Superior de Navegación -->
+<div>
+<!-- Identidad y Telemetría -->
+<div class="pb-4 mb-4 border-b border-outline-variant">
+<div class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant">SISTEMA DIAGNÓSTICO</div>
+<div class="text-headline-md font-headline-md font-bold tracking-tight text-on-surface uppercase">TecnoFix OS</div>
+<div class="text-body-sm font-body-sm text-tertiary-container">SoporTec v4.2 • Industrial Core</div>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] font-label-sm uppercase text-on-surface-variant">Telemetry Active • 0ms Delay</span>
+</div>
+</div>
+<!-- Botón Nueva Orden Rápida -->
+<button class="w-full mb-4 py-2 px-3 bg-noir-blue border border-outline-variant hover:border-primary-container text-on-surface font-label-md text-label-md uppercase font-bold flex items-center justify-center gap-2 transition-all" onclick="quickNewOrder()">
+<span class="material-symbols-outlined text-primary-container text-sm">add_box</span>
+<span class="">Nueva Orden</span>
+</button>
+<!-- Navegación por Módulos / Roles solicitados -->
+<div class="space-y-1">
+<div class="px-2 pb-1 text-[10px] font-label-sm uppercase tracking-wider text-outline">ESTACIONES DE TRABAJO</div>
+<button class="w-full flex items-center gap-3 px-3 py-2 font-label-md text-label-md transition-colors hover:bg-surface-container-high text-on-surface-variant" id="nav-btn-publico" onclick="switchRole('publico')">
+<span class="material-symbols-outlined text-base">storefront</span>
+<span class="">Público / Landing</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high" id="nav-btn-admin" onclick="switchRole('admin')">
+<span class="material-symbols-outlined text-base">admin_panel_settings</span>
+<span class="">Admin</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high" id="nav-btn-recepcion" onclick="switchRole('recepcion')">
+<span class="material-symbols-outlined text-base">assignment_ind</span>
+<span class="">Recepción</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high border-l-2 border-primary-container bg-surface-container-highest" id="nav-btn-tecnico" onclick="switchRole('tecnico')">
+<span class="material-symbols-outlined text-base">build_circle</span>
+<span class="">Técnico</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high" id="nav-btn-almacen" onclick="switchRole('almacen')">
+<span class="material-symbols-outlined text-base">inventory_2</span>
+<span class="">Almacén</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high" id="nav-btn-cliente" onclick="switchRole('cliente')">
+<span class="material-symbols-outlined text-base">devices</span>
+<span class="">Portal Cliente</span>
+</button>
+</div>
+</div>
+<!-- Bloque Inferior del Sidebar -->
+<div class="pt-4 border-t border-outline-variant space-y-2">
+<button class="w-full flex items-center justify-between px-3 py-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-high font-label-md text-label-md transition-colors" onclick="toggleTheme()">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">contrast</span>
+<span class="">Modo Luz/Oscuro</span>
+</span>
+<span class="text-[10px] font-label-sm border border-outline-variant px-1.5 py-0.5 text-primary-container" id="theme-indicator-text">NOIR</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-error hover:bg-surface-container-high font-label-md text-label-md transition-colors" onclick="openAuthModal()">
+<span class="material-symbols-outlined text-base">logout</span>
+<span class="">Cerrar Sesión</span>
+</button>
+<!-- Operador activo -->
+<div class="p-2.5 bg-surface-container-lowest border border-outline-variant flex items-center gap-3">
+<div class="w-7 h-7 bg-noir-blue border border-outline flex items-center justify-center text-xs font-bold text-white">
+            TF
+          </div>
+<div class="overflow-hidden">
+<div class="text-[11px] font-label-sm text-on-surface truncate font-semibold" id="active-user-name">Jesús Ramírez</div>
+<div class="text-[9px] font-label-sm text-primary-container uppercase truncate" id="active-user-role">Nivel 3 • Banco 01 (ID: TEC-042)</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- CONTENT CANVAS (El centro operativo)                                     -->
+<!-- ========================================================================= -->
+<main class="ml-64 flex-1 film-grid min-h-[calc(100vh-4rem)] p-6 md:p-8">
+<!-- ===================================================================== -->
+<!-- VISTA 1: PÚBLICO / LANDING                                            -->
+<!-- ===================================================================== -->
+<section class="space-y-12 hidden" id="view-publico">
+<!-- Hero Noir de Alto Impacto -->
+<div class="relative noir-card bg-surface-container-lowest p-8 md:p-12 amber-line overflow-hidden">
+<div class="max-w-3xl space-y-6 relative z-10">
+<!-- Aviso Destacado Solicitado -->
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-noir-blue border border-primary-container">
+<span class="w-2 h-2 bg-primary-container animate-ping rounded-full"></span>
+<span class="font-label-md text-label-md text-primary-container font-bold tracking-wider uppercase">
+                AVISO PROTOCOLAR: DIAGNÓSTICO GRATUITO $0
+              </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl font-bold tracking-tight text-on-surface">
+              INGENIERÍA DIAGNÓSTICA DE ALTA PRECISIÓN PARA HARDWARE ENTERPRISE Y CRÍTICO.
+            </h1>
+<p class="font-body-lg text-body-lg text-tertiary-container max-w-2xl leading-relaxed">
+              TecnoFix Solutions (SoporTec) opera con tolerancia cero al fallo. Análisis de esquemáticos a nivel microcomponente, trazabilidad de circuito cerrado y auditoría transparente para servidores, estaciones portátiles y terminales empresariales.
+            </p>
+<div class="pt-2 flex flex-wrap items-center gap-4">
+<button class="px-6 py-3 bg-primary-container text-noir-black font-label-md text-label-md font-bold uppercase tracking-wider border border-primary-container hover:bg-white hover:border-white transition-all active:translate-y-px" onclick="switchRole('recepcion')">
+                Ingresar Equipo Ahora ($0 Diagnóstico)
+              </button>
+<button class="px-6 py-3 bg-noir-blue text-white font-label-md text-label-md uppercase tracking-wider border border-outline-variant hover:border-primary-container transition-all" onclick="openAuthModal()">
+                Portal de Seguimiento
+              </button>
+</div>
+</div>
+<!-- Micro-telemetría decorativa Noir -->
+<div class="absolute right-6 bottom-6 hidden xl:block text-right opacity-40 font-label-sm text-label-sm text-tertiary-container">
+<div class="">STATION_ID: LAB-CHASSIS-09</div>
+<div class="">STATUS: ZERO_TOLERANCE_MODE</div>
+<div class="">CALIBRATION: ISO/IEC 17025 COMPLIANT</div>
+</div>
+</div>
+<!-- Bento Grid de Servicios -->
+<div>
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-outline-variant">
+<h2 class="font-headline-md text-headline-md text-on-surface uppercase tracking-tight">Capacidades del Laboratorio</h2>
+<span class="font-label-sm text-label-sm text-primary-container uppercase">PROTOCOLO TÉCNICO V4</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="noir-card bg-surface-container-low p-6 space-y-3">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-primary-container text-2xl">memory</span>
+<span class="text-[10px] font-label-sm text-outline uppercase">SERVICE-01</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Microelectrónica &amp; Reballing</h3>
+<p class="font-body-sm text-body-sm text-tertiary-container">
+                Diagnóstico de líneas cortocircuitadas bajo microscopio térmico, sustitución de chips BGA y recuperación de placas madre a nivel componente.
+              </p>
+<div class="text-[11px] font-label-sm text-primary font-semibold">TARIFA DE DIAGNÓSTICO: $0.00 MXN</div>
+</div>
+<!-- Card 2 -->
+<div class="noir-card bg-surface-container-low p-6 space-y-3">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-primary-container text-2xl">dns</span>
+<span class="text-[10px] font-label-sm text-outline uppercase">SERVICE-02</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Servidores &amp; Datacenters</h3>
+<p class="font-body-sm text-body-sm text-tertiary-container">
+                Mantenimiento de fuentes redundantes, reemplazo de arreglos RAID degradados y recertificación térmica de chasis de rack de alta densidad.
+              </p>
+<div class="text-[11px] font-label-sm text-primary font-semibold">SLA DE RESPUESTA: &lt; 4 HORAS</div>
+</div>
+<!-- Card 3 -->
+<div class="noir-card bg-surface-container-low p-6 space-y-3">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-primary-container text-2xl">sanitizer</span>
+<span class="text-[10px] font-label-sm text-outline uppercase">SERVICE-03</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Mantenimiento Criogénico &amp; Térmico</h3>
+<p class="font-body-sm text-body-sm text-tertiary-container">
+                Descontaminación por ultrasonido de residuos orgánicos, reemplazo de metal líquido y almohadillas térmicas de alta conductividad (14.8 W/mK).
+              </p>
+<div class="text-[11px] font-label-sm text-primary font-semibold">AUDITORÍA FOTOGRÁFICA INCLUIDA</div>
+</div>
+</div>
+</div>
+<!-- Secciones: Horarios, Ubicación y Políticas (Con Descuento por Fidelidad) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="secciones-publicas">
+<!-- Horarios -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4" id="sec-horarios">
+<div class="flex items-center gap-2 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-primary-container">schedule</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Horarios de Atención</h3>
+</div>
+<ul class="space-y-3 font-body-sm text-body-sm">
+<li class="flex justify-between border-b border-outline-variant/40 pb-1.5">
+<span class="text-tertiary-container">Lunes a Viernes</span>
+<span class="font-label-sm text-on-surface font-bold">08:00 - 19:30 HRS</span>
+</li>
+<li class="flex justify-between border-b border-outline-variant/40 pb-1.5">
+<span class="text-tertiary-container">Sábados (Guardia Lab)</span>
+<span class="font-label-sm text-on-surface font-bold">09:00 - 15:00 HRS</span>
+</li>
+<li class="flex justify-between">
+<span class="text-tertiary-container">Domingos &amp; Feriados</span>
+<span class="font-label-sm text-error uppercase">Guardia Crítica SLA</span>
+</li>
+</ul>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant text-[11px] font-label-sm text-on-surface-variant">
+              Recepción 24/7 disponible para clientes con contrato corporativo activo.
+            </div>
+</div>
+<!-- Ubicación -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4" id="sec-ubicacion">
+<div class="flex items-center gap-2 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-primary-container">location_on</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Ubicación de Laboratorio</h3>
+</div>
+<div class="space-y-2 text-body-sm text-tertiary-container">
+<p class="font-semibold text-on-surface">Complejo Tecnológico Parque Industrial Delta</p>
+<p class="">Av. Circunvalación Norte 4820, Módulo D-12</p>
+<p class="">C.P. 04510, Ciudad Industrial</p>
+</div>
+<!-- Mapa Esquemático Noir Simulado -->
+<div class="h-32 bg-noir-black border border-outline-variant relative flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 opacity-20 film-grid"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-primary-container text-3xl">map</span>
+<div class="text-[10px] font-label-sm uppercase text-outline">GEO: 19.4326° N, 99.1332° W • SECTOR ALPHA</div>
+</div>
+</div>
+</div>
+<!-- Políticas & Descuento Fidelidad -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4 border-l-2 border-l-primary-container" id="sec-politicas">
+<div class="flex items-center gap-2 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-primary-container">verified</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Políticas del Taller</h3>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm">
+<div class="p-2.5 bg-surface-container-lowest border border-primary-container/40">
+<span class="text-label-sm text-primary-container font-bold block mb-1">PROGRAMA DE FIDELIDAD PLATINO</span>
+<p class="text-on-surface text-xs leading-relaxed">
+                  Si cuenta con <strong>más de 5 dispositivos reparados</strong> registrados en el historial de su cuenta, recibe un <strong>15% de descuento directo e irrevocable</strong> en cualquier servicio técnico posterior.
+                </p>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase block">Protocolo de Evidencia Fotográfica</span>
+<p class="text-tertiary-container text-xs">
+                  Todo equipo es fotografiado en 360° al ingresar. El cliente y el técnico firman la hoja de inspección física antes del desensamble.
+                </p>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-on-surface font-bold uppercase block">Garantía Escrita</span>
+<p class="text-tertiary-container text-xs">
+                  90 a 180 días de cobertura en componentes reemplazados y 30 días en diagnósticos microelectrónicos.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- VISTA 2: RECEPCIÓN (Registro, Tickets, Documentos & Regla >3 equipos)  -->
+<!-- ===================================================================== -->
+<section class="space-y-6 hidden" id="view-recepcion">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant gap-4">
+<div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase">ESTACIÓN DE INGRESO OPERATIVO</div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">Recepción &amp; Generación de Órdenes</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 text-label-sm bg-surface-container border border-outline-variant text-on-surface-variant">
+              AGENTE ACTIVO: <strong class="text-white">R-402 (Valeria M.)</strong>
+</span>
+</div>
+</div>
+<!-- Banner de Alerta Dinámica (>3 equipos) -->
+<div class="hidden p-4 bg-error-container/20 border border-error text-error text-body-sm font-label-md flex items-center justify-between" id="reception-alert-box">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl">warning</span>
+<span class="">ALERTA DE SEGURIDAD OPERATIVA: Ingreso de alto volumen detectado (&gt;3 dispositivos simultáneos). Se ha enviado notificación obligatoria al Administrador para aprobación.</span>
+</div>
+<span class="px-2 py-0.5 bg-error text-noir-black text-[10px] font-bold uppercase">RETIENE ORDEN</span>
+</div>
+<!-- Formulario Dividido Split-Screen: Registro vs Vista Previa Documento -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Columna Izquierda: Formulario (7 columnas) -->
+<div class="xl:col-span-7 space-y-6">
+<!-- Datos del Cliente -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">person</span>
+                1. Datos del Cliente
+              </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Nombre Completo *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container focus:ring-0" id="rec-client-name" type="text" value="Ing. Carlos Mendoza Silva"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Teléfono Móvil *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container focus:ring-0" id="rec-client-phone" type="text" value="+52 55 9872 1104"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Correo Electrónico *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container focus:ring-0" id="rec-client-email" type="email" value="carlos.mendoza@telecom.mx"/>
+</div>
+</div>
+<!-- Credenciales Autogeneradas de Acceso para el Cliente -->
+<div class="p-3 bg-noir-black border border-outline-variant space-y-2">
+<div class="flex justify-between items-center">
+<span class="text-label-sm font-label-sm text-primary-container uppercase font-bold">Credenciales de Acceso Generadas para el Cliente</span>
+<span class="text-[10px] text-tertiary-container font-label-sm">PORTAL AUTOGESTIÓN</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-[10px] font-label-sm uppercase text-outline">Usuario Asignado</label>
+<input class="w-full bg-surface-container border border-outline-variant px-2 py-1 text-primary font-label-sm text-xs" id="rec-client-user" readonly="" type="text" value="cmendoza_55"/>
+</div>
+<div>
+<label class="block text-[10px] font-label-sm uppercase text-outline">Contraseña Provisional (o creada)</label>
+<input class="w-full bg-surface-container border border-outline-variant px-2 py-1 text-primary font-label-sm text-xs" id="rec-client-pass" type="text" value="TecnoFix#2024"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Datos del Dispositivo & Estado -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4">
+<h3 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">laptop_chromebook</span>
+                2. Especificaciones del Equipo
+              </h3>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Tipo de Equipo</label>
+<select class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-device-type">
+<option>Laptop</option>
+<option>PC Torre</option>
+<option>Servidor Rack</option>
+<option>Consola / Estación</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Marca</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-device-brand" type="text" value="Dell Precision"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Modelo Exacto</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-device-model" type="text" value="7760 Xeon RTX"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Número de Serie</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm uppercase focus:border-primary-container" id="rec-device-sn" type="text" value="SN-DELL-88390X-24"/>
+</div>
+</div>
+<!-- Selector de Servicio y Contador de Equipos Simultáneos -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Tipo de Servicio Solicitado</label>
+<select class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-service-type" onchange="updateReceptionPreview()">
+<option value="diag">Diagnóstico (Gratuito $0.00)</option>
+<option value="repair">Reparación Directa con Cotización</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Cantidad de Equipos Ingresados</label>
+<div class="flex items-center gap-2">
+<input class="w-24 bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-device-count" max="10" min="1" onchange="checkDeviceVolumeThreshold()" type="number" value="1"/>
+<span class="text-xs text-outline font-label-sm">&gt;3 activa requerimiento de autorización Admin</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Estado de Recepción / Falla Declarada</label>
+<textarea class="w-full bg-noir-black border border-outline-variant p-3 text-on-surface font-label-md text-sm focus:border-primary-container" id="rec-device-desc" rows="3">Equipo no enciende tras descarga eléctrica. Carcasa inferior con rozaduras leves. No incluye cargador. Batería hinchada según reporte del usuario.</textarea>
+</div>
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-outline-variant gap-4">
+<div class="flex items-center gap-2">
+<input checked="" class="w-4 h-4 rounded-none bg-noir-black border-outline-variant text-primary-container focus:ring-0" id="rec-check-evidence" type="checkbox"/>
+<label class="text-xs text-on-surface-variant font-label-sm" for="rec-check-evidence">Evidencia fotográfica 360° capturada en cabina</label>
+</div>
+<button class="px-5 py-2.5 bg-primary-container text-noir-black font-label-md text-label-md uppercase font-bold tracking-wider hover:bg-white transition-all" onclick="generateOrderLive()">
+                  Actualizar Vista Previa de Documento
+                </button>
+</div>
+</div>
+</div>
+<!-- Columna Derecha: Vista Previa de Documento / Ticket Imprimible (5 columnas) -->
+<div class="xl:col-span-5 space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary-container uppercase font-bold">VISTA PREVIA DEL DOCUMENTO</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase" id="doc-btn-init" onclick="switchDocMode('initial')">Inicial</button>
+<button class="px-3 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant uppercase border border-outline-variant" id="doc-btn-final" onclick="switchDocMode('final')">Entrega Final</button>
+<button class="px-3 py-1 text-xs font-label-sm bg-surface-container-high text-on-surface hover:text-primary uppercase border border-outline-variant flex items-center gap-1" onclick="window.print()">
+<span class="material-symbols-outlined text-xs">print</span> Imprimir
+                </button>
+</div>
+</div>
+<!-- Hoja / Ticket Térmico Renderizado -->
+<div class="thermal-receipt p-6 border border-neutral-400 select-text text-neutral-900 text-xs leading-relaxed" id="printable-sheet">
+<div class="text-center pb-3 border-b-2 border-dashed border-neutral-400 space-y-1">
+<div class="font-bold text-sm tracking-wider uppercase font-josefin">TECNOFIX SOLUTIONS (SOPORTEC)</div>
+<div class="text-[10px]">LABORATORIO DE ALTA PRECISIÓN • ISO-9001</div>
+<div class="text-[10px]">Av. Circunvalación Norte 4820 • Tel: +52 55 9872 1104</div>
+<div class="font-bold text-xs pt-1 uppercase text-black" id="doc-title-header">ORDEN DE SERVICIO INICIAL #ORD-9921</div>
+</div>
+<div class="py-3 border-b border-dashed border-neutral-400 space-y-1">
+<div><strong>FECHA / HORA:</strong> <span class="" id="doc-date">2024-10-28 11:42:00</span></div>
+<div class=""><strong>AGENTE RECEPCIÓN:</strong> Valeria M. (ID: R-402)</div>
+<div><strong>CLIENTE:</strong> <span class="" id="doc-preview-client">Ing. Carlos Mendoza Silva</span></div>
+<div><strong>CONTACTO:</strong> <span class="" id="doc-preview-phone">+52 55 9872 1104</span></div>
+<div><strong>USUARIO PORTAL:</strong> <span class="" id="doc-preview-user">cmendoza_55</span></div>
+</div>
+<div class="py-3 border-b border-dashed border-neutral-400 space-y-1">
+<div><strong>DISPOSITIVO:</strong> <span class="" id="doc-preview-device">Dell Precision 7760 Xeon RTX</span></div>
+<div><strong>SERIAL / S/N:</strong> <span class="" id="doc-preview-sn">SN-DELL-88390X-24</span></div>
+<div><strong>TIPO SERVICIO:</strong> <span class="" id="doc-preview-type">DIAGNÓSTICO GRATUITO ($0.00)</span></div>
+<div><strong>CONDICIÓN INGRESO:</strong> <span class="" id="doc-preview-notes">Equipo no enciende tras descarga eléctrica. Carcasa inferior con rozaduras leves. No incluye cargador. Batería hinchada según reporte del usuario.</span></div>
+</div>
+<!-- Bloque Condicional: Modo Final de Entrega -->
+<div class="hidden py-3 border-b-2 border-dashed border-neutral-400 space-y-2" id="doc-final-section">
+<div class="font-bold uppercase text-[11px] bg-neutral-200 p-1">INFORME TÉCNICO DE CIERRE</div>
+<p class="text-[10px]">
+<strong>Dictamen Técnico:</strong> Reemplazo de mosfets de potencia etapa primaria, limpieza de corrosión ultrasónica y sustitución de pasta térmica por compuesto cerámico Kryonaut.
+                </p>
+<div class="space-y-1 text-[11px] pt-1">
+<div class="flex justify-between">
+<span class="">Mano de Obra &amp; Microelectrónica:</span>
+<span class="">$1,400.00</span>
+</div>
+<div class="flex justify-between">
+<span class="">Refacciones (Mosfets OEM + Pad):</span>
+<span class="">$650.00</span>
+</div>
+<div class="flex justify-between font-bold text-amber-800">
+<span class="">Descuento Fidelidad Platino (&gt;5 Equipos):</span>
+<span class="">-$307.50 (15%)</span>
+</div>
+<div class="flex justify-between font-bold border-t border-neutral-400 pt-1 text-xs">
+<span class="">TOTAL A PAGAR:</span>
+<span class="">$1,742.50 MXN</span>
+</div>
+<div class="text-[10px] text-neutral-600">
+<strong>MÉTODO DE PAGO:</strong> Tarjeta Débito / Transferencia
+                  </div>
+</div>
+</div>
+<div class="pt-4 text-center text-[10px] space-y-2">
+<div class="border border-neutral-400 p-2 text-center text-[9px] uppercase">
+                  Firma de Conformidad del Cliente:<br/><br/><br/>
+                  ___________________________________________<br/>
+                  Acepta términos de diagnóstico $0 y políticas del taller
+                </div>
+<div class="font-mono text-[9px]">SoporTec v4.2 - HASH: e4b8c991a0f8</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- VISTA 3: MÓDULO TÉCNICO (Diagnóstico, Cotizaciones & Materiales)       -->
+<!-- ===================================================================== -->
+<section class="space-y-6" id="view-tecnico"><div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant gap-4"><div class="space-y-1"><div class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-primary-container uppercase tracking-wider font-bold">ESTACIÓN TÉCNICA DE BANCO #01 • LABORATORIO CENTRAL</span><span class="px-2 py-0.5 text-[9px] font-label-sm uppercase bg-noir-blue border border-primary-container text-primary font-bold">TELEMETRÍA EN LÍNEA</span></div><h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">Módulo Técnico • Control de Banco y Requisiciones</h2></div><div class="flex flex-wrap items-center gap-3"><div class="px-3 py-1.5 bg-surface-container border border-outline-variant text-label-sm font-label-sm text-on-surface-variant flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span>TÉCNICO ASIGNADO: <strong class="text-primary">Jesús Ramírez (ID: TEC-042)</strong></span></div><button class="px-3 py-1.5 bg-surface-container-high border border-outline-variant hover:border-primary-container text-on-surface font-label-sm text-xs uppercase flex items-center gap-1.5 transition-all" onclick="switchTechFilter('all')"><span class="material-symbols-outlined text-sm text-primary-container">sync</span><span>Sincronizar Almacén</span></button></div></div><div class="noir-card bg-surface-container-lowest p-4 border-l-4 border-l-primary-container amber-glow flex flex-col md:flex-row md:items-center justify-between gap-4"><div class="flex items-start md:items-center gap-3"><div class="w-9 h-9 bg-noir-blue border border-primary-container flex items-center justify-center text-primary-container shrink-0"><span class="material-symbols-outlined text-xl">notifications_active</span></div><div class="space-y-0.5"><div class="flex flex-wrap items-center gap-2"><span class="text-xs font-label-sm text-primary uppercase font-bold tracking-wider">FEED DE AUDITORÍA Y RESOLUCIÓN ADMINISTRATIVA</span><span class="px-1.5 py-0.2 text-[9px] font-label-sm bg-primary-container text-noir-black font-bold uppercase">NUEVA NOTIFICACIÓN</span></div><p class="text-xs font-label-md text-on-surface">Nueva resolución recibida del Administrador: Requisición <strong class="text-primary-container">REQ-ADMIN-8842</strong> (Lote Masivo Herramientas &amp; Insumos). Estatus de despacho actualizado.</p></div></div><div class="flex items-center gap-2 text-right shrink-0"><span class="text-[10px] font-mono text-outline">AUTORIZÓ: ROOT-ADMIN • 11:46:12</span></div></div><div class="space-y-4"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-outline-variant pb-2"><div><span class="text-label-sm font-label-sm text-outline uppercase font-semibold">BANDEJA DE RESOLUCIONES &amp; REQUISICIONES</span><h3 class="font-headline-md text-headline-md text-on-surface">Notificaciones de Autorización de Suministros</h3></div><div class="flex flex-wrap items-center gap-1.5 bg-surface-container-lowest p-1 border border-outline-variant"><button class="px-3 py-1 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase transition-all" id="filter-btn-all" onclick="switchTechFilter('all')">Todas (2)</button><button class="px-3 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant hover:text-white uppercase transition-all" id="filter-btn-approved" onclick="switchTechFilter('approved')">Aprobadas (1)</button><button class="px-3 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant hover:text-white uppercase transition-all" id="filter-btn-rejected" onclick="switchTechFilter('rejected')">Rechazadas / Ajuste (1)</button></div></div><div class="space-y-4" id="tech-notifications-container"><div class="noir-card bg-surface-container-low p-6 space-y-4 border-l-4 border-l-primary-container" id="card-resolution-approved"><div class="flex flex-col md:flex-row md:items-start justify-between gap-3 border-b border-outline-variant pb-3"><div class="space-y-1.5"><div class="flex flex-wrap items-center gap-2"><span class="px-2.5 py-0.5 text-[10px] font-label-sm bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold uppercase tracking-wider">AUTORIZACIÓN APROBADA</span><span class="font-mono text-xs text-primary font-semibold">AUTH-ADM-9941 / DISP-ALM-2024-08</span><span class="px-2 py-0.5 text-[9px] font-label-sm bg-noir-blue border border-outline-variant text-white uppercase">PRIORIDAD ENTERPRISE</span></div><h4 class="font-headline-md text-headline-md text-on-surface">Requisición REQ-ADMIN-8842 • Clúster Servidores Enterprise</h4><p class="text-xs text-tertiary-container font-body-sm">Equipo Destino: <strong>Dell PowerEdge R750xs Dual Xeon (Cliente Enterprise S.A.)</strong> • Orden #ORD-9905</p></div><div class="text-right flex md:flex-col items-center md:items-end justify-between gap-1"><span class="px-2.5 py-1 text-[10px] font-label-sm bg-noir-blue border border-emerald-500 text-emerald-300 uppercase font-bold">LISTO PARA DESPACHO EN ALMACÉN B (BAHÍA 3)</span><span class="text-[10px] font-mono text-outline">EXPEDICIÓN: 2024-10-28 11:45 HRS</span></div></div><div class="p-3.5 bg-noir-blue/60 border border-outline-variant space-y-1.5"><div class="text-[10px] font-label-sm text-primary uppercase font-bold tracking-wider">DICTAMEN Y MENSAJE DEL ADMINISTRADOR CENTRAL:</div><p class="text-xs font-label-md text-on-surface leading-relaxed">"Solicitud aprobada con prioridad Enterprise. Recoger en Ventanilla Almacén B con vale digital activo. Calibración y certificación térmica de banco #01 registrada con éxito."</p></div><div class="space-y-2"><div class="flex justify-between items-center text-xs font-label-sm"><span class="text-outline uppercase font-semibold">ÍTEMS APROBADOS PARA RETIRO (3 RENGLONES):</span><span class="text-primary-container font-semibold">REGLA STOCK &gt; 0 VERIFICADA</span></div><div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-label-md"><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-1"><div class="flex justify-between items-center"><span class="font-semibold text-white">5x Estaciones Weller WT1010</span><span class="text-[10px] text-primary-container uppercase font-bold">HERRAMIENTA</span></div><div class="text-[11px] text-tertiary-container font-label-sm">Reutilizable • Préstamo Activo</div><div class="text-[10px] text-emerald-400 font-mono">S/N LOTE: WEL-9021-X</div></div><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-1"><div class="flex justify-between items-center"><span class="font-semibold text-white">10x Kits iFixit Pro Tech</span><span class="text-[10px] text-primary-container uppercase font-bold">HERRAMIENTA</span></div><div class="text-[11px] text-tertiary-container font-label-sm">Reutilizable • Préstamo Activo</div><div class="text-[10px] text-emerald-400 font-mono">S/N LOTE: IFX-8840-PT</div></div><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-1"><div class="flex justify-between items-center"><span class="font-semibold text-white">8x Kryonaut Extreme 2g</span><span class="text-[10px] text-amber-300 uppercase font-bold">INSUMO / CONSUMIBLE</span></div><div class="text-[11px] text-tertiary-container font-label-sm">Despacho Permanente • Pasta Térmica</div><div class="text-[10px] text-emerald-400 font-mono">LOTE: TG-2024-K09</div></div></div></div><div class="flex flex-wrap items-center justify-between pt-3 border-t border-outline-variant gap-3"><div class="flex items-center gap-2 text-xs font-label-sm text-outline"><span class="material-symbols-outlined text-sm text-emerald-400">check_circle</span><span>Vale digital verificado bajo firma SHA-256 de Gerencia Operativa.</span></div><div class="flex flex-wrap items-center gap-2.5"><button class="px-4 py-2 bg-primary-container text-noir-black font-label-md text-xs font-bold uppercase tracking-wider hover:bg-white transition-all flex items-center gap-1.5" onclick="generateDigitalSlip()"><span class="material-symbols-outlined text-sm">qr_code_2</span><span>Generar Vale de Retiro Digital para Almacén</span></button><button class="px-4 py-2 bg-surface-container-high border border-outline-variant hover:border-emerald-500 text-on-surface hover:text-emerald-400 font-label-md text-xs uppercase tracking-wider transition-all flex items-center gap-1.5" id="btn-confirm-receipt" onclick="confirmToolsReceipt()"><span class="material-symbols-outlined text-sm">inventory</span><span>Confirmar Recepción de Herramientas</span></button></div></div><div class="hidden p-4 bg-noir-black border border-primary-container space-y-2 select-text font-mono text-xs" id="digital-slip-box"><div class="flex justify-between items-center border-b border-outline-variant pb-2"><span class="text-primary-container font-bold uppercase text-sm">VALE DIGITAL DE ENTREGA ALMACÉN CENTRAL • VENTANILLA B</span><span class="text-[10px] text-tertiary-container">ID CÓDIGO: TK-AUTH-9941-TEC042</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-tertiary-container text-[11px]"><div><strong>TÉCNICO RECEPTOR:</strong> Jesús Ramírez (TEC-042) • Banco #01</div><div><strong>ORDEN SERVICIO:</strong> #ORD-9905 • Clúster PowerEdge</div><div><strong>VENTANILLA:</strong> Almacén B (Bahía 3) • Encargado Alonso R.</div><div><strong>ESTATUS:</strong> TOKEN VÁLIDO POR 4 HORAS</div></div><div class="pt-2 border-t border-outline-variant flex justify-between items-center text-[10px] text-outline"><span>Presente este token en la ventanilla para lectura de código de barras.</span><button class="px-2.5 py-1 bg-surface-container text-primary border border-outline-variant hover:border-primary uppercase font-bold text-[10px]" onclick="window.print()">Imprimir Vale</button></div></div><div class="hidden p-3 bg-emerald-950/30 border border-emerald-500 text-emerald-300 text-xs font-label-md flex items-center justify-between" id="receipt-feedback-box"><span>✓ Recepción confirmada en Banco #01. Herramientas registradas bajo custodia del técnico Jesús Ramírez.</span><span class="font-mono text-[10px] uppercase border border-emerald-500/40 px-2 py-0.5">CUSTODIA ASIGNADA</span></div></div><div class="noir-card bg-surface-container-low p-6 space-y-4 border-l-4 border-error" id="card-resolution-rejected"><div class="flex flex-col md:flex-row md:items-start justify-between gap-3 border-b border-outline-variant pb-3"><div class="space-y-1.5"><div class="flex flex-wrap items-center gap-2"><span class="px-2.5 py-0.5 text-[10px] font-label-sm bg-error-container/20 border border-error text-error font-bold uppercase tracking-wider">RECHAZO CON OBSERVACIONES</span><span class="font-mono text-xs text-error font-semibold">RECHAZO DND-SEC-403 - Requisición REQ-9921</span><span class="px-2 py-0.5 text-[9px] font-label-sm bg-surface-container text-outline uppercase">REQUIERE REAJUSTE</span></div><h4 class="font-headline-md text-headline-md text-on-surface">Requisición REQ-9921 • Mantenimiento Portátil ThinkPad P1</h4><p class="text-xs text-tertiary-container font-body-sm">Equipo Destino: <strong>ThinkPad P1 Gen 4 (S/N: 20Y3-PF28XA)</strong> • Orden #ORD-9918</p></div><div class="text-right flex md:flex-col items-center md:items-end justify-between gap-1"><span class="px-2.5 py-1 text-[10px] font-label-sm bg-error-container/20 border border-error text-error uppercase font-bold">BLOQUEADO EN ALMACÉN</span><span class="text-[10px] font-mono text-outline">EXPEDICIÓN: 2024-10-28 10:15 HRS</span></div></div><div class="p-3.5 bg-error-container/20 border border-error space-y-1.5"><div class="text-[10px] font-label-sm text-error uppercase font-bold tracking-wider">DICTAMEN Y MOTIVO DEL ADMINISTRADOR CENTRAL:</div><p class="text-xs font-label-md text-on-surface leading-relaxed">"Excede umbral crítico de stock de seguridad sin orden de trabajo Enterprise validada. Reajustar a máximo 2 unidades o solicitar autorización de gerencia general."</p></div><div class="p-3 bg-surface-container-lowest border border-outline-variant text-xs font-label-md space-y-1"><div class="text-outline font-label-sm text-[10px] uppercase font-bold">ÍTEM RECHAZADO EN REQUISICIÓN:</div><div class="flex justify-between items-center text-on-surface"><span>4x Pantallas OLED 4K (40 pines eDP)</span><span class="text-error font-mono font-bold">[DENEGADO POR CUOTA &gt;2]</span></div><div class="text-[11px] text-tertiary-container font-label-sm">El inventario central cuenta con 6 unidades. El retiro de 4 dejaría el stock en 2 unidades, vulnerando el margen mínimo ISO para emergencias.</div></div><div class="flex flex-wrap items-center justify-between pt-3 border-t border-outline-variant gap-3" id="rejected-actions-bar"><div class="flex items-center gap-2 text-xs font-label-sm text-outline"><span class="material-symbols-outlined text-sm text-amber-400">warning</span><span>El técnico puede reajustar a 2 unidades o anexar anexo de excepción firmado.</span></div><div class="flex flex-wrap items-center gap-2.5"><button class="px-4 py-2 bg-surface-container-high border border-outline-variant hover:border-primary-container text-on-surface font-label-md text-xs uppercase tracking-wider transition-all" onclick="showTechnicalJustificationModal()">Ver Justificación Técnica</button><button class="px-4 py-2 bg-primary-container text-noir-black font-label-md text-xs font-bold uppercase tracking-wider hover:bg-white transition-all flex items-center gap-1.5" onclick="openResubmitForm()"><span class="material-symbols-outlined text-sm">edit</span><span>Modificar y Reenviar Solicitud (Ajustar a 2)</span></button></div></div><div class="hidden p-4 bg-noir-black border border-primary-container space-y-3" id="resubmit-panel"><div class="flex justify-between items-center border-b border-outline-variant pb-2"><span class="text-xs font-label-sm text-primary uppercase font-bold">FORMULARIO DE REENVÍO CORREGIDO • REQ-9921-REV2</span><span class="text-[10px] text-outline">CUOTA MÁXIMA PERMITIDA: 2 UNIDADES</span></div><div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-label-md"><div><label class="block text-[10px] font-label-sm uppercase text-outline mb-1">Ítem a Reenviar</label><input class="w-full bg-surface-container border border-outline-variant px-2.5 py-1.5 text-on-surface text-xs font-label-md" readonly="" type="text" value="Pantalla OLED 4K (40 pines)"/></div><div><label class="block text-[10px] font-label-sm uppercase text-outline mb-1">Nueva Cantidad Ajustada *</label><input class="w-full bg-noir-black border border-outline-variant px-2.5 py-1.5 text-primary text-xs font-label-md focus:border-primary-container" id="resubmit-adjusted-qty" max="2" min="1" type="number" value="2"/></div><div><label class="block text-[10px] font-label-sm uppercase text-outline mb-1">Nota de Corrección Técnica</label><input class="w-full bg-noir-black border border-outline-variant px-2.5 py-1.5 text-on-surface text-xs font-label-md focus:border-primary-container" id="resubmit-note" type="text" value="Se ajusta a 2 unidades para respetar umbral de seguridad de almacén."/></div></div><div class="flex justify-end gap-2 pt-2 border-t border-outline-variant"><button class="px-3 py-1 bg-surface-container text-tertiary-container hover:text-white text-xs uppercase font-label-sm" onclick="document.getElementById('resubmit-panel').classList.add('hidden')">Cancelar</button><button class="px-4 py-1.5 bg-primary-container text-noir-black font-label-sm text-xs font-bold uppercase hover:bg-white" onclick="sendCorrectedRequisition()">Enviar Requisición Ajustada al Administrador</button></div></div><div class="hidden p-3 bg-noir-blue border border-primary-container text-white text-xs font-label-md space-y-1" id="resubmit-feedback-box"><span>✓ Requisición REQ-9921-REV2 reenviada con éxito (2 unidades ajustadas). Notificación de revisión transmitida al Administrador Central.</span></div></div></div></div><div class="grid grid-cols-1 xl:grid-cols-12 gap-6"><div class="xl:col-span-7 space-y-4"><div class="flex justify-between items-center border-b border-outline-variant pb-2"><h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary-container">engineering</span><span>Protocolo de Préstamo de Herramientas &amp; Custodia</span></h3><span class="text-xs font-label-sm text-emerald-400 font-bold uppercase">GARANTÍA STOCK &gt; 0</span></div><div class="noir-card bg-surface-container-low p-5 space-y-3 border-l-4 border-l-primary-container"><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-2"><span class="text-xs font-label-sm text-primary uppercase font-bold tracking-wider block">REGLAS VINCULANTES DE CONTROL DE BANCO</span><ul class="space-y-1.5 text-xs text-tertiary-container font-label-md"><li>• <strong>Número de Serie y Trazabilidad:</strong> Cada herramienta asignada cuenta con chip de seguimiento o grabado láser S/N. Está prohibido el préstamo entre bancos sin registrar el pase en Almacén.</li><li>• <strong>Devolución Obligatoria:</strong> Al finalizar la jornada o la orden de servicio, toda herramienta debe ser devuelta en Ventanilla Almacén B para reintegrar el stock a su valor original.</li><li>• <strong>Regla Inquebrantable Stock &gt; 0:</strong> Ningún préstamo puede dejar en cero el inventario mínimo de reserva del taller.</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs font-label-md"><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-1"><div class="text-outline font-label-sm text-[10px] uppercase font-bold">HERRAMIENTA EN CUSTODIA PREVIA:</div><div class="text-white font-semibold">Estación Cautín JBC CD-2BQF</div><div class="text-[11px] text-tertiary-container font-mono">S/N: JBC-99210-ES • Banco #01</div><div class="text-emerald-400 text-[10px]">Devolución programada: 19:00 hrs</div></div><div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-1"><div class="text-outline font-label-sm text-[10px] uppercase font-bold">ESTATUS DE BATERÍA DE PRUEBA:</div><div class="text-white font-semibold">Multímetro Fluke 87V Industrial</div><div class="text-[11px] text-tertiary-container font-mono">S/N: FLK-87V-4421 • Calibrado</div><div class="text-primary-container text-[10px]">Certificación Vigente ISO-17025</div></div></div></div></div><div class="xl:col-span-5 space-y-4"><div class="flex justify-between items-center border-b border-outline-variant pb-2"><h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-primary-container">dns</span><span>Orden de Servicio Activa en Proceso</span></h3><span class="text-xs font-label-sm text-primary font-bold">BANCO 01</span></div><div class="noir-card bg-surface-container-low p-5 space-y-4"><div class="flex justify-between items-start border-b border-outline-variant pb-3"><div><div class="text-label-sm font-label-sm text-outline uppercase">ORDEN VINCULADA AL LOTE</div><div class="font-headline-md text-headline-md text-primary font-bold">#ORD-9905 • Clúster 8 Nodos</div></div><span class="px-2 py-0.5 text-[10px] font-label-sm uppercase bg-noir-blue border border-primary-container text-primary font-bold">SLA CRÍTICO 6H</span></div><div class="space-y-2 text-xs font-label-md"><div class="flex justify-between"><span class="text-tertiary-container">Equipo:</span><span class="text-white font-semibold">Dell PowerEdge R750xs Dual Xeon</span></div><div class="flex justify-between"><span class="text-tertiary-container">Cliente:</span><span class="text-white font-semibold">Infraestructura Enterprise S.A.</span></div><div class="flex justify-between"><span class="text-tertiary-container">Intervención:</span><span class="text-primary">Recertificación térmica &amp; Reballing VRM</span></div><div class="flex justify-between"><span class="text-tertiary-container">Costo Diagnóstico:</span><span class="text-emerald-400 font-bold">$0.00 MXN (Protocolo Garantizado)</span></div></div><div class="pt-2 border-t border-outline-variant flex items-center justify-between"><button class="w-full py-2 bg-noir-blue border border-outline-variant hover:border-primary-container text-white font-label-md text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all" onclick="switchRole('recepcion'); switchDocMode('final')"><span class="material-symbols-outlined text-sm text-primary-container">receipt_long</span><span>Ver Hoja Técnica Completa / Ficha</span></button></div></div></div></div></section>
+<!-- ===================================================================== -->
+<!-- VISTA 4: MÓDULO ALMACÉN (Existencias, Préstamos y Devolución Reactiva) -->
+<!-- ===================================================================== -->
+<section class="space-y-6 hidden" id="view-almacen">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant gap-4">
+<div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase">SISTEMA DE GESTIÓN DE SUMINISTROS</div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">Almacén &amp; Control de Existencias</h2>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-surface-container border border-outline-variant text-label-sm font-label-sm text-on-surface-variant">
+              ENCARGADO: <strong class="text-white">Alonso R. (ID: ALM-19)</strong>
+</span>
+<span class="px-2.5 py-1 text-label-sm font-label-sm uppercase bg-emerald-950 border border-emerald-500 text-emerald-300">
+              REGLA STOCK &gt; 0 ACTIVA
+            </span>
+</div>
+</div>
+<!-- Demostración Explícita en UI de Devolución Reactiva Requerida -->
+<div class="noir-card bg-surface-container-high p-4 border-l-4 border-l-primary-container">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<span class="text-xs font-label-sm text-primary-container uppercase font-bold">CASO DE DEMOSTRACIÓN REACTIVA DE PRÉSTAMO / RETORNO:</span>
+<p class="text-body-sm text-on-surface mt-0.5">
+                Pastas Térmicas Arctic MX-6: <strong>Stock Inicial: 5</strong> • 
+                Retiradas en préstamo: <span class="text-amber-400 font-bold" id="demo-loaned-qty">2</span> • 
+                Existencia Actual: <strong class="text-primary text-base" id="demo-current-stock">3</strong>
+</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 bg-primary-container text-noir-black font-label-md text-label-md font-bold uppercase hover:bg-white transition-all flex items-center gap-1.5" onclick="simulateToolReturn()">
+<span class="material-symbols-outlined text-sm">keyboard_return</span>
+<span class="">Devolver y Restituir Stock a 5</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Tabla de Control de Existencias (Refacciones y Consumibles) -->
+<div class="xl:col-span-7 space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-label-sm font-label-sm uppercase text-outline">INVENTARIO DE REFACCIONES &amp; CONSUMIBLES</span>
+<span class="text-xs font-label-sm text-primary">GARANTÍA STOCK &gt; 0</span>
+</div>
+<div class="noir-card bg-surface-container-low overflow-x-auto">
+<table class="w-full text-left text-xs border-collapse">
+<thead>
+<tr class="bg-noir-blue text-noir-grey font-label-sm uppercase border-b border-outline-variant">
+<th class="p-3">SKU / ID</th>
+<th class="p-3">Ítem / Descripción</th>
+<th class="p-3">Tipo</th>
+<th class="p-3 text-center">Stock Actual</th>
+<th class="p-3 text-center">Mínimo</th>
+<th class="p-3 text-right">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant font-label-md" id="inventory-table-body">
+<tr class="hover:bg-surface-container">
+<td class="p-3 font-mono text-outline">REF-9021</td>
+<td class="p-3 font-semibold text-on-surface">Pantalla IPS 15.6" FHD 144Hz</td>
+<td class="p-3 text-on-surface-variant">Refacción</td>
+<td class="p-3 text-center font-bold text-white">4</td>
+<td class="p-3 text-center text-outline">1</td>
+<td class="p-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high border border-outline-variant hover:border-primary-container text-[10px] text-primary uppercase" onclick="dispatchPermanentPart('REF-9021', 'Pantalla IPS')">Salida Definitiva</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container">
+<td class="p-3 font-mono text-outline">REF-7712</td>
+<td class="p-3 font-semibold text-on-surface">Batería Litio Dell 97Wh Original</td>
+<td class="p-3 text-on-surface-variant">Refacción</td>
+<td class="p-3 text-center font-bold text-white">2</td>
+<td class="p-3 text-center text-outline">1</td>
+<td class="p-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high border border-outline-variant hover:border-primary-container text-[10px] text-primary uppercase" onclick="dispatchPermanentPart('REF-7712', 'Batería Litio')">Salida Definitiva</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container">
+<td class="p-3 font-mono text-outline">REF-4410</td>
+<td class="p-3 font-semibold text-on-surface">Mosfet Potencia N-Channel 30V</td>
+<td class="p-3 text-on-surface-variant">Refacción</td>
+<td class="p-3 text-center font-bold text-white">48</td>
+<td class="p-3 text-center text-outline">10</td>
+<td class="p-3 text-right">
+<button class="px-2 py-1 bg-surface-container-high border border-outline-variant hover:border-primary-container text-[10px] text-primary uppercase" onclick="dispatchPermanentPart('REF-4410', 'Mosfet SMD')">Salida Definitiva</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container">
+<td class="p-3 font-mono text-outline">CNS-0199</td>
+<td class="p-3 font-semibold text-on-surface">Pasta Térmica Arctic MX-6 (4g)</td>
+<td class="p-3 text-on-surface-variant">Consumible</td>
+<td class="p-3 text-center font-bold text-primary" id="inventory-mx6-val">3</td>
+<td class="p-3 text-center text-outline">1</td>
+<td class="p-3 text-right">
+<span class="text-[10px] text-tertiary-container font-label-sm">En Préstamo/Uso</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Registro de Préstamos de Herramientas Reutilizables -->
+<div class="xl:col-span-5 space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-label-sm font-label-sm uppercase text-outline">PRÉSTAMOS DE HERRAMIENTAS ACTIVOS</span>
+<span class="text-xs font-label-sm text-primary-container uppercase">BITÁCORA TALLER</span>
+</div>
+<div class="noir-card bg-surface-container-low p-4 space-y-3">
+<div class="space-y-2" id="tools-loan-list">
+<!-- Tarjeta de Préstamo 1 -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-2" id="loan-card-1">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-xs text-primary font-bold">HERR-JBC-09</span>
+<span class="px-2 py-0.5 text-[9px] bg-noir-blue text-white uppercase font-label-sm">En Préstamo</span>
+</div>
+<div class="text-xs text-on-surface font-semibold">Estación Soldadura Cautín JBC • Modelo CD-2BQF</div>
+<div class="text-[11px] text-tertiary-container font-label-sm">
+<strong>Técnico:</strong> Mateo Cruz • <strong>ID:</strong> T-88 • <strong>S/N:</strong> JBC-99210-ES
+                  </div>
+<div class="pt-1 flex justify-end">
+<button class="px-3 py-1 bg-surface-container-high hover:bg-primary-container hover:text-noir-black text-[10px] font-label-sm uppercase border border-outline-variant font-bold transition-all" onclick="returnTool('loan-card-1', 'Estación Cautín')">
+                      Registrar Retorno / Stock
+                    </button>
+</div>
+</div>
+<!-- Tarjeta de Préstamo 2 (Pastas Térmicas de Ejemplo) -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant space-y-2" id="loan-card-2">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-xs text-primary font-bold">HERR-MX6-02</span>
+<span class="px-2 py-0.5 text-[9px] bg-noir-blue text-white uppercase font-label-sm">En Préstamo (2 unidades)</span>
+</div>
+<div class="text-xs text-on-surface font-semibold">Jeringa Pasta Arctic MX-6 • Lote 2024-K</div>
+<div class="text-[11px] text-tertiary-container font-label-sm">
+<strong>Técnico:</strong> Mateo Cruz • <strong>ID:</strong> T-88 • <strong>S/N:</strong> MX6-LOT-044
+                  </div>
+<div class="pt-1 flex justify-end">
+<button class="px-3 py-1 bg-surface-container-high hover:bg-primary-container hover:text-noir-black text-[10px] font-label-sm uppercase border border-outline-variant font-bold transition-all" onclick="simulateToolReturn()">
+                      Registrar Devolución (+2 Stock)
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- VISTA 5: MÓDULO ADMINISTRADOR (Métricas, Autorizaciones & Auditoría)   -->
+<!-- ===================================================================== -->
+<section class="space-y-6 hidden" id="view-admin">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant gap-4">
+<div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase">DIRECCIÓN GENERAL Y CONTROL OPERATIVO</div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">Panel de Administración Central</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 bg-noir-blue border border-primary-container text-label-sm font-label-sm text-white">
+              NIVEL PRIVILEGIO: <strong class="text-primary-container">ROOT ADMINISTRADOR</strong>
+</span>
+</div>
+</div>
+<!-- 4 Stat Cards de Rendimiento Operativo -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="noir-card bg-surface-container-low p-4">
+<div class="text-label-sm font-label-sm text-outline uppercase">DIAGNÓSTICOS $0 REALIZADOS</div>
+<div class="text-headline-xl font-headline-xl text-on-surface font-bold mt-1">142</div>
+<div class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-label-sm">
+<span class="">+18% este mes</span> • <span class="">Lead conversion 64%</span>
+</div>
+</div>
+<div class="noir-card bg-surface-container-low p-4">
+<div class="text-label-sm font-label-sm text-outline uppercase">EQUIPOS EN REPARACIÓN ACTIVA</div>
+<div class="text-headline-xl font-headline-xl text-primary font-bold mt-1">29</div>
+<div class="text-xs text-tertiary-container mt-1 font-label-sm">4 bancos operando al 85% cap.</div>
+</div>
+<div class="noir-card bg-surface-container-low p-4">
+<div class="text-label-sm font-label-sm text-outline uppercase">AUTORIZACIONES PENDIENTES</div>
+<div class="text-headline-xl font-headline-xl text-primary-container font-bold mt-1" id="admin-pending-count">2</div>
+<div class="text-xs text-amber-400 mt-1 font-label-sm">Requiere acción administrativa inmediata</div>
+</div>
+<div class="noir-card bg-surface-container-low p-4">
+<div class="text-label-sm font-label-sm text-outline uppercase">EFICIENCIA DE STOCK ALMACÉN</div>
+<div class="text-headline-xl font-headline-xl text-emerald-400 font-bold mt-1">100%</div>
+<div class="text-xs text-tertiary-container mt-1 font-label-sm">Cero desabastos (Regla &gt;0 intacta)</div>
+</div>
+</div>
+<!-- Bandeja de Autorizaciones Pendientes (Requisito Explícito) -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4 border-l-4 border-l-primary-container">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<div>
+<span class="text-label-sm font-label-sm text-primary-container uppercase font-bold">BANDEJA DE AUTORIZACIONES OBLIGATORIAS</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Excepciones de Volumen y Solicitudes Especiales</h3>
+</div>
+<span class="px-2 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant border border-outline-variant">SEGURIDAD ISO</span>
+</div>
+<div class="space-y-3" id="admin-approvals-container"><!-- Caso A: Jesús Ramírez (TEC-042) Lote Masivo Herramientas e Insumos -->
+<div class="p-4 bg-surface-container-lowest border border-outline-variant space-y-3" id="approval-case-tec042">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-3 border-b border-outline-variant/60 pb-3">
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="px-2 py-0.5 text-[9px] bg-amber-950 border border-primary-container text-primary font-label-sm uppercase font-bold">HERRAMIENTAS &amp; INSUMOS: LOTE MASIVO</span>
+<span class="text-xs font-label-sm text-outline">REQ-MASIVA-2024-042</span>
+<span class="px-2 py-0.5 text-[9px] bg-error-container/20 border border-error text-error font-label-sm uppercase font-bold">UMBRAL EXCEDIDO (&gt;3 ÍTEMS)</span>
+</div>
+<div class="text-sm font-semibold text-on-surface">Solicitud Técnica: Técnico Jesús Ramírez (ID: TEC-042) • Banco #01</div>
+<div class="text-xs text-tertiary-container font-body-sm">
+<strong>Justificación Operativa:</strong> Mantenimiento preventivo simultáneo a rack de servidores para cliente Enterprise (Clúster de 8 Nodos). Intervención bajo SLA Crítico de 6 horas.
+      </div>
+</div>
+<div class="text-right flex md:flex-col items-center md:items-end justify-between gap-1">
+<span class="px-2 py-1 text-[10px] font-label-sm bg-surface-container border border-outline-variant text-primary-container font-bold uppercase" id="status-badge-tec042">PENDIENTE DE AUTORIZACIÓN</span>
+<span class="text-[10px] font-label-sm text-outline">CREADA: 2024-10-28 11:30:14</span>
+</div>
+</div>
+<!-- Desglose de Ítems Solicitados y Validación de Stock -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-label-md">
+<div class="p-2.5 bg-surface-container border border-outline-variant space-y-1">
+<div class="flex justify-between items-center text-on-surface font-semibold">
+<span class="">5x Estaciones Soldadura Weller WT1010</span>
+<span class="text-primary-container">[HERRAMIENTA]</span>
+</div>
+<div class="flex justify-between text-[11px] text-tertiary-container font-label-sm">
+<span class="">Almacén Central: 7 disp.</span>
+<span class="text-emerald-400">Stock Proyectado: 2 disp.</span>
+</div>
+</div>
+<div class="p-2.5 bg-surface-container border border-outline-variant space-y-1">
+<div class="flex justify-between items-center text-on-surface font-semibold">
+<span class="">10x Sets Desarmadores iFixit Pro</span>
+<span class="text-primary-container">[HERRAMIENTA]</span>
+</div>
+<div class="flex justify-between text-[11px] text-tertiary-container font-label-sm">
+<span class="">Almacén Central: 14 disp.</span>
+<span class="text-emerald-400">Stock Proyectado: 4 disp.</span>
+</div>
+</div>
+<div class="p-2.5 bg-surface-container border border-outline-variant space-y-1">
+<div class="flex justify-between items-center text-on-surface font-semibold">
+<span class="">8x Pasta Térmica Kryonaut Extreme</span>
+<span class="text-amber-300">[CONSUMIBLE]</span>
+</div>
+<div class="flex justify-between text-[11px] text-tertiary-container font-label-sm">
+<span class="">Almacén Central: 12 disp.</span>
+<span class="text-emerald-400">Stock Proyectado: 4 disp.</span>
+</div>
+</div>
+</div>
+<!-- Acciones y Controles de Resolución -->
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-outline-variant gap-3" id="actions-panel-tec042">
+<div class="text-xs font-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">verified_user</span>
+<span class="">Auditoría: La aprobación emitirá automáticamente la Orden de Despacho ALM-2024-88 hacia Almacén.</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-surface-container text-primary border border-outline-variant hover:border-primary-container font-label-sm text-xs uppercase tracking-wider transition-all" onclick="resolveSupplyApproval('tec042', 'partial', 'Aprobación Parcial: Autorizado 3x Weller, 5x iFixit, 4x Kryonaut por optimización de banco.')">
+        Aprobación Parcial
+      </button>
+<button class="px-3 py-1.5 bg-surface-container text-error border border-error hover:bg-error hover:text-noir-black font-label-sm text-xs uppercase tracking-wider transition-all" onclick="resolveSupplyApproval('tec042', 'reject', 'Rechazo: La requisición excede la cuota de banco simultáneo sin orden de mantenimiento aprobada.')">
+        Rechazar
+      </button>
+<button class="px-4 py-1.5 bg-primary-container text-noir-black font-label-sm text-xs font-bold uppercase tracking-wider hover:bg-white transition-all" onclick="resolveSupplyApproval('tec042', 'approve', 'Aprobación Total: Se autoriza la entrega íntegra del lote requerido para el cluster.')">
+        Aprobar Solicitud Total
+      </button>
+</div>
+</div>
+<!-- Contenedor de Resultado Dinámico -->
+<div class="hidden p-3 bg-surface-container border border-outline-variant text-xs font-label-md space-y-1" id="result-tec042"></div>
+</div>
+<!-- Caso B: María González (TEC-089) Refacciones de Alto Valor -->
+<div class="p-4 bg-surface-container-lowest border border-outline-variant space-y-3" id="approval-case-tec089">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-3 border-b border-outline-variant/60 pb-3">
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="px-2 py-0.5 text-[9px] bg-noir-blue border border-outline-variant text-white font-label-sm uppercase font-bold">REFACCIONES DE ALTO VALOR</span>
+<span class="text-xs font-label-sm text-outline">REQ-REF-2024-089</span>
+<span class="px-2 py-0.5 text-[9px] bg-amber-950 border border-primary-container text-primary font-label-sm uppercase font-bold">RETIENE DISPONIBILIDAD</span>
+</div>
+<div class="text-sm font-semibold text-on-surface">Solicitud Técnica: Técnico María González (ID: TEC-089) • Banco #04</div>
+<div class="text-xs text-tertiary-container font-body-sm">
+<strong>Justificación Operativa:</strong> Lote de recambio para parque portátil de terminales financieras ThinkPad P1 Gen4 con pantallas golpeadas.
+      </div>
+</div>
+<div class="text-right flex md:flex-col items-center md:items-end justify-between gap-1">
+<span class="px-2 py-1 text-[10px] font-label-sm bg-surface-container border border-outline-variant text-primary-container font-bold uppercase" id="status-badge-tec089">PENDIENTE DE AUTORIZACIÓN</span>
+<span class="text-[10px] font-label-sm text-outline">CREADA: 2024-10-28 10:48:02</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-label-md">
+<div class="p-2.5 bg-surface-container border border-outline-variant space-y-1">
+<div class="flex justify-between items-center text-on-surface font-semibold">
+<span class="">6x Pantallas OLED 4K (40 pines eDP)</span>
+<span class="text-primary-container">[REFACCIÓN OEM]</span>
+</div>
+<div class="flex justify-between text-[11px] text-tertiary-container font-label-sm">
+<span class="">Stock Almacén: 6 disp.</span>
+<span class="text-error font-bold">Stock Proyectado: 0 (Agotamiento Total)</span>
+</div>
+</div>
+<div class="p-2.5 bg-surface-container border border-outline-variant space-y-1">
+<div class="flex justify-between items-center text-on-surface font-semibold">
+<span class="">4x Teclados Mecánicos Retroiluminados ThinkPad</span>
+<span class="text-primary-container">[REFACCIÓN OEM]</span>
+</div>
+<div class="flex justify-between text-[11px] text-tertiary-container font-label-sm">
+<span class="">Stock Almacén: 8 disp.</span>
+<span class="text-emerald-400">Stock Proyectado: 4 disp.</span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-outline-variant gap-3" id="actions-panel-tec089">
+<div class="text-xs font-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-amber-400">info</span>
+<span class="">Advertencia: La aprobación de 6 pantallas dejará el stock general en 0. Se aconseja aprobación parcial de 3 unidades.</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-surface-container text-primary border border-outline-variant hover:border-primary-container font-label-sm text-xs uppercase tracking-wider transition-all" onclick="resolveSupplyApproval('tec089', 'partial', 'Aprobación Parcial: Se liberan 3 pantallas OLED y 4 teclados. 3 pantallas reservadas para soporte de garantías.')">
+        Aprobación Parcial (3 pantallas)
+      </button>
+<button class="px-3 py-1.5 bg-surface-container text-error border border-error hover:bg-error hover:text-noir-black font-label-sm text-xs uppercase tracking-wider transition-all" onclick="resolveSupplyApproval('tec089', 'reject', 'Rechazo: Solicitud congelada hasta ingreso de nuevo lote de pantallas programado para mañana.')">
+        Rechazar
+      </button>
+<button class="px-4 py-1.5 bg-primary-container text-noir-black font-label-sm text-xs font-bold uppercase tracking-wider hover:bg-white transition-all" onclick="resolveSupplyApproval('tec089', 'approve', 'Aprobación Total: Autorizado con excepción del supervisor general.')">
+        Aprobar Solicitud Total
+      </button>
+</div>
+</div>
+<div class="hidden p-3 bg-surface-container border border-outline-variant text-xs font-label-md space-y-1" id="result-tec089"></div>
+</div></div>
+</div>
+<!-- Bitácora de Auditoría en Tiempo Real -->
+<div class="noir-card bg-surface-container-low p-6 space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">receipt_long</span>
+              Bitácora de Auditoría del Sistema (Logs en Vivo)
+            </h3>
+<span class="text-xs font-label-sm text-outline">ENCRYPTION: SHA-256</span>
+</div>
+<div class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto" id="audit-log-container">
+<div class="p-2 bg-surface-container-lowest border-l-2 border-l-primary-container text-on-surface-variant flex justify-between">
+<span class="">[2024-10-28 11:45:10] • TÉCNICO T-88: Preparó cotización preliminar para orden #ORD-9921 ($2,050.00 MXN)</span>
+<span class="text-outline">IP: 192.168.1.44</span>
+</div>
+<div class="p-2 bg-surface-container-lowest border-l-2 border-l-outline-variant text-on-surface-variant flex justify-between">
+<span class="">[2024-10-28 11:42:00] • RECEPCIÓN R-402: Generó orden inicial con diagnóstico gratuito $0.00 (Dell Precision)</span>
+<span class="text-outline">IP: 192.168.1.12</span>
+</div>
+<div class="p-2 bg-surface-container-lowest border-l-2 border-l-outline-variant text-on-surface-variant flex justify-between">
+<span class="">[2024-10-28 10:15:33] • ALMACÉN ALM-19: Despacho de insumo térmico registrado bajo regla stock &gt; 0</span>
+<span class="text-outline">IP: 192.168.1.80</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ===================================================================== -->
+<!-- VISTA 6: PORTAL CLIENTE (Estados Formales, Cotización & Fidelidad 15%) -->
+<!-- ===================================================================== -->
+<section class="space-y-6 hidden" id="view-cliente">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-outline-variant gap-4">
+<div>
+<div class="text-label-sm font-label-sm text-primary-container uppercase">PORTAL AUTOGESTIÓN Y SEGUIMIENTO</div>
+<h2 class="text-headline-lg font-headline-lg font-bold text-on-surface">Bienvenido, Ing. Carlos Mendoza Silva</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 bg-surface-container-high border border-outline-variant hover:border-primary-container text-on-surface font-label-sm text-label-sm uppercase flex items-center gap-1.5 transition-all" onclick="switchDocMode('final'); switchRole('recepcion')">
+<span class="material-symbols-outlined text-sm text-primary-container">print</span>
+<span class="">Descargar / Imprimir Ticket Completo</span>
+</button>
+</div>
+</div>
+<!-- Banner de Fidelidad Requerido (>5 dispositivos = 15% Descuento Platino) -->
+<div class="noir-card bg-surface-container-high p-5 border-l-4 border-l-primary-container amber-glow flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-noir-blue border border-primary-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-2xl">workspace_premium</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 text-[10px] font-label-sm font-bold uppercase bg-primary-container text-noir-black">
+                  15% DE DESCUENTO PLATINO ACTIVADO (+5 DISPOSITIVOS REPARADOS)
+                </span>
+<span class="text-xs font-label-sm text-primary">CLIENTE FRECUENTE CLASE A</span>
+</div>
+<p class="text-body-sm text-on-surface mt-1">
+                Historial auditado: Usted cuenta con <strong>6 dispositivos reparados con éxito</strong> en TecnoFix Solutions. Todas sus cotizaciones aplican deducción del 15% automático.
+              </p>
+</div>
+</div>
+<!-- Contador Segmentado de Equipos -->
+<div class="flex items-center gap-2">
+<div class="text-right pr-3 border-r border-outline-variant">
+<div class="text-headline-md font-headline-md font-bold text-primary">6 / 5+</div>
+<div class="text-[9px] font-label-sm uppercase text-outline">REPARACIONES PREVIAS</div>
+</div>
+<div class="flex gap-1">
+<span class="w-2.5 h-6 bg-primary-container"></span>
+<span class="w-2.5 h-6 bg-primary-container"></span>
+<span class="w-2.5 h-6 bg-primary-container"></span>
+<span class="w-2.5 h-6 bg-primary-container"></span>
+<span class="w-2.5 h-6 bg-primary-container"></span>
+<span class="w-2.5 h-6 bg-primary-container animate-pulse"></span>
+</div>
+</div>
+</div>
+<!-- Estado Formal del Equipo Ingresado -->
+<div class="noir-card bg-surface-container-low p-6 space-y-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between border-b border-outline-variant pb-3 gap-2">
+<div>
+<span class="text-label-sm font-label-sm text-outline uppercase">DISPOSITIVO EN LABORATORIO</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Dell Precision 7760 Xeon RTX (S/N: SN-DELL-88390X-24)</h3>
+</div>
+<div class="text-right">
+<div class="text-xs text-outline font-label-sm">ORDEN ACTIVA</div>
+<div class="font-mono text-sm text-primary-container font-bold">#ORD-9921</div>
+</div>
+</div>
+<!-- Timeline Segmentada con Estados Formales Exactos Requeridos -->
+<div>
+<div class="text-label-sm font-label-sm uppercase text-on-surface-variant mb-3">LÍNEA DE TIEMPO DEL SERVICIO:</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<!-- Estado 1: Pendiente -->
+<div class="p-3 bg-surface-container border border-outline-variant flex items-center gap-3 opacity-90">
+<div class="w-7 h-7 rounded-none bg-noir-blue border border-outline flex items-center justify-center text-xs font-bold text-white">✓</div>
+<div>
+<div class="text-label-sm font-label-sm uppercase text-on-surface font-bold">1. Pendiente</div>
+<div class="text-[10px] text-tertiary-container">Ingresado en recepción 11:42</div>
+</div>
+</div>
+<!-- Estado 2: En Diagnóstico / Técnico (Activo) -->
+<div class="p-3 bg-noir-blue border-2 border-primary-container flex items-center gap-3 amber-glow">
+<div class="w-7 h-7 rounded-none bg-primary-container text-noir-black flex items-center justify-center text-xs font-bold animate-pulse">⚡</div>
+<div>
+<div class="text-label-sm font-label-sm uppercase text-primary font-bold">2. En Diagnóstico / Técnico</div>
+<div class="text-[10px] text-white">En banco #03 con Ing. Mateo Cruz</div>
+</div>
+</div>
+<!-- Estado 3: Terminado -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant/60 flex items-center gap-3 opacity-50">
+<div class="w-7 h-7 rounded-none border border-outline-variant flex items-center justify-center text-xs text-outline">3</div>
+<div>
+<div class="text-label-sm font-label-sm uppercase text-on-surface-variant">3. Terminado</div>
+<div class="text-[10px] text-outline">Listo para Entrega</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel de Aceptación o Rechazo de Cotizaciones con Botones Funcionales -->
+<div class="p-5 bg-surface-container-lowest border border-outline-variant space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<span class="text-label-sm font-label-sm text-primary-container uppercase font-bold">DICTAMEN TÉCNICO Y COTIZACIÓN PROPUESTA</span>
+<span class="text-xs font-label-sm text-emerald-400 font-bold">DIAGNÓSTICO INICIAL: $0.00 COBRADO</span>
+</div>
+<p class="text-body-sm text-tertiary-container leading-relaxed">
+              El diagnóstico determinó un corto en la línea primaria de 19V derivado de picos de tensión. Se requiere el reemplazo de mosfets SMD de potencia y mantenimiento térmico integral.
+            </p>
+<!-- Resumen de Costos y Aplicación del 15% Descuento Fidelidad -->
+<div class="p-4 bg-surface-container border border-outline-variant font-label-md space-y-2">
+<div class="flex justify-between text-xs text-on-surface-variant">
+<span class="">Mano de obra especializada (Microelectrónica):</span>
+<span class="">$1,400.00 MXN</span>
+</div>
+<div class="flex justify-between text-xs text-on-surface-variant">
+<span class="">Refacciones requeridas (Mosfets OEM + Pad):</span>
+<span class="">$650.00 MXN</span>
+</div>
+<div class="flex justify-between text-xs font-bold text-primary border-t border-outline-variant pt-1">
+<span class="">Subtotal general:</span>
+<span class="">$2,050.00 MXN</span>
+</div>
+<div class="flex justify-between text-xs font-bold text-primary-container">
+<span class="">Descuento Fidelidad Platino (15% por &gt;5 reparaciones):</span>
+<span class="">-$307.50 MXN</span>
+</div>
+<div class="flex justify-between text-base font-bold text-white border-t-2 border-primary-container pt-2">
+<span class="">TOTAL FINAL AUTORIZABLE:</span>
+<span class="text-primary-container">$1,742.50 MXN</span>
+</div>
+</div>
+<!-- Botones Funcionales de Decisión del Cliente -->
+<div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2" id="client-decision-actions">
+<button class="w-full sm:w-auto px-5 py-2.5 bg-surface-container text-on-surface hover:text-error border border-outline-variant hover:border-error font-label-md text-label-md uppercase transition-all" onclick="handleClientDecision('reject')">
+                Rechazar Cotización - Solo Diagnóstico Gratuito ($0)
+              </button>
+<button class="w-full sm:w-auto px-6 py-2.5 bg-primary-container text-noir-black font-label-md text-label-md font-bold uppercase hover:bg-white transition-all active:translate-y-px" onclick="handleClientDecision('accept')">
+                Aceptar Cotización ($1,742.50 MXN)
+              </button>
+</div>
+<!-- Mensaje de Estado Post Decisión -->
+<div class="hidden p-3 bg-noir-blue border border-primary-container text-white text-xs font-label-sm text-center" id="client-decision-feedback">
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL UNIFICADO: INICIAR SESIÓN Y REGISTRO (Sin selector de rol explícito)-->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4" id="auth-modal">
+<div class="noir-card bg-surface-container-lowest max-w-md w-full p-6 md:p-8 border border-outline-variant amber-line relative">
+<!-- Botón de Cerrar Modal -->
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-white" onclick="closeAuthModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+<!-- Encabezado Modal -->
+<div class="text-center mb-6">
+<span class="font-headline-md text-headline-md font-bold text-primary-container uppercase tracking-wider">TecnoFix Solutions</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-1" id="auth-modal-title">Control de Acceso Seguro</h3>
+<p class="font-body-sm text-body-sm text-tertiary-container mt-1">SoporTec Industrial Authentication Gateway</p>
+</div>
+<!-- Selector de Pestaña: Iniciar Sesión vs Registro -->
+<div class="flex border-b border-outline-variant mb-6">
+<button class="flex-1 pb-2 font-label-md text-label-md uppercase text-primary-container border-b-2 border-primary-container font-bold" id="tab-auth-login" onclick="switchAuthTab('login')">
+          Iniciar Sesión
+        </button>
+<button class="flex-1 pb-2 font-label-md text-label-md uppercase text-on-surface-variant border-b-2 border-transparent hover:text-on-surface" id="tab-auth-register" onclick="switchAuthTab('register')">
+          Registro de Cliente
+        </button>
+</div>
+<!-- Formulario Login (SOLO Nombre de Usuario y Contraseña, sin selector de rol como se requirió) -->
+<form class="space-y-4" id="form-auth-login" onsubmit="handleLoginSubmit(event)">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Nombre de Usuario *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container focus:ring-0" id="login-username" placeholder="ej. cmendoza_55 o root_admin" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Contraseña *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container focus:ring-0" id="login-password" placeholder="••••••••••••" required="" type="password"/>
+</div>
+<div class="flex items-center justify-between text-xs pt-1">
+<label class="flex items-center gap-2 text-tertiary-container cursor-pointer font-label-sm">
+<input class="rounded-none bg-noir-black border-outline-variant text-primary-container" type="checkbox"/>
+<span class="">Recordar terminal</span>
+</label>
+<a class="text-primary hover:underline font-label-sm" href="#" onclick="alert('Contacte al administrador del laboratorio para restablecimiento de credenciales.')">¿Olvidó contraseña?</a>
+</div>
+<button class="w-full py-2.5 mt-2 bg-primary-container text-noir-black font-label-md text-label-md uppercase font-bold tracking-wider hover:bg-white transition-all active:translate-y-px" type="submit">
+          Acceder al Sistema
+        </button>
+</form>
+<!-- Formulario Registro de Cliente -->
+<form class="space-y-3 hidden" id="form-auth-register" onsubmit="handleRegisterSubmit(event)">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Nombre Completo *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="reg-name" placeholder="ej. María Morales" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Correo Electrónico *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="reg-email" placeholder="correo@empresa.com" required="" type="email"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Usuario *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="reg-user" placeholder="usuario_app" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase text-on-surface-variant mb-1">Contraseña *</label>
+<input class="w-full bg-noir-black border border-outline-variant px-3 py-2 text-on-surface font-label-md text-sm focus:border-primary-container" id="reg-pass" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<button class="w-full py-2.5 mt-2 bg-noir-blue border border-primary-container text-primary-container hover:bg-primary-container hover:text-noir-black font-label-md text-label-md uppercase font-bold tracking-wider transition-all" type="submit">
+          Registrar Cuenta Cliente
+        </button>
+</form>
+<div class="mt-4 pt-3 border-t border-outline-variant text-center text-[10px] text-tertiary-container font-label-sm">
+        Acceso monitoreado bajo registro criptográfico • SoporTec Audit v4.2
+      </div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- FOOTER TÉCNICO MINIMALISTA (Del JSON de Componentes)                      -->
+<!-- ========================================================================= -->
+<footer class="w-full px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-container-lowest border-t border-outline-variant text-xs text-tertiary-container select-none">
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md font-bold text-on-surface">TecnoFix Solutions</span>
+<span class="">•</span>
+<span class="">© 2024 TecnoFix Solutions (SoporTec). Industrial Diagnostic &amp; Telemetry Framework.</span>
+</div>
+<div class="flex flex-wrap items-center gap-4 font-label-sm text-label-sm">
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#politicas" onclick="switchRole('publico'); showSectionInPublic('politicas')">Protocolo SLA</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#politicas" onclick="switchRole('publico'); showSectionInPublic('politicas')">Términos de Servicio</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#politicas" onclick="switchRole('publico'); showSectionInPublic('politicas')">Trazabilidad QA</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#politicas" onclick="switchRole('publico'); showSectionInPublic('politicas')">Garantía de Hardware</a>
+<a class="text-tertiary-container hover:text-primary-container transition-colors" href="#contacto" onclick="switchRole('publico'); showSectionInPublic('ubicacion')">Soporte Técnico</a>
+</div>
+</footer>
+<!-- ========================================================================= -->
+<!-- LÓGICA INTERACTIVA VANILLA JS (Reactividad de Roles, Cotización, Modales) -->
+<!-- ========================================================================= -->
+<script>
+    // Estado Global del Taller
+    let currentRole = 'publico';
+    let isDarkMode = true;
+    let thermalPastesInitial = 5;
+    let thermalPastesLoaned = 2;
+    let hasFiveRepairsDiscount = true; // Cliente califica al 15%
+
+    // 1. Selector Reactivo de Roles / Módulos
+    const roleViews = {
+      'publico': { id: 'view-publico', name: 'Público / Landing', navId: 'nav-btn-publico' },
+      'admin': { id: 'view-admin', name: 'Administrador', navId: 'nav-btn-admin' },
+      'recepcion': { id: 'view-recepcion', name: 'Recepción', navId: 'nav-btn-recepcion' },
+      'tecnico': { id: 'view-tecnico', name: 'Técnico', navId: 'nav-btn-tecnico' },
+      'almacen': { id: 'view-almacen', name: 'Almacén', navId: 'nav-btn-almacen' },
+      'cliente': { id: 'view-cliente', name: 'Portal Cliente', navId: 'nav-btn-cliente' }
+    };
+
+    function switchRole(roleKey) {
+      currentRole = roleKey;
+
+      // Ocultar todas las vistas
+      Object.keys(roleViews).forEach(key => {
+        const el = document.getElementById(roleViews[key].id);
+        if (el) el.classList.add('hidden');
+        
+        // Quitar estilos activos del sidebar
+        const navBtn = document.getElementById(roleViews[key].navId);
+        if (navBtn) {
+          navBtn.className = "w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant font-label-md text-label-md transition-colors hover:bg-surface-container-high";
+        }
+      });
+
+      // Mostrar vista seleccionada
+      const target = document.getElementById(roleViews[roleKey].id);
+      if (target) target.classList.remove('hidden');
+
+      // Aplicar estilos del token de navegación activa
+      const activeNav = document.getElementById(roleViews[roleKey].navId);
+      if (activeNav) {
+        activeNav.className = "w-full flex items-center gap-3 px-3 py-2 text-on-surface bg-surface-container-highest border-l-2 border-primary-container font-label-md text-label-md";
+      }
+
+      // Actualizar TopBar badge
+      document.getElementById('top-role-badge').innerText = roleViews[roleKey].name;
+
+      // Cerrar dropdown si estaba abierto
+      document.getElementById('role-dropdown').classList.add('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleRoleDropdown() {
+      const dd = document.getElementById('role-dropdown');
+      dd.classList.toggle('hidden');
+    }
+
+    // 2. Control de Modo Oscuro / Claro
+    function toggleTheme() {
+      const html = document.documentElement;
+      isDarkMode = !isDarkMode;
+      if (isDarkMode) {
+        html.classList.add('dark');
+        document.getElementById('theme-indicator-text').innerText = 'NOIR';
+        document.getElementById('theme-icon').innerText = 'contrast';
+      } else {
+        html.classList.remove('dark');
+        document.getElementById('theme-indicator-text').innerText = 'LIGHT';
+        document.getElementById('theme-icon').innerText = 'light_mode';
+      }
+    }
+
+    // 3. Modales de Autenticación
+    function openAuthModal() {
+      document.getElementById('auth-modal').classList.remove('hidden');
+      document.getElementById('auth-modal').classList.add('flex');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('auth-modal').classList.remove('flex');
+    }
+
+    function switchAuthTab(type) {
+      if (type === 'login') {
+        document.getElementById('form-auth-login').classList.remove('hidden');
+        document.getElementById('form-auth-register').classList.add('hidden');
+        document.getElementById('tab-auth-login').className = "flex-1 pb-2 font-label-md text-label-md uppercase text-primary-container border-b-2 border-primary-container font-bold";
+        document.getElementById('tab-auth-register').className = "flex-1 pb-2 font-label-md text-label-md uppercase text-on-surface-variant border-b-2 border-transparent hover:text-on-surface";
+      } else {
+        document.getElementById('form-auth-login').classList.add('hidden');
+        document.getElementById('form-auth-register').classList.remove('hidden');
+        document.getElementById('tab-auth-register').className = "flex-1 pb-2 font-label-md text-label-md uppercase text-primary-container border-b-2 border-primary-container font-bold";
+        document.getElementById('tab-auth-login').className = "flex-1 pb-2 font-label-md text-label-md uppercase text-on-surface-variant border-b-2 border-transparent hover:text-on-surface";
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const u = document.getElementById('login-username').value.trim().toLowerCase();
+      
+      // Enrutamiento inteligente por username sin requerir selector de rol en UI
+      if (u.includes('admin') || u.includes('root')) {
+        switchRole('admin');
+      } else if (u.includes('tec') || u.includes('mateo')) {
+        switchRole('tecnico');
+      } else if (u.includes('alm') || u.includes('alonso')) {
+        switchRole('almacen');
+      } else if (u.includes('rec') || u.includes('valeria')) {
+        switchRole('recepcion');
+      } else {
+        switchRole('cliente');
+      }
+
+      document.getElementById('active-user-name').innerText = u.toUpperCase();
+      closeAuthModal();
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      alert('Registro completado exitosamente. Se han generado sus credenciales de cliente con acceso al Portal.');
+      switchRole('cliente');
+      closeAuthModal();
+    }
+
+    // 4. Recepción: Regla de >3 Equipos y Generador de Documento
+    function checkDeviceVolumeThreshold() {
+      const count = parseInt(document.getElementById('rec-device-count').value, 10);
+      const alertBox = document.getElementById('reception-alert-box');
+      if (count > 3) {
+        alertBox.classList.remove('hidden');
+        // Notificar en la bitácora administrativa
+        logAuditEntry(`RECEPCIÓN: Alto volumen detectado (${count} equipos). Retenido por regla de seguridad.`);
+      } else {
+        alertBox.classList.add('hidden');
+      }
+      generateOrderLive();
+    }
+
+    function updateReceptionPreview() {
+      generateOrderLive();
+    }
+
+    function generateOrderLive() {
+      const client = document.getElementById('rec-client-name').value;
+      const phone = document.getElementById('rec-client-phone').value;
+      const device = document.getElementById('rec-device-brand').value + ' ' + document.getElementById('rec-device-model').value;
+      const sn = document.getElementById('rec-device-sn').value;
+      const serviceType = document.getElementById('rec-service-type').value;
+      const notes = document.getElementById('rec-device-desc').value;
+
+      document.getElementById('doc-preview-client').innerText = client;
+      document.getElementById('doc-preview-phone').innerText = phone;
+      document.getElementById('doc-preview-device').innerText = device;
+      document.getElementById('doc-preview-sn').innerText = sn;
+      document.getElementById('doc-preview-notes').innerText = notes;
+      
+      if (serviceType === 'diag') {
+        document.getElementById('doc-preview-type').innerText = 'DIAGNÓSTICO GRATUITO ($0.00)';
+      } else {
+        document.getElementById('doc-preview-type').innerText = 'REPARACIÓN DIRECTA (COTIZACIÓN PENDIENTE)';
+      }
+    }
+
+    function switchDocMode(mode) {
+      const initBtn = document.getElementById('doc-btn-init');
+      const finalBtn = document.getElementById('doc-btn-final');
+      const finalSec = document.getElementById('doc-final-section');
+      const title = document.getElementById('doc-title-header');
+
+      if (mode === 'final') {
+        finalSec.classList.remove('hidden');
+        title.innerText = "HOJA FINAL DE ENTREGA & LIQUIDACIÓN #ORD-9921";
+        finalBtn.className = "px-3 py-1 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase";
+        initBtn.className = "px-3 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant uppercase border border-outline-variant";
+      } else {
+        finalSec.classList.add('hidden');
+        title.innerText = "ORDEN DE SERVICIO INICIAL #ORD-9921";
+        initBtn.className = "px-3 py-1 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase";
+        finalBtn.className = "px-3 py-1 text-xs font-label-sm bg-surface-container text-on-surface-variant uppercase border border-outline-variant";
+      }
+    }
+
+    function quickNewOrder() {
+      switchRole('recepcion');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 5. Módulo Técnico: Dictamen, Cotizaciones y Solicitud Diferenciada
+    function setTechnicianVerdict(type) {
+      const btnFree = document.getElementById('btn-diag-free');
+      const btnQuote = document.getElementById('btn-diag-quote');
+      const quotePanel = document.getElementById('tech-quote-panel');
+
+      if (type === 'free') {
+        btnFree.className = "px-3 py-1.5 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase";
+        btnQuote.className = "px-3 py-1.5 text-xs font-label-sm bg-surface-container text-white border border-outline-variant";
+        quotePanel.classList.add('opacity-50');
+      } else {
+        btnQuote.className = "px-3 py-1.5 text-xs font-label-sm bg-primary-container text-noir-black font-bold uppercase";
+        btnFree.className = "px-3 py-1.5 text-xs font-label-sm bg-surface-container text-white border border-outline-variant";
+        quotePanel.classList.remove('opacity-50');
+      }
+    }
+
+    function calculateLiveQuote() {
+      const labor = parseFloat(document.getElementById('quote-labor').value) || 0;
+      const parts = parseFloat(document.getElementById('quote-parts').value) || 0;
+      const total = labor + parts;
+      document.getElementById('quote-subtotal').value = `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
+    }
+
+    function dispatchQuoteToClient() {
+      alert("Cotización transmitida al Portal del Cliente con desglose y descuento por fidelidad calculado.");
+      logAuditEntry("TÉCNICO: Cotización transmitida para orden #ORD-9921.");
+    }
+
+    function filterMaterialOptions() {
+      const cat = document.getElementById('req-material-category').value;
+      const select = document.getElementById('req-material-item');
+      select.innerHTML = '';
+
+      if (cat === 'refaccion') {
+        const options = [
+          'Mosfet SMD de Potencia 30V (Refacción)',
+          'Batería Dell 6-Celdas 97Wh (Refacción)',
+          'Pantalla IPS 4K 120Hz (Refacción)',
+          'SSD NVMe Samsung 1TB 980 Pro (Refacción)'
+        ];
+        options.forEach(opt => {
+          const el = document.createElement('option');
+          el.innerText = opt;
+          select.appendChild(el);
+        });
+      } else {
+        const options = [
+          'Cautín de Precisión JBC C245 (Herramienta)',
+          'Juego Desarmadores iFixit Pro (Herramienta)',
+          'Pinzas ESD Antiestáticas Curvas (Herramienta)',
+          'Pasta Térmica Arctic MX-6 (Insumo/Herramienta)'
+        ];
+        options.forEach(opt => {
+          const el = document.createElement('option');
+          el.innerText = opt;
+          select.appendChild(el);
+        });
+      }
+    }
+
+    function checkTechQuantityAnomaly() {
+      const qty = parseInt(document.getElementById('req-material-qty').value, 10);
+      const alertEl = document.getElementById('tech-mass-alert');
+      if (qty > 3) {
+        alertEl.classList.remove('hidden');
+      } else {
+        alertEl.classList.add('hidden');
+      }
+    }
+
+    function submitMaterialRequest() {
+      const cat = document.getElementById('req-material-category').value.toUpperCase();
+      const item = document.getElementById('req-material-item').value;
+      const qty = document.getElementById('req-material-qty').value;
+      const list = document.getElementById('tech-requests-list');
+
+      const row = document.createElement('div');
+      row.className = "p-2 bg-surface-container-lowest border border-outline-variant flex justify-between items-center";
+      row.innerHTML = `<span>[${cat}] ${item} (${qty} unidades)</span><span class="text-primary-container font-label-sm">SOLICITADO / REVISIÓN</span>`;
+      list.prepend(row);
+
+      logAuditEntry(`TÉCNICO: Requisición de ${qty}x ${item}`);
+    }
+
+    // 6. Almacén: Control de Existencias & Retorno Automático a 5
+    function simulateToolReturn() {
+      thermalPastesLoaned = 0;
+      const currentStock = thermalPastesInitial; // Vuelve exactamente a 5
+      document.getElementById('demo-loaned-qty').innerText = "0 (Devuelto)";
+      document.getElementById('demo-current-stock').innerText = currentStock;
+      document.getElementById('inventory-mx6-val').innerText = currentStock;
+
+      const card = document.getElementById('loan-card-2');
+      if (card) {
+        card.innerHTML = `
+          <div class="flex justify-between items-center text-xs text-emerald-400 font-label-sm">
+            <span>✓ Préstamo restituido a stock completo (5 unidades en almacén).</span>
+            <span class="text-[9px] uppercase border border-emerald-400/30 px-2 py-0.5">DEVUELTO OK</span>
+          </div>
+        `;
+      }
+
+      logAuditEntry("ALMACÉN: Devolución de pasta térmica procesada. Stock restituido a su valor original de 5.");
+    }
+
+    function returnTool(cardId, toolName) {
+      const el = document.getElementById(cardId);
+      if (el) {
+        el.innerHTML = `
+          <div class="flex justify-between items-center text-xs text-emerald-400 font-label-sm p-2">
+            <span>✓ ${toolName} devuelta al casillero y stock reintegrado.</span>
+            <span class="text-[9px] uppercase border border-emerald-400/30 px-2 py-0.5">DISPONIBLE</span>
+          </div>
+        `;
+      }
+      logAuditEntry(`ALMACÉN: Retorno de herramienta ${toolName} registrado con éxito.`);
+    }
+
+    function dispatchPermanentPart(sku, name) {
+      alert(`Salida definitiva registrada para [${sku}] ${name}. Stock actualizado con descuento directo en el inventario.`);
+      logAuditEntry(`ALMACÉN: Salida permanente de refacción ${sku} para ensamble final.`);
+    }
+
+    // 7. Administrador: Aprobaciones y Bitácora
+    function resolveAdminApproval(elementId, isApproved) {
+      const item = document.getElementById(elementId);
+      if (!item) return;
+
+      if (isApproved) {
+        item.className = "p-3 bg-emerald-950/30 border border-emerald-500 text-xs text-emerald-300 flex items-center justify-between";
+        item.innerHTML = `<span>✓ Solicitud aprobada y autorizada por la administración en bitácora.</span><span class="font-bold">AUTORIZADO</span>`;
+        logAuditEntry(`ADMINISTRACIÓN: Autorización aprobada para requerimiento.`);
+      } else {
+        item.className = "p-3 bg-red-950/30 border border-red-500 text-xs text-red-300 flex items-center justify-between";
+        item.innerHTML = `<span>✕ Solicitud rechazada por criterio de seguridad y balance de almacén.</span><span class="font-bold">DENEGADO</span>`;
+        logAuditEntry(`ADMINISTRACIÓN: Requerimiento rechazado por supervisión.`);
+      }
+
+      const counter = document.getElementById('admin-pending-count');
+      const val = Math.max(0, parseInt(counter.innerText, 10) - 1);
+      counter.innerText = val;
+    }
+
+    function logAuditEntry(msg) {
+      const container = document.getElementById('audit-log-container');
+      if (!container) return;
+      const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+      const div = document.createElement('div');
+      div.className = "p-2 bg-surface-container-lowest border-l-2 border-l-primary-container text-on-surface-variant flex justify-between";
+      div.innerHTML = `<span>[${now}] • ${msg}</span><span class="text-outline">IP: 192.168.1.100</span>`;
+      container.prepend(div);
+    }
+
+    // 8. Portal Cliente: Decisiones de Cotización
+    function handleClientDecision(decision) {
+      const actions = document.getElementById('client-decision-actions');
+      const feedback = document.getElementById('client-decision-feedback');
+      actions.classList.add('hidden');
+      feedback.classList.remove('hidden');
+
+      if (decision === 'accept') {
+        feedback.innerHTML = `
+          <strong class="text-primary-container block text-sm">COTIZACIÓN APROBADA CON ÉXITO ($1,742.50 MXN)</strong>
+          <span>Su orden ha pasado a la fase de ensamblaje y reemplazo de microcomponentes. Se le notificará en cuanto pase a Control de Calidad.</span>
+        `;
+        logAuditEntry("CLIENTE: Cotización #ORD-9921 aceptada por el usuario con descuento del 15% aplicado.");
+      } else {
+        feedback.innerHTML = `
+          <strong class="text-white block text-sm">COTIZACIÓN DECLINADA - DIAGNÓSTICO GRATUITO $0.00 MANTENIDO</strong>
+          <span>El equipo se reensamblará con su condición original sin ningún costo para usted. Puede pasar a recogerlo en recepción.</span>
+        `;
+        logAuditEntry("CLIENTE: Cotización #ORD-9921 declinada. Se mantiene diagnóstico gratuito $0.");
+      }
+    }
+
+    function showSectionInPublic(secId) {
+      switchRole('publico');
+      setTimeout(() => {
+        const el = document.getElementById('sec-' + secId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+
+    // Inicialización al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      generateOrderLive();
+    });
+  </script>
+<script>
+function resolveSupplyApproval(caseId, actionType, detailText) {
+  var badge = document.getElementById('status-badge-' + caseId);
+  var actionsPanel = document.getElementById('actions-panel-' + caseId);
+  var resultPanel = document.getElementById('result-' + caseId);
+  var counter = document.getElementById('admin-pending-count');
+
+  if (!badge || !resultPanel) return;
+
+  if (actionsPanel) actionsPanel.classList.add('hidden');
+  resultPanel.classList.remove('hidden');
+
+  var orderNum = 'ALM-2024-' + Math.floor(10 + Math.random() * 89);
+  var techName = caseId === 'tec042' ? 'Jesús Ramírez (TEC-042)' : 'María González (TEC-089)';
+
+  if (actionType === 'approve') {
+    badge.className = 'px-2.5 py-1 text-[10px] font-label-sm bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold uppercase tracking-wider';
+    badge.innerText = 'APROBADO - DESPACHO EMITIDO';
+    resultPanel.className = 'p-3 bg-emerald-950/20 border border-emerald-500 text-xs font-label-md text-emerald-300 space-y-1';
+    resultPanel.innerHTML = '<div class="font-bold uppercase tracking-wider flex justify-between"><span>ORDEN DE DESPACHO ' + orderNum + ' EMITIDA A ALMACÉN</span><span class="text-[10px] font-mono text-outline">FIRMA: AUTH-ROOT-ADMIN</span></div><div>' + detailText + '</div><div class="text-[11px] text-on-surface-variant font-label-sm pt-1 border-t border-emerald-500/30">Trazabilidad: Notificación confirmada en banco de trabajo de ' + techName + '. Stock reservado y descontado.</div>';
+    logAuditEntry('ADMINISTRACIÓN: Aprobación total de suministro masivo para ' + techName + '. Orden ' + orderNum + ' enviada a Almacén.');
+  } else if (actionType === 'partial') {
+    badge.className = 'px-2.5 py-1 text-[10px] font-label-sm bg-amber-950 border border-primary-container text-primary font-bold uppercase tracking-wider';
+    badge.innerText = 'APROBACIÓN PARCIAL - AJUSTE APLICADO';
+    resultPanel.className = 'p-3 bg-amber-950/20 border border-primary-container text-xs font-label-md text-primary space-y-1';
+    resultPanel.innerHTML = '<div class="font-bold uppercase tracking-wider flex justify-between"><span>AJUSTE ADMINISTRATIVO CONCILIADO (' + orderNum + ')</span><span class="text-[10px] font-mono text-outline">FIRMA: AUTH-ROOT-ADMIN</span></div><div>' + detailText + '</div><div class="text-[11px] text-on-surface-variant font-label-sm pt-1 border-t border-primary-container/30">Trazabilidad: Se notificó al técnico ' + techName + ' con el desglose autorizado para calibración inmediata de orden.</div>';
+    logAuditEntry('ADMINISTRACIÓN: Aprobación parcial con ajuste de cantidad para ' + techName + ' (' + orderNum + ').');
+  } else {
+    badge.className = 'px-2.5 py-1 text-[10px] font-label-sm bg-error-container/20 border border-error text-error font-bold uppercase tracking-wider';
+    badge.innerText = 'RECHAZADO - MOTIVO REGISTRADO';
+    resultPanel.className = 'p-3 bg-error-container/20 border border-error text-xs font-label-md text-error space-y-1';
+    resultPanel.innerHTML = '<div class="font-bold uppercase tracking-wider flex justify-between"><span>REQUISICIÓN DENEGADA POR SUPERVISIÓN</span><span class="text-[10px] font-mono text-outline">CÓDIGO: DND-SEC-403</span></div><div>' + detailText + '</div><div class="text-[11px] text-on-surface-variant font-label-sm pt-1 border-t border-error/30">Trazabilidad: Aviso enviado al banco técnico de ' + techName + '. El inventario de Almacén permanece sin alteraciones.</div>';
+    logAuditEntry('ADMINISTRACIÓN: Solicitud masiva rechazada para ' + techName + '. Stock resguardado.');
+  }
+
+  if (counter) {
+    var currentVal = parseInt(counter.innerText, 10) || 0;
+    counter.innerText = Math.max(0, currentVal - 1);
+  }
+}
+</script></body></html>

@@ -2,48 +2,53 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Refaccion extends Model
 {
-    protected $table = 'refacciones';
+    use HasFactory;
 
-    protected $primaryKey = 'id_refaccion';
+    protected $table = 'refaccions';
 
     protected $fillable = [
-        'nombre', 'marca', 'numero_parte', 'descripcion', 'existencia',
-        'existencia_minima', 'costo_unitario', 'precio_venta', 'ubicacion', 'estado',
+        'nombre',
+        'marca',
+        'modelo',
+        'precio_unitario',
+        'stock_disponible',
     ];
 
     protected function casts(): array
     {
         return [
-            'existencia' => 'integer',
-            'existencia_minima' => 'integer',
-            'costo_unitario' => 'decimal:2',
-            'precio_venta' => 'decimal:2',
-            'estado' => 'boolean',
+            'precio_unitario' => 'decimal:2',
+            'stock_disponible' => 'integer',
         ];
     }
 
-    public function refaccionesUtilizadas(): HasMany
+    public function detallesCotizacion()
     {
-        return $this->hasMany(RefaccionUtilizada::class, 'id_refaccion', 'id_refaccion');
+        return $this->hasMany(DetalleCotizacion::class, 'refaccion_id');
     }
 
-    public function movimientosInventario(): HasMany
+    public function scopeConStock($query)
     {
-        return $this->hasMany(MovimientoInventario::class, 'id_refaccion', 'id_refaccion');
+        return $query->where('stock_disponible', '>', 0);
     }
 
-    public function detallesCotizacion(): HasMany
+    public function descontarStock(int $cantidad): bool
     {
-        return $this->hasMany(DetalleCotizacion::class, 'id_refaccion', 'id_refaccion');
+        if ($this->stock_disponible < $cantidad) {
+            return false;
+        }
+
+        $this->decrement('stock_disponible', $cantidad);
+        return true;
     }
 
-    public function getStockBajoAttribute(): bool
+    public function restituirStock(int $cantidad): void
     {
-        return $this->existencia <= $this->existencia_minima;
+        $this->increment('stock_disponible', $cantidad);
     }
 }

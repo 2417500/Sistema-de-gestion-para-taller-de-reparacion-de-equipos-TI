@@ -2,32 +2,51 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Cotizacion extends Model
 {
-    protected $table = 'cotizaciones';
+    use HasFactory;
 
-    protected $primaryKey = 'id_cotizacion';
+    protected $table = 'cotizacions';
 
-    protected $fillable = ['id_orden', 'estado', 'observaciones'];
+    protected $fillable = [
+        'orden_servicio_id',
+        'version',
+        'costo_mano_obra',
+        'subtotal',
+        'estado',
+    ];
 
-    public function orden(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(OrdenServicio::class, 'id_orden', 'id_orden');
+        return [
+            'version' => 'integer',
+            'costo_mano_obra' => 'decimal:2',
+            'subtotal' => 'decimal:2',
+        ];
     }
 
-    public function versiones(): HasMany
+    public function ordenServicio()
     {
-        return $this->hasMany(VersionCotizacion::class, 'id_cotizacion', 'id_cotizacion');
+        return $this->belongsTo(OrdenServicio::class, 'orden_servicio_id');
     }
 
-    public function versionActual(): HasOne
+    public function detalles()
     {
-        return $this->hasOne(VersionCotizacion::class, 'id_cotizacion', 'id_cotizacion')
-            ->ofMany('numero_version', 'max');
+        return $this->hasMany(DetalleCotizacion::class, 'cotizacion_id');
+    }
+
+    /**
+     * Recalcula el subtotal sumando el costo de mano de obra y el subtotal de cada refacción.
+     */
+    public function calcularSubtotal(): float
+    {
+        $totalRefacciones = (float) $this->detalles()->sum('subtotal');
+        $this->subtotal = round((float) $this->costo_mano_obra + $totalRefacciones, 2);
+        $this->save();
+
+        return (float) $this->subtotal;
     }
 }

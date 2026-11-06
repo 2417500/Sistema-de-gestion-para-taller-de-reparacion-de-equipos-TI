@@ -2,262 +2,117 @@
 
 namespace App\Services;
 
-use App\Models\Aprobacion;
 use App\Models\Cotizacion;
 use App\Models\DetalleCotizacion;
+use App\Models\HistorialEstado;
 use App\Models\OrdenServicio;
-use App\Models\ReglaDescuento;
-use App\Models\VersionCotizacion;
+use App\Models\Refaccion;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 
-/**
- * CotizacionService
- * -----------------
- * Gestiona el ciclo completo de cotizaciones.
- *
- * Reglas de negocio cubiertas:
- *  - Toda cotización tiene fecha de emisión, versión, vigencia, detalles y totales.
- *  - Modificar precio/refacciones/mano de obra genera nueva versión; las anteriores se conservan.
- *  - El cliente puede aceptar o rechazar; ambas decisiones se registran con fecha y motivo.
- *  - El administrador puede aprobar/rechazar; el rechazo requiere motivo.
- *  - Ninguna reparación puede iniciar sin cotización vigente aceptada.
- *  - Si la cotización vence sin aceptación, la reparación no puede comenzar.
- *  - El descuento se evalúa y registra; no se acumula automáticamente.
- *  - Se notifica al cliente cuando se genera la cotización.
- */
 class CotizacionService
 {
-    public function __construct(
-        private readonly BitacoraService    $bitacora,
-        private readonly NotificacionService $notificaciones,
-        private readonly DescuentoService   $descuentos,
-    ) {}
-
-    // ── Creación / nueva versión ─────────────────────────────────────────────
-
     /**
-     * Genera la primera versión de una cotización para la orden indicada.
+     * Elabora una nueva versión de cotización/presupuesto con mano de obra y refacciones.
      *
-     * @param  OrdenServicio  $orden
-     * @param  array          $detalles    [['tipo_concepto', 'descripcion', 'cantidad', 'precio_unitario'], ...]
-     * @param  int            $idUsuario   Técnico/recepcionista que la emite
-     * @param  \DateTime|null $vigencia    Fecha de vencimiento (null = +7 días)
-     * @param  string|null    $condiciones
+     * @param int $ordenId
+     * @param float $costoManoObra
+     * @param array $repuestos Lista de [refaccion_id, cantidad, precio_unitario (opcional)]
      */
-    public function crearCotizacion(
-        OrdenServicio $orden,
-        array $detalles,
-        int $idUsuario,
-        ?\DateTime $vigencia = null,
-        ?string $condiciones = null,
-    ): VersionCotizacion {
-        return DB::transaction(function () use ($orden, $detalles, $idUsuario, $vigencia, $condiciones) {
-            // Una sola cotización por orden
-            $cotizacion = $orden->cotizacion ?? Cotizacion::create([
-                'id_orden'          => $orden->id_orden,
-                'estado'            => 'Pendiente',
-                'requiere_anticipo' => true,
-                'porcentaje_anticipo' => 50,
+    public function crearCotizacion(int $ordenId, float $costoManoObra, array $repuestos = []): Cotizacion
+    {
+        return DB::transaction(function () use ($ordenId, $costoManoObra, $repuestos) {
+            $orden = OrdenServicio::findOrFail($ordenId);
+
+            // Determinar versión incremental para trazabilidad
+            $ultimaVersion = Cotizacion::where('orden_servicio_id', $orden->id)->max('version') ?? 0;
+            $nuevaVersion = $ultimaVersion + 1;
+
+            $cotizacion = Cotizacion::create([
+                'orden_servicio_id' => $orden->id,
+                'version' => $nuevaVersion,
+                'costo_mano_obra' => round($costoManoObra, 2),
+                'subtotal' => round($costoManoObra, 2),
+                'estado' => 'Pendiente',
             ]);
 
-            $version = $this->crearVersion($cotizacion, $detalles, $idUsuario, $vigencia, $condiciones);
+            $totalRefacciones = 0.0;
 
-            // Notificar al cliente
-            $idCliente = $orden->equipo?->id_cliente;
-            if ($idCliente) {
-                $this->notificaciones->cotizacionGenerada($idCliente, $orden->folio ?? "#{$orden->id_orden}");
+            foreach ($repuestos as $item) {
+                $refaccion = Refaccion::findOrFail($item['refaccion_id']);
+                $cantidad = (int) $item['cantidad'];
+                $precioUnitario = isset($item['precio_unitario']) 
+                    ? (float) $item['precio_unitario'] 
+                    : (float) $refaccion->precio_unitario;
+
+                $subtotalLinea = round($cantidad * $precioUnitario, 2);
+                $totalRefacciones += $subtotalLinea;
+
+                DetalleCotizacion::create([
+                    'cotizacion_id' => $cotizacion->id,
+                    'refaccion_id' => $refaccion->id,
+                    'cantidad' => $cantidad,
+                    'precio_unitario' => $precioUnitario,
+                    'subtotal' => $subtotalLinea,
+                ]);
             }
 
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'generada');
+            // Actualizar el subtotal consolidado
+            $cotizacion->subtotal = round($costoManoObra + $totalRefacciones, 2);
+            $cotizacion->save();
 
-            return $version;
+            HistorialEstado::create([
+                'orden_servicio_id' => $orden->id,
+                'modulo' => 'Técnico',
+                'estado' => $orden->estado,
+                'comentarios' => "Cotización v{$nuevaVersion} generada por un subtotal de $" . number_format($cotizacion->subtotal, 2),
+                'usuario_id' => $orden->tecnico_id ?? $orden->recepcion_id,
+            ]);
+
+            return $cotizacion->load(['detalles.refaccion', 'ordenServicio']);
         });
     }
 
     /**
-     * Genera una nueva versión cuando se modifica una cotización existente.
+     * Procesa la respuesta del cliente sobre la cotización (Aceptada / Rechazada).
      */
-    public function nuevaVersion(
-        Cotizacion $cotizacion,
-        array $detalles,
-        int $idUsuario,
-        ?\DateTime $vigencia = null,
-        ?string $condiciones = null,
-    ): VersionCotizacion {
-        return DB::transaction(function () use ($cotizacion, $detalles, $idUsuario, $vigencia, $condiciones) {
-            $version = $this->crearVersion($cotizacion, $detalles, $idUsuario, $vigencia, $condiciones);
+    public function responderCotizacion(int $cotizacionId, string $decision, int $usuarioId): Cotizacion
+    {
+        $decision = ucfirst(strtolower($decision));
+        if (!in_array($decision, ['Aceptada', 'Rechazada'], true)) {
+            throw new InvalidArgumentException("Decisión inválida [{$decision}]. Solo se permite 'Aceptada' o 'Rechazada'.");
+        }
 
-            // Reactivar cotización si estaba vencida/rechazada
-            if (in_array($cotizacion->estado, ['Rechazada', 'Vencida'], true)) {
-                $cotizacion->update(['estado' => 'Pendiente']);
+        return DB::transaction(function () use ($cotizacionId, $decision, $usuarioId) {
+            $cotizacion = Cotizacion::with('ordenServicio')->findOrFail($cotizacionId);
+            $cotizacion->estado = $decision;
+            $cotizacion->save();
+
+            $orden = $cotizacion->ordenServicio;
+
+            if ($decision === 'Aceptada') {
+                $orden->estado = 'En_Proceso';
+                $orden->save();
             }
 
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'nueva_version');
-            $this->notificaciones->autorizacionRequerida("Nueva versión de cotización para orden {$cotizacion->orden?->folio}. Requiere revisión del administrador.");
+            HistorialEstado::create([
+                'orden_servicio_id' => $orden->id,
+                'modulo' => 'Cliente',
+                'estado' => $orden->estado,
+                'comentarios' => "El cliente ha {$decision} la cotización v{$cotizacion->version} (Monto: $" . number_format($cotizacion->subtotal, 2) . ")",
+                'usuario_id' => $usuarioId,
+            ]);
 
-            return $version;
-        });
-    }
-
-    // ── Decisión del cliente ─────────────────────────────────────────────────
-
-    /**
-     * El cliente acepta la versión vigente de la cotización.
-     */
-    public function aceptarPorCliente(VersionCotizacion $version, int $idCliente): Aprobacion
-    {
-        $this->validarVigencia($version);
-
-        return DB::transaction(function () use ($version, $idCliente) {
-            $aprobacion = Aprobacion::updateOrCreate(
-                ['id_version' => $version->id_version, 'id_cliente' => $idCliente],
-                ['estado' => 'Aprobada', 'fecha_respuesta' => now(), 'comentarios' => null, 'motivo_rechazo' => null],
-            );
-
-            $version->update(['fecha_aceptacion' => now()]);
-            $version->cotizacion->update(['estado' => 'Aprobada']);
-
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'aprobada_cliente');
-
-            return $aprobacion;
+            return $cotizacion->fresh();
         });
     }
 
     /**
-     * El cliente rechaza la versión indicando el motivo.
+     * Calcula el monto total sumando mano de obra y detalles.
      */
-    public function rechazarPorCliente(VersionCotizacion $version, int $idCliente, string $motivo): Aprobacion
+    public function calcularTotal(Cotizacion $cotizacion): float
     {
-        if (blank($motivo)) {
-            throw ValidationException::withMessages(['motivo' => 'El motivo de rechazo es obligatorio.']);
-        }
-
-        return DB::transaction(function () use ($version, $idCliente, $motivo) {
-            $aprobacion = Aprobacion::updateOrCreate(
-                ['id_version' => $version->id_version, 'id_cliente' => $idCliente],
-                ['estado' => 'Rechazada', 'fecha_respuesta' => now(), 'motivo_rechazo' => $motivo],
-            );
-
-            $version->cotizacion->update(['estado' => 'Rechazada']);
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'rechazada_cliente', $motivo);
-            $this->notificaciones->autorizacionRequerida("El cliente rechazó la cotización de la orden {$version->cotizacion->orden?->folio}. Motivo: {$motivo}");
-
-            return $aprobacion;
-        });
-    }
-
-    // ── Decisión administrativa ──────────────────────────────────────────────
-
-    public function aprobarPorAdministrador(VersionCotizacion $version, int $idAdmin): void
-    {
-        DB::transaction(function () use ($version, $idAdmin) {
-            $version->cotizacion->update(['estado' => 'AprobadaAdmin']);
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'aprobada_admin');
-        });
-    }
-
-    public function rechazarPorAdministrador(VersionCotizacion $version, int $idAdmin, string $motivo): void
-    {
-        if (blank($motivo)) {
-            throw ValidationException::withMessages(['motivo' => 'El motivo de rechazo administrativo es obligatorio.']);
-        }
-
-        DB::transaction(function () use ($version, $idAdmin, $motivo) {
-            $version->cotizacion->update(['estado' => 'RechazadaAdmin']);
-            $this->bitacora->aprobacionCotizacion($version->id_version, 'rechazada_admin', $motivo);
-            $this->bitacora->rechazoSolicitud($version->id_version, $motivo, 'VersionCotizacion');
-        });
-    }
-
-    // ── Validación para inicio de reparación ─────────────────────────────────
-
-    /**
-     * Verifica que existan todas las condiciones para iniciar la reparación:
-     *  1. Cotización vigente aceptada por el cliente.
-     *  2. Anticipo pagado (si aplica).
-     * Lanza ValidationException si alguna condición no se cumple.
-     */
-    public function validarCondicionesParaReparacion(OrdenServicio $orden): void
-    {
-        $cotizacion = $orden->cotizacion;
-
-        if (! $cotizacion) {
-            throw ValidationException::withMessages(['cotizacion' => 'La orden no tiene cotización registrada.']);
-        }
-
-        $versionVigente = $cotizacion->versionActual;
-
-        if (! $versionVigente) {
-            throw ValidationException::withMessages(['cotizacion' => 'No existe una versión de cotización activa.']);
-        }
-
-        $this->validarVigencia($versionVigente);
-
-        if ($cotizacion->estado !== 'Aprobada') {
-            throw ValidationException::withMessages([
-                'cotizacion' => 'La cotización no ha sido aceptada por el cliente. La reparación no puede iniciar.',
-            ]);
-        }
-    }
-
-    // ── Helpers privados ─────────────────────────────────────────────────────
-
-    private function crearVersion(
-        Cotizacion $cotizacion,
-        array $detalles,
-        int $idUsuario,
-        ?\DateTime $vigencia,
-        ?string $condiciones,
-    ): VersionCotizacion {
-        $numeroVersion = ($cotizacion->versiones()->max('numero_version') ?? 0) + 1;
-
-        [$subtotal, $descuento, $porcentaje, $regla] = $this->descuentos->calcularParaCotizacion(
-            $cotizacion->orden->equipo->id_cliente,
-            $this->calcularSubtotal($detalles),
-        );
-
-        $version = VersionCotizacion::create([
-            'id_cotizacion'                => $cotizacion->id_cotizacion,
-            'id_regla_descuento'           => $regla?->id_regla_descuento,
-            'id_usuario'                   => $idUsuario,
-            'numero_version'               => $numeroVersion,
-            'subtotal'                     => $subtotal,
-            'descuento'                    => $descuento,
-            'porcentaje_descuento_aplicado' => $porcentaje,
-            'total'                        => $subtotal - $descuento,
-            'condiciones'                  => $condiciones,
-            'fecha_emision'                => now(),
-            'fecha_vencimiento'            => $vigencia ?? now()->addDays(7),
-        ]);
-
-        foreach ($detalles as $det) {
-            $importe = round(($det['cantidad'] ?? 1) * $det['precio_unitario'], 2);
-            DetalleCotizacion::create([
-                'id_version'     => $version->id_version,
-                'id_refaccion'   => $det['id_refaccion'] ?? null,
-                'tipo_concepto'  => $det['tipo_concepto'],
-                'descripcion'    => $det['descripcion'],
-                'cantidad'       => $det['cantidad'] ?? 1,
-                'precio_unitario' => $det['precio_unitario'],
-                'importe'        => $importe,
-            ]);
-        }
-
-        return $version;
-    }
-
-    private function calcularSubtotal(array $detalles): float
-    {
-        return array_reduce($detalles, fn ($carry, $d) => $carry + (($d['cantidad'] ?? 1) * $d['precio_unitario']), 0.0);
-    }
-
-    private function validarVigencia(VersionCotizacion $version): void
-    {
-        if ($version->fecha_vencimiento && now()->gt($version->fecha_vencimiento)) {
-            throw ValidationException::withMessages([
-                'cotizacion' => 'La cotización ha vencido. Es necesario generar una nueva versión.',
-            ]);
-        }
+        return $cotizacion->calcularSubtotal();
     }
 }
+

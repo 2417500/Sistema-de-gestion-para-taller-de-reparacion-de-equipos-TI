@@ -1,105 +1,127 @@
 <?php
 
+use App\Models\Cliente;
 use App\Models\Cotizacion;
-use App\Models\VersionCotizacion;
+use App\Models\Equipo;
+use App\Models\OrdenServicio;
+use App\Models\Refaccion;
+use App\Models\Role;
+use App\Models\User;
 use App\Services\CotizacionService;
-use Illuminate\Validation\ValidationException;
 
-// ──────────────────────────────────────────────────────────────────────────────
-// CotizacionService – Versiones, aceptación y rechazo de cotizaciones
-// ──────────────────────────────────────────────────────────────────────────────
+beforeEach(function () {
+    $this->service = new CotizacionService();
 
-describe('CotizacionService', function () {
+    $roleCliente = Role::create(['nombre' => 'Cliente', 'descripcion' => 'Cliente']);
+    $roleRecepcion = Role::create(['nombre' => 'Recepcion', 'descripcion' => 'Recepción']);
 
-    beforeEach(function () {
-        $roles = crearRoles();
-        $datos = crearClienteConUsuario($roles['cliente']);
+    $this->clienteUser = User::create([
+        'role_id' => $roleCliente->id,
+        'name' => 'Cliente Sofía',
+        'email' => 'sofia@tecnofix.test',
+        'password' => bcrypt('password'),
+    ]);
 
-        $this->cliente     = $datos['cliente'];
-        $this->userCliente = $datos['user'];
-        $this->recepcion   = crearUsuarioEmpleado($roles['recepcion'], 'rec@taller.com');
-        $this->admin       = crearUsuarioEmpleado($roles['admin'], 'admin@taller.com');
+    $recepcion = User::create([
+        'role_id' => $roleRecepcion->id,
+        'name' => 'Recepcionista',
+        'email' => 'recepcion@tecnofix.test',
+        'password' => bcrypt('password'),
+    ]);
 
-        $this->equipo  = crearEquipo($this->cliente->id_cliente);
-        $this->orden   = crearOrden($this->equipo->id_equipo, $this->recepcion->id);
-        $this->service = app(CotizacionService::class);
+    $cliente = Cliente::create([
+        'user_id' => $this->clienteUser->id,
+        'equipos_reparados_count' => 0,
+        'aplica_descuento' => false,
+    ]);
 
-        $this->detalles = [
-            ['tipo_concepto' => 'Mano de obra', 'descripcion' => 'Diagnóstico', 'cantidad' => 1, 'precio_unitario' => 200.0],
-            ['tipo_concepto' => 'Refacción',    'descripcion' => 'RAM 8GB',     'cantidad' => 1, 'precio_unitario' => 400.0],
-        ];
-    });
+    $equipo = Equipo::create([
+        'cliente_id' => $cliente->id,
+        'tipo_equipo' => 'Laptop',
+        'marca' => 'Dell',
+        'modelo' => 'XPS 15',
+        'numero_serie' => 'SN-DELL-XPS-99',
+    ]);
 
-    it('crea la primera versión de cotización', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
+    $this->orden = OrdenServicio::create([
+        'codigo_servicio' => 'ST-2026-0010',
+        'equipo_id' => $equipo->id,
+        'recepcion_id' => $recepcion->id,
+        'tipo_servicio' => 'Reparacion',
+        'falla_reportada' => 'Pantalla rota y teclado fallando',
+        'estado' => 'Pendiente',
+    ]);
 
-        expect($version)->toBeInstanceOf(VersionCotizacion::class)
-            ->and($version->numero_version)->toBe(1)
-            ->and((float) $version->total)->toEqual(600.0)
-            ->and($version->detalles()->count())->toBe(2);
-    });
+    $this->refaccion1 = Refaccion::create([
+        'nombre' => 'Display OLED 15.6 4K',
+        'marca' => 'Dell Original',
+        'modelo' => 'OLED-XPS',
+        'precio_unitario' => 2500.00,
+        'stock_disponible' => 5,
+    ]);
 
-    it('una segunda versión incrementa el número de versión', function () {
-        $v1 = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
-        // Recargar la cotización desde la BD para tener la relación actualizada
-        $cotizacion = \App\Models\Cotizacion::find($v1->id_cotizacion);
-        $v2 = $this->service->nuevaVersion($cotizacion, $this->detalles, $this->recepcion->id);
+    $this->refaccion2 = Refaccion::create([
+        'nombre' => 'Teclado Retroiluminado',
+        'marca' => 'Dell',
+        'modelo' => 'KB-XPS-US',
+        'precio_unitario' => 600.00,
+        'stock_disponible' => 10,
+    ]);
+});
 
-        expect($v2->numero_version)->toBe(2)
-            ->and($v1->id_version)->not->toBe($v2->id_version);
-    });
+test('crear cotizacion calcula subtotal con mano de obra y refacciones', function () {
+    $manoDeObra = 800.00;
+    $repuestos = [
+        [
+            'refaccion_id' => $this->refaccion1->id,
+            'cantidad' => 1, // 2500.00
+        ],
+        [
+            'refaccion_id' => $this->refaccion2->id,
+            'cantidad' => 2, // 2 * 600 = 1200.00
+        ],
+    ];
 
-    it('el cliente puede aceptar la cotización vigente', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
+    // Total esperado: 800 + 2500 + 1200 = 4500.00
+    $cotizacion = $this->service->crearCotizacion($this->orden->id, $manoDeObra, $repuestos);
 
-        $aprobacion = $this->service->aceptarPorCliente($version, $this->cliente->id_cliente);
+    expect($cotizacion->id)->not->toBeNull()
+        ->and($cotizacion->version)->toBe(1)
+        ->and((float) $cotizacion->subtotal)->toBe(4500.00)
+        ->and($cotizacion->estado)->toBe('Pendiente')
+        ->and($cotizacion->detalles)->toHaveCount(2);
 
-        expect($aprobacion->estado)->toBe('Aprobada')
-            ->and($this->orden->fresh()->cotizacion->estado)->toBe('Aprobada');
-    });
+    $this->assertDatabaseHas('detalle_cotizacions', [
+        'cotizacion_id' => $cotizacion->id,
+        'refaccion_id' => $this->refaccion2->id,
+        'cantidad' => 2,
+        'subtotal' => 1200.00,
+    ]);
+});
 
-    it('el cliente puede rechazar con motivo obligatorio', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
+test('responder cotizacion aceptada actualiza orden a En_Proceso', function () {
+    $cotizacion = $this->service->crearCotizacion($this->orden->id, 500.00, []);
 
-        $aprobacion = $this->service->rechazarPorCliente($version, $this->cliente->id_cliente, 'Muy caro');
+    $cotizacionRespondida = $this->service->responderCotizacion(
+        $cotizacion->id,
+        'Aceptada',
+        $this->clienteUser->id
+    );
 
-        expect($aprobacion->estado)->toBe('Rechazada')
-            ->and($aprobacion->motivo_rechazo)->toBe('Muy caro');
-    });
+    expect($cotizacionRespondida->estado)->toBe('Aceptada');
 
-    it('rechazar sin motivo lanza ValidationException', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
+    $this->orden->refresh();
+    expect($this->orden->estado)->toBe('En_Proceso');
 
-        expect(fn () => $this->service->rechazarPorCliente($version, $this->cliente->id_cliente, ''))
-            ->toThrow(ValidationException::class);
-    });
+    $this->assertDatabaseHas('historial_estados', [
+        'orden_servicio_id' => $this->orden->id,
+        'modulo' => 'Cliente',
+    ]);
+});
 
-    it('cotización vencida no puede aceptarse', function () {
-        $version = $this->service->crearCotizacion(
-            $this->orden, $this->detalles, $this->recepcion->id,
-            vigencia: now()->subDay()->toDateTime(),
-        );
+test('responder cotizacion con decision invalida lanza excepcion', function () {
+    $cotizacion = $this->service->crearCotizacion($this->orden->id, 300.00, []);
 
-        expect(fn () => $this->service->aceptarPorCliente($version, $this->cliente->id_cliente))
-            ->toThrow(ValidationException::class);
-    });
-
-    it('validar condiciones para reparación falla sin cotización', function () {
-        expect(fn () => $this->service->validarCondicionesParaReparacion($this->orden))
-            ->toThrow(ValidationException::class);
-    });
-
-    it('validar condiciones para reparación pasa con cotización aprobada', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
-        $this->service->aceptarPorCliente($version, $this->cliente->id_cliente);
-
-        expect(fn () => $this->service->validarCondicionesParaReparacion($this->orden->fresh()))->not->toThrow(ValidationException::class);
-    });
-
-    it('el administrador puede aprobar una cotización', function () {
-        $version = $this->service->crearCotizacion($this->orden, $this->detalles, $this->recepcion->id);
-        $this->service->aprobarPorAdministrador($version, $this->admin->id);
-
-        expect($this->orden->fresh()->cotizacion->estado)->toBe('AprobadaAdmin');
-    });
+    expect(fn () => $this->service->responderCotizacion($cotizacion->id, 'Posiblemente', $this->clienteUser->id))
+        ->toThrow(InvalidArgumentException::class);
 });

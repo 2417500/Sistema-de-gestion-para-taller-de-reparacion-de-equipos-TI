@@ -2,38 +2,38 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Equipo extends Model
 {
-    protected $table = 'equipos';
-
-    protected $primaryKey = 'id_equipo';
+    use HasFactory;
 
     protected $fillable = [
-        'id_cliente', 'id_tipo_equipo', 'marca', 'modelo',
-        'numero_serie', 'caracteristicas', 'estado',
+        'cliente_id',
+        'tipo_equipo',
+        'marca',
+        'modelo',
+        'numero_serie',
     ];
 
-    protected function casts(): array
+    public function cliente()
     {
-        return ['estado' => 'boolean'];
+        return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
-    public function cliente(): BelongsTo
+    public function ordenesServicio()
     {
-        return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
+        return $this->hasMany(OrdenServicio::class, 'equipo_id');
     }
 
-    public function tipoEquipo(): BelongsTo
+    public function scopePorNumeroSerie($query, string $numeroSerie)
     {
-        return $this->belongsTo(TipoEquipo::class, 'id_tipo_equipo', 'id_tipo_equipo');
+        return $query->where('numero_serie', $numeroSerie);
     }
 
-    public function ordenesServicio(): HasMany
+    public function getDescripcionCompletaAttribute(): string
     {
-        return $this->hasMany(OrdenServicio::class, 'id_equipo', 'id_equipo');
+        return "{$this->tipo_equipo} {$this->marca} {$this->modelo} (S/N: {$this->numero_serie})";
     }
 }
