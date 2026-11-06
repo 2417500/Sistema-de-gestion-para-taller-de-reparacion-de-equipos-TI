@@ -1,0 +1,210 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{johnson1997arti}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=8c41afbec95f0ea87452b63aba943737}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={R.\bibnamedelimi E},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{fullhash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{fullhashraw}{8c41afbec95f0ea87452b63aba943737}
+      \strng{bibnamehash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{authorbibnamehash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{authornamehash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{authorfullhash}{8c41afbec95f0ea87452b63aba943737}
+      \strng{authorfullhashraw}{8c41afbec95f0ea87452b63aba943737}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{-----}
+      \field{number}{40/10}
+      \field{title}{Frameworks=(components+ patterns). Communications of the ACM}
+      \field{volume}{-}
+      \field{year}{1997}
+      \field{pages}{39\bibrangedash 42}
+      \range{pages}{4}
+    \endentry
+    \entry{9129495}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=019594840542c40396ef3585dbcab39d}{%
+           family={Khosravi},
+           familyi={K\bibinitperiod},
+           given={Mohammadjavad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=33c512a801f6604a8ccf9e8a4570a45e}{%
+           family={Pishro-Nik},
+           familyi={P\bibinithyphendelim N\bibinitperiod},
+           given={Hossein},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{03e521e698008e0232391ec992630b56}
+      \strng{fullhash}{03e521e698008e0232391ec992630b56}
+      \strng{fullhashraw}{03e521e698008e0232391ec992630b56}
+      \strng{bibnamehash}{03e521e698008e0232391ec992630b56}
+      \strng{authorbibnamehash}{03e521e698008e0232391ec992630b56}
+      \strng{authornamehash}{03e521e698008e0232391ec992630b56}
+      \strng{authorfullhash}{03e521e698008e0232391ec992630b56}
+      \strng{authorfullhashraw}{03e521e698008e0232391ec992630b56}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}
+      \field{title}{Unmanned Aerial Vehicles for Package Delivery and Network Coverage}
+      \field{year}{2020}
+      \field{pages}{1\bibrangedash 5}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/VTC2020-Spring48590.2020.9129495
+      \endverb
+      \keyw{Drones;Trajectory;Surveillance;Mathematical model;Task analysis;Shape;Unmanned aerial vehicles;multi-purpose drones;package delivery;uniform network coverage}
+    \endentry
+    \entry{5278262}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=63fba6206c5fdf8267ad8e20bd44041f}{%
+           family={Sujit},
+           familyi={S\bibinitperiod},
+           given={P.B.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=6069115beb2c8c8533c02fa5b50337d5}{%
+           family={Sousa},
+           familyi={S\bibinitperiod},
+           given={Joao},
+           giveni={J\bibinitperiod}}}%
+        {{hash=086de1693c9f7319df0d8da12cd3f068}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={F.\bibnamedelimi L.},
+           giveni={F\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{fullhash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{fullhashraw}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{bibnamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{authorbibnamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{authornamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{authorfullhash}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \strng{authorfullhashraw}{0665757d44a898dfbaa92d6e2e0f89cf}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{OCEANS 2009-EUROPE}
+      \field{title}{UAV and AUVs coordination for ocean exploration}
+      \field{year}{2009}
+      \field{pages}{1\bibrangedash 7}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/OCEANSE.2009.5278262
+      \endverb
+      \keyw{Unmanned aerial vehicles;Oceans;Base stations;Sea surface;Leg;Robot kinematics;Underwater vehicles;Robustness;Broadcasting;Humans}
+    \endentry
+    \entry{lin1999robust}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=37177639f418a6c6c34ed11f1d8ee99c}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Feng},
+           giveni={F\bibinitperiod}}}%
+        {{hash=4f3dfb68997ebd788dcb6aff6c1dbded}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d4a8562d29baf76371faf44f15eaa38d}{%
+           family={Brandt},
+           familyi={B\bibinitperiod},
+           given={Robert\bibnamedelima D},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{fullhash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{fullhashraw}{662b72b9547a78567d9183742e9b2e54}
+      \strng{bibnamehash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{authorbibnamehash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{authornamehash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{authorfullhash}{662b72b9547a78567d9183742e9b2e54}
+      \strng{authorfullhashraw}{662b72b9547a78567d9183742e9b2e54}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Control Systems Technology}
+      \field{number}{3}
+      \field{title}{Robust hovering control of a PVTOL aircraft}
+      \field{volume}{7}
+      \field{year}{1999}
+      \field{pages}{343\bibrangedash 351}
+      \range{pages}{9}
+    \endentry
+    \entry{torres2002robots}{book}{}{}
+      \name{author}{4}{}{%
+        {{hash=fd40167722a3b329b77fbfd741e6a1ac}{%
+           family={Torres},
+           familyi={T\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod}}}%
+        {{hash=7539be85b8b5c3d2362fa25f5c363485}{%
+           family={Gil},
+           familyi={G\bibinitperiod},
+           given={Pablo},
+           giveni={P\bibinitperiod}}}%
+        {{hash=b9cfbadc462fe0ff81d192fe18f77a84}{%
+           family={Puente},
+           familyi={P\bibinitperiod},
+           given={Santiago\bibnamedelima T},
+           giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=e907df91cedb599fbf3fad7e1648b98a}{%
+           family={Aracil},
+           familyi={A\bibinitperiod},
+           given={Rafael},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson Educación}%
+      }
+      \strng{namehash}{2269d8bee7feb8c13037b2f2c02c177b}
+      \strng{fullhash}{f827fffeb5de6818aec926f5e1d3de27}
+      \strng{fullhashraw}{f827fffeb5de6818aec926f5e1d3de27}
+      \strng{bibnamehash}{2269d8bee7feb8c13037b2f2c02c177b}
+      \strng{authorbibnamehash}{2269d8bee7feb8c13037b2f2c02c177b}
+      \strng{authornamehash}{2269d8bee7feb8c13037b2f2c02c177b}
+      \strng{authorfullhash}{f827fffeb5de6818aec926f5e1d3de27}
+      \strng{authorfullhashraw}{f827fffeb5de6818aec926f5e1d3de27}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Robots y sistemas sensoriales}
+      \field{year}{2002}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

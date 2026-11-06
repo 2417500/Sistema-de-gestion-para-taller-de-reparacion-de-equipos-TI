@@ -11,6 +11,12 @@ La capacidad de despegue y aterrizaje vertical (VTOL) es muy apreciada en los ve
 
 El modelo PVTOL (Plataforma Vertical Despegue y Aterrizaje) describe el movimiento vertical de un objeto en un plano, caracterizado por tres grados de libertad $(x, y, \phi)$ que corresponden a la posición y la orientación del objeto en dicho plano. Este sistema incluye dos propulsores independientes que generan fuerzas y momentos en la máquina voladora, como se muestra en la figura~\ref{fig1:PVTOL}. Es importante destacar que el PVTOL es un sistema subactuado, ya que aunque tiene tres grados de libertad, solo cuenta con dos entradas para su control. Debido a esta característica, el PVTOL constituye un desafío significativo en el ámbito del control no lineal~\cite{lin1999robust}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/Modelo_PVTOL.png}
+    \caption{Modelo del sistema PVTOL.}
+    \label{fig1:PVTOL}
+\end{figure}
 
 \subsection{Subsección}
 El modelado y diseño de control para plataformas UAV es un trabajo difícil debido a su complicada estructura no lineal y subactuada, donde su comportamiento es función de efectos aerodinámicos, estructura mecánica, perturbaciones, incertidumbre, etc. 
@@ -46,6 +52,12 @@ Donde $k_{p}$ se refiere a la ganancia del sistema o función de transferencia. 
 La formulación Lagrangiana proporciona una forma de modelar la dinámica de un robot al analizar el balance de energía. En este enfoque, el robot se conceptualiza como una entidad cerrada, y las ecuaciones derivadas se centran únicamente en la energía almacenada, representada a través de las energías cinética y potencial. Para un robot dado, los resultados obtenidos mediante esta formulación son idénticos a los obtenidos mediante la formulación de Newton-Euler.
 El Lagrangiano es una función escalar definida como la diferencia entre las energías cinética y potencial de un sistema mecánico, en función de las llamadas coordenadas generalizadas~\cite{torres2002robots}. En la figura~\ref{fig:euler-lagrange} se desarrolla en detalle la formulación Lagrangiana.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{imagenes/Esquema Euler de Lagrange.png}
+    \caption{Formalismo de Euler-Lagrange.}
+    \label{fig:euler-lagrange}
+\end{figure}
 
 \begin{equation}
 J_{i}=

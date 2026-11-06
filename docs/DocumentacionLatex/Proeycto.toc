@@ -13,7 +13,7 @@
 \contentsline {section}{\numberline {2.1}Sección}{6}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Sección 2}{7}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Subsección}{7}{subsection.2.2.1}%
-\contentsline {section}{\numberline {2.3}Modelos matemáticos.}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.3}Modelos matemáticos.}{8}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Formalismo de Euler-Lagrange.}{9}{subsection.2.3.1}%
-\contentsline {chapter}{\numberline {3}Desarrollo}{10}{chapter.3}%
-\contentsline {chapter}{\numberline {4}Resultados}{11}{chapter.4}%
+\contentsline {chapter}{\numberline {3}Desarrollo}{12}{chapter.3}%
+\contentsline {chapter}{\numberline {4}Resultados}{13}{chapter.4}%

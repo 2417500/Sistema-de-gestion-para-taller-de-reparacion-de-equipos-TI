@@ -8,6 +8,7 @@
 \usepackage{algorithm}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{float}
 \usepackage{pdfpages}
 \usepackage{multirow}
 \usepackage{listings}
@@ -74,11 +75,12 @@
 \renewcommand{\tablename}{Tabla}
 
 \begin{titlepage}
-\begin{minipage}[l]{3.5cm}
-\includegraphics[width=5cm, height=22.0cm]{imagenes/Imagen_front_UPTex.jpg}
+\begin{minipage}[l]{0.24\textwidth}
+\centering
+\includegraphics[width=2.6cm, height=18.5cm]{imagenes/Imagen_front_UPTex.jpg}
 \end{minipage}
-\vspace*{-3.0cm}
-\begin{minipage}[r]{13.0cm}
+\hfill
+\begin{minipage}[r]{0.70\textwidth}
 \begin{center}
 \textbf{\LARGE{UNIVERSIDAD POLIT\'{E}CNICA}}\\
 \vspace*{0.5cm}
@@ -107,6 +109,7 @@ TEXCOCO, EDO. MÉX.\hspace{3cm}ENERO 2025\\
 \end{center}
 \end{minipage}
 \end{titlepage}
+\clearpage
 \spacing{1.5}   
 \pagenumbering{Roman} \setcounter{page}{2}
 
@@ -144,4 +147,3 @@ TEXCOCO, EDO. MÉX.\hspace{3cm}ENERO 2025\\
 \printbibliography[title = {Referencias}]
 
 \end{document}
-
