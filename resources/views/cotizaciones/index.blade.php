@@ -53,9 +53,29 @@
                                 </span>
                             </td>
                             <td class="p-3 text-right">
-                                <a href="{{ route('cotizaciones.show', $cot->id) }}" class="px-3 py-1 bg-[#ffb800] text-[#0d0f12] font-bold rounded hover:bg-white transition-colors">
-                                    VER DETALLE
-                                </a>
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('cotizaciones.show', $cot->id) }}" class="px-3 py-1.5 bg-[#ffb800] text-[#0d0f12] font-bold rounded hover:bg-white transition-colors inline-block text-[10px]">
+                                        VER DETALLE
+                                    </a>
+
+                                    @if(strtolower($cot->estado) === 'terminado')
+                                        <!-- FORMULARIO DE LIQUIDACIÓN Y SUBIDA DE FOTOS DE ENTREGA -->
+                                        <form action="{{ route('recepcion.entregar', $cot->id) }}" method="POST" enctype="multipart/form-data" class="inline-flex items-center gap-2">
+                                            @csrf
+                                            <label class="cursor-pointer bg-[#1d212b] text-[#ffb800] border border-[#ffb800]/40 px-2 py-1 rounded text-[10px] font-bold hover:bg-[#ffb800]/20 transition-colors" title="Adjuntar fotos del equipo reparado">
+                                                <span>📷 FOTOS SALIDA</span>
+                                                <input type="file" name="fotos_entrega[]" multiple accept="image/*" class="hidden">
+                                            </label>
+                                            <button type="submit" class="px-3 py-1.5 bg-emerald-600 text-white font-bold rounded hover:bg-emerald-500 transition-colors text-[10px]">
+                                                ENTREGAR & LIQUIDAR
+                                            </button>
+                                        </form>
+                                    @elseif(strtolower($cot->estado) === 'entregado')
+                                        <a href="{{ route('entrega.pdf', $cot->id) }}" class="px-3 py-1.5 bg-emerald-950 text-emerald-400 border border-emerald-500/40 font-bold rounded hover:bg-emerald-900 transition-colors inline-block text-[10px]">
+                                            📄 PDF ENTREGA
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty

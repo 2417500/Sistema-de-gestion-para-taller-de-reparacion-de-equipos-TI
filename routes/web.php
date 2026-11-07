@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - SoporTec (Flujo Completo Sincronizado: Cliente -> Admin -> Almacén)
+| Web Routes - SoporTec (Flujo Completo Sincronizado + Módulo Herramientas + Fotos Entrada/Salida)
 |--------------------------------------------------------------------------
 */
 
@@ -81,7 +81,6 @@ Route::post('/cotizacion/responder', function () {
     $notaActualizada = ($ordenActual->falla_reportada ?? '') . "\n\n[Respuesta Cliente " . date('Y-m-d H:i') . "]: " . $nota;
 
     if ($accion === 'rechazar') {
-        // Si rechaza, se cancela la orden y las solicitudes de refacciones
         DB::table('orden_servicios')->where('id', $ordenId)->update([
             'estado' => 'Cancelado',
             'falla_reportada' => $notaActualizada,
@@ -90,7 +89,6 @@ Route::post('/cotizacion/responder', function () {
         DB::table('solicitudes_repuestos')->where('orden_id', $ordenId)->update(['estado' => 'RECHAZADO']);
         return back()->with('success', 'Has RECHAZADO la cotización. La orden ha sido cancelada.');
     } else {
-        // Si acepta, la orden se confirma en "En_Proceso" agregando la marca de autorización
         $notaAceptada = $notaActualizada . "\n[ESTADO COTIZACIÓN]: ACEPTADA POR EL CLIENTE";
         DB::table('orden_servicios')->where('id', $ordenId)->update([
             'estado' => 'En_Proceso',
@@ -134,7 +132,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $user = Auth::user();
         $rolNombre = strtolower(trim($user->role->nombre ?? 'cliente'));
 
-        // VISTA DEDICADA DEL CLIENTE: RASTREADOR DE ESTADO DE TODOS SUS DISPOSITIVOS
         if (str_contains($rolNombre, 'client')) {
             $cliente = DB::table('clientes')->where('user_id', $user->id)->first();
             
@@ -148,12 +145,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('cliente.dashboard', compact('ordenes'));
         }
 
-        // Redirección para personal de almacén
         if (str_contains($rolNombre, 'almac')) {
             return redirect()->route('almacen.index');
         }
 
-        // Vista General (Admin / Técnico / Recepción)
         $ordenes = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
             ->leftJoin('clientes', 'equipos.cliente_id', '=', 'clientes.id')
@@ -213,25 +208,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('cliente.historial', compact('ordenes'));
     })->name('cliente.historial');
 
-    // MÓDULO ALMACÉN & STOCK (PESTAÑAS DE REFACCIONES Y HERRAMIENTAS ACTIVAS)
+    // MÓDULO ALMACÉN & STOCK
     Route::get('/almacen', function () {
-        // Almacén Refacciones y Consumibles
-        $refacciones = DB::table('inventario')
-            ->where('tipo', '!=', 'herramienta')
-            ->get();
-        
-        // Almacén Préstamos Activos de Herramientas
-        $prestamos = DB::table('solicitudes_repuestos')
-            ->join('orden_servicios', 'solicitudes_repuestos.orden_id', '=', 'orden_servicios.id')
-            ->join('users', 'solicitudes_repuestos.tecnico_id', '=', 'users.id')
-            ->join('inventario', 'solicitudes_repuestos.item_id', '=', 'inventario.id')
-            ->where('inventario.tipo', 'herramienta')
-            ->where('solicitudes_repuestos.estado', 'APROBADO')
-            ->select('solicitudes_repuestos.*', 'orden_servicios.codigo_servicio', 'users.name as tecnico_nombre', 'inventario.nombre as item_nombre')
-            ->orderBy('solicitudes_repuestos.id', 'desc')
+        $refacciones = DB::table('inventario')->where('tipo', '!=', 'herramienta')->get();
+        $herramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
+
+        $herramientasParaEnviar = DB::table('prestamos_herramientas')
+            ->join('users', 'prestamos_herramientas.tecnico_id', '=', 'users.id')
+            ->join('inventario', 'prestamos_herramientas.item_id', '=', 'inventario.id')
+            ->where('prestamos_herramientas.estado', 'AUTORIZADO_ADMIN')
+            ->select('prestamos_herramientas.*', 'users.name as tecnico_nombre', 'inventario.nombre as herramienta_nombre')
+            ->orderBy('prestamos_herramientas.id', 'desc')
             ->get();
 
-        // Notificaciones pendientes
+        $prestamosActivos = DB::table('prestamos_herramientas')
+            ->join('users', 'prestamos_herramientas.tecnico_id', '=', 'users.id')
+            ->join('inventario', 'prestamos_herramientas.item_id', '=', 'inventario.id')
+            ->whereIn('prestamos_herramientas.estado', ['ENVIADO_TECNICO', 'EN_USO'])
+            ->select('prestamos_herramientas.*', 'users.name as tecnico_nombre', 'inventario.nombre as herramienta_nombre')
+            ->orderBy('prestamos_herramientas.id', 'desc')
+            ->get();
+
         $solicitudesAutorizadas = DB::table('solicitudes_repuestos')
             ->join('orden_servicios', 'solicitudes_repuestos.orden_id', '=', 'orden_servicios.id')
             ->join('users', 'solicitudes_repuestos.tecnico_id', '=', 'users.id')
@@ -241,8 +238,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->orderBy('solicitudes_repuestos.id', 'desc')
             ->get();
 
-        return view('almacen.index', compact('refacciones', 'prestamos', 'solicitudesAutorizadas'));
+        return view('almacen.index', compact('refacciones', 'herramientas', 'herramientasParaEnviar', 'prestamosActivos', 'solicitudesAutorizadas'));
     })->name('almacen.index');
+
+    // ALMACÉN ENVÍA HERRAMIENTA Y DESCUENTA STOCK
+    Route::post('/almacen/herramientas/enviar/{id}', function ($id) {
+        $prestamo = DB::table('prestamos_herramientas')->where('id', $id)->first();
+        if ($prestamo) {
+            $item = DB::table('inventario')->where('id', $prestamo->item_id)->first();
+            if ($item && ($item->stock_actual - $prestamo->cantidad) >= 0) {
+                DB::table('inventario')->where('id', $item->id)->decrement('stock_actual', $prestamo->cantidad);
+                DB::table('prestamos_herramientas')->where('id', $id)->update([
+                    'estado' => 'ENVIADO_TECNICO',
+                    'updated_at' => now()
+                ]);
+                return back()->with('success', 'Herramienta ENVIADA al Técnico. Stock actualizado en Almacén.');
+            }
+            return back()->with('error', 'No hay suficiente stock en Almacén para enviar esta herramienta.');
+        }
+        return back()->with('error', 'Registro de préstamo no encontrado.');
+    })->name('almacen.herramientas.enviar');
 
     // ENTREGAR REFACCIONES EN ALMACÉN
     Route::post('/almacen/despachar/{orden_id}', function ($orden_id) {
@@ -265,7 +280,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Refacciones ENTREGADAS al Técnico y stock descontado del Almacén correctamente.');
     })->name('almacen.despachar');
 
-    // REGRESAR HERRAMIENTA A ALMACÉN (INCREMENTAR STOCK Y ELIMINAR SOLICITUD)
+    // REGRESAR HERRAMIENTA A ALMACÉN
     Route::post('/almacen/devolver/{id}', function ($id) {
         $sol = DB::table('solicitudes_repuestos')->where('id', $id)->first();
         if ($sol) {
@@ -307,10 +322,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ];
         })->values();
 
-        return view('aprobaciones.index', compact('solicitudes'));
+        $herramientasPendientes = DB::table('prestamos_herramientas')
+            ->join('users', 'prestamos_herramientas.tecnico_id', '=', 'users.id')
+            ->join('inventario', 'prestamos_herramientas.item_id', '=', 'inventario.id')
+            ->where('prestamos_herramientas.estado', 'PENDIENTE_ADMIN')
+            ->select('prestamos_herramientas.*', 'users.name as tecnico_nombre', 'inventario.nombre as herramienta_nombre')
+            ->get();
+
+        return view('aprobaciones.index', compact('solicitudes', 'herramientasPendientes'));
     })->name('aprobaciones.index');
 
-    // APROBAR / AUTORIZAR DESDE ADMIN (COMPATIBLE CON CHECK CONSTRAINT DE SQLITE)
+    // APROBAR O RECHAZAR HERRAMIENTAS DESDE ADMIN
+    Route::post('/aprobaciones/herramientas/aprobar/{id}', function ($id) {
+        DB::table('prestamos_herramientas')->where('id', $id)->update([
+            'estado' => 'AUTORIZADO_ADMIN',
+            'updated_at' => now()
+        ]);
+        return back()->with('success', 'Petición de Herramienta APROBADA por el Administrador. Notificación enviada a Almacén.');
+    })->name('aprobaciones.herramientas.aprobar');
+
+    Route::post('/aprobaciones/herramientas/rechazar/{id}', function ($id) {
+        DB::table('prestamos_herramientas')->where('id', $id)->update([
+            'estado' => 'RECHAZADO',
+            'updated_at' => now()
+        ]);
+        return back()->with('success', 'Petición de Herramienta RECHAZADA.');
+    })->name('aprobaciones.herramientas.rechazar');
+
+    // APROBAR / AUTORIZAR REFACCIONES DESDE ADMIN
     Route::post('/aprobaciones/aprobar/{orden_id}', function ($orden_id) {
         $solicitudes = DB::table('solicitudes_repuestos')
             ->where('orden_id', $orden_id)
@@ -344,7 +383,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Solicitudes RECHAZADAS para esta orden.');
     })->name('aprobaciones.rechazar');
 
-    // DESCARGA DE PDF - RECEPCIÓN (ENTRADA)
+    // DESCARGA DE PDF - RECEPCIÓN (ENTRADA CON FOTOS)
     Route::get('/recepcion/pdf/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -367,7 +406,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return $pdf->download('Ticket_Recepcion_' . $orden->codigo_servicio . '.pdf');
     })->name('recepcion.pdf');
 
-    // DESCARGA DE PDF - ENTREGA (LIQUIDACIÓN FINAL CON DESGLOSE DE REFACCIONES)
+    // DESCARGA DE PDF - ENTREGA (SALIDA CON FOTOS)
     Route::get('/entrega/pdf/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -402,13 +441,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('recepcion.index');
     })->name('recepcion.index');
 
-    // GUARDADO CON REUTILIZACIÓN DE EQUIPO EXISTENTE
+    // GUARDADO CON FOTOS DE RECEPCIÓN Y REUTILIZACIÓN DE EQUIPO
     Route::post('/recepcion', function () {
         try {
             $ordenId = DB::transaction(function () {
                 $email = trim(strtolower(request('cliente_email', 'cliente_' . time() . '@soportec.com')));
                 
-                // 1. Obtener o crear rol cliente
                 $rol = DB::table('roles')->where('nombre', 'Cliente')->first();
                 $roleId = $rol ? $rol->id : DB::table('roles')->insertGetId([
                     'nombre' => 'Cliente',
@@ -417,7 +455,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'updated_at' => now()
                 ]);
 
-                // 2. Obtener o crear usuario
                 $userCliente = DB::table('users')->where('email', $email)->first();
                 if (!$userCliente) {
                     $userId = DB::table('users')->insertGetId([
@@ -433,7 +470,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $userId = $userCliente->id;
                 }
 
-                // 3. Obtener o crear entidad Cliente
                 $cliente = DB::table('clientes')->where('user_id', $userId)->first();
                 if (!$cliente) {
                     $clienteId = DB::table('clientes')->insertGetId([
@@ -445,7 +481,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $clienteId = $cliente->id;
                 }
 
-                // 4. Obtener o crear Equipo
                 $numeroSerie = trim(request('numero_serie', 'SN-' . time()));
                 $equipo = DB::table('equipos')->where('numero_serie', $numeroSerie)->first();
                 
@@ -467,7 +502,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ]);
                 }
 
-                // 5. Sanitizar tipo_servicio para BD
                 $rawTipo = request('tipo_servicio', 'Diagnostico');
                 if (str_contains(strtolower($rawTipo), 'reparac')) {
                     $tipoSaneado = 'Reparacion';
@@ -479,7 +513,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $tipoSaneado = 'Diagnostico';
                 }
 
-                // 6. Crear Orden de Servicio
+                // Guardado de fotos de entrada
+                $rutasFotosRecepcion = [];
+                if (request()->hasFile('fotos_recepcion')) {
+                    foreach (request()->file('fotos_recepcion') as $foto) {
+                        $path = $foto->store('recepcion', 'public');
+                        $rutasFotosRecepcion[] = $path;
+                    }
+                }
+
                 $codigoServicio = 'ST-2026-' . str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
                 $falla = request('falla_reportada', 'Sin reporte') . 
                     "\n\n[FECHA DESEADA CLIENTE]: " . request('fecha_deseada', date('Y-m-d')) . 
@@ -491,6 +533,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'recepcion_id' => Auth::id() ?? 1,
                     'tipo_servicio' => $tipoSaneado,
                     'falla_reportada' => $falla,
+                    'fotos_recepcion' => json_encode($rutasFotosRecepcion),
                     'estado' => 'Pendiente',
                     'created_at' => now(),
                     'updated_at' => now()
@@ -514,6 +557,75 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return view('banco.index', compact('ordenes'));
     })->name('banco.index');
+
+    // VISTA PETICIÓN Y CONTROL DE HERRAMIENTAS DEL TÉCNICO
+    Route::get('/banco-tecnico/herramientas', function () {
+        $catHerramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
+        
+        $misPrestamos = DB::table('prestamos_herramientas')
+            ->join('inventario', 'prestamos_herramientas.item_id', '=', 'inventario.id')
+            ->where('prestamos_herramientas.tecnico_id', Auth::id())
+            ->whereIn('prestamos_herramientas.estado', ['PENDIENTE_ADMIN', 'AUTORIZADO_ADMIN', 'ENVIADO_TECNICO', 'EN_USO'])
+            ->select('prestamos_herramientas.*', 'inventario.nombre as herramienta_nombre')
+            ->orderBy('prestamos_herramientas.id', 'desc')
+            ->get();
+
+        return view('banco.herramientas', compact('catHerramientas', 'misPrestamos'));
+    })->name('banco.herramientas');
+
+    // TÉCNICO ENVÍA SOLICITUD MÚLTIPLE DE HERRAMIENTAS
+    Route::post('/banco-tecnico/herramientas/solicitar', function () {
+        $items = request('items_id', []);
+        $cantidades = request('cantidades', []);
+
+        if (is_array($items) && count($items) > 0) {
+            $solicitados = 0;
+            foreach ($items as $index => $itemId) {
+                if ($itemId) {
+                    $qty = intval($cantidades[$index] ?? 1);
+                    DB::table('prestamos_herramientas')->insert([
+                        'orden_id' => 0,
+                        'tecnico_id' => Auth::id(),
+                        'item_id' => $itemId,
+                        'cantidad' => $qty,
+                        'estado' => 'PENDIENTE_ADMIN',
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                    $solicitados++;
+                }
+            }
+
+            if ($solicitados > 0) {
+                return back()->with('success', 'Se enviaron ' . $solicitados . ' solicitud(es) de herramientas al Administrador correctamente.');
+            }
+        }
+
+        return back()->with('error', 'Por favor seleccione al menos una herramienta válida.');
+    })->name('banco.herramientas.solicitar');
+
+    // TÉCNICO PRESIONA "RECIBIR HERRAMIENTAS"
+    Route::post('/banco-tecnico/herramientas/recibir/{id}', function ($id) {
+        DB::table('prestamos_herramientas')->where('id', $id)->where('tecnico_id', Auth::id())->update([
+            'estado' => 'EN_USO',
+            'updated_at' => now()
+        ]);
+        return back()->with('success', '¡Herramientas recibidas! Ahora las tienes en uso. El botón de regresar se ha activado.');
+    })->name('banco.herramientas.recibir');
+
+    // TÉCNICO PRESIONA "REGRESAR HERRAMIENTAS" -> RESTAURA STOCK EN ALMACÉN
+    Route::post('/banco-tecnico/herramientas/devolver/{id}', function ($id) {
+        $prestamo = DB::table('prestamos_herramientas')->where('id', $id)->where('tecnico_id', Auth::id())->first();
+        if ($prestamo && $prestamo->estado === 'EN_USO') {
+            DB::table('inventario')->where('id', $prestamo->item_id)->increment('stock_actual', $prestamo->cantidad);
+            DB::table('prestamos_herramientas')->where('id', $id)->update([
+                'estado' => 'DEVUELTO_FINALIZADO',
+                'updated_at' => now()
+            ]);
+            return back()->with('success', 'Herramientas DEVUELTAS al Almacén correctamente. El Stock ha sido restaurado.');
+        }
+        return back()->with('error', 'No se puede regresar esta herramienta hasta que haya sido recibida primeramente.');
+    })->name('banco.herramientas.devolver');
 
     // VISTA DE DIAGNÓSTICO
     Route::get('/banco-tecnico/diagnosticar/{id}', function ($id) {
@@ -540,10 +652,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $items = request('items_id', []);
         $cantidades = request('cantidades_items', []);
 
-        // Limpia solicitudes anteriores para no duplicar en caso de re-cotizar
         DB::table('solicitudes_repuestos')->where('orden_id', $id)->delete();
 
-        // Inserta con estado PENDIENTE
         if (is_array($items) && count($items) > 0) {
             foreach ($items as $index => $itemId) {
                 if ($itemId) {
@@ -575,7 +685,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $ordenActual = DB::table('orden_servicios')->where('id', $id)->first();
         $fallaConDiag = ($ordenActual->falla_reportada ?? '') . "\n\n[DIAGNÓSTICO TÉCNICO]: " . request('diagnostico_tecnico');
 
-        // Pasa la orden a "En_Proceso" (cumple con la restricción CHECK de SQLite)
         DB::table('orden_servicios')->where('id', $id)->update([
             'estado' => 'En_Proceso',
             'falla_reportada' => $fallaConDiag,
@@ -639,10 +748,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Anticipo del 50% registrado.');
     })->name('recepcion.cobrar');
 
-    // Liquidar y Entregar
+    // Liquidar y Entregar (con guardado de fotos de salida)
     Route::post('/recepcion/entregar/{id}', function ($id) {
+        $rutasFotosEntrega = [];
+        if (request()->hasFile('fotos_entrega')) {
+            foreach (request()->file('fotos_entrega') as $foto) {
+                $path = $foto->store('entrega', 'public');
+                $rutasFotosEntrega[] = $path;
+            }
+        }
+
         DB::table('orden_servicios')->where('id', $id)->update([
             'estado' => 'Entregado',
+            'fotos_entrega' => json_encode($rutasFotosEntrega),
             'updated_at' => now(),
         ]);
 

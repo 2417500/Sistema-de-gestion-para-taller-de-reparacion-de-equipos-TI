@@ -107,12 +107,22 @@
                     <!-- 4. BANCO TÉCNICO (ADMIN Y TÉCNICO) -->
                     @if($esAdmin || $esTecnico)
                         <a href="{{ route('banco.index') }}" 
-                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.*') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
+                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.index') || request()->routeIs('banco.diagnosticar') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined text-base">build</span>
                                 <span>Banco Técnico</span>
                             </div>
                             <span class="text-[9px] bg-[#1a1c23] text-[#ffb800] px-1 border border-[#ffb800]/30">FIX</span>
+                        </a>
+
+                        <!-- 4.1 MÓDULO INDEPENDIENTE DE HERRAMIENTAS (ADMIN Y TÉCNICO) -->
+                        <a href="{{ route('banco.herramientas') }}" 
+                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.herramientas') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-base">handyman</span>
+                                <span>Petición Herramientas</span>
+                            </div>
+                            <span class="text-[9px] bg-[#1a1c23] text-[#ffb800] px-1 border border-[#ffb800]/30">TOOL</span>
                         </a>
                     @endif
 
@@ -209,11 +219,22 @@
                     </form>
                 </div>
 
-                <!-- USUARIO Y CONTROL DE SESIÓN -->
+                <!-- RELOJ Y FECHA DINÁMICA CON SVG Y CONTROL DE SESIÓN -->
                 <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 font-mono text-xs text-[#8a8e9b]">
-                        <span class="material-symbols-outlined text-sm text-[#ffb800]">schedule</span>
-                        <span>{{ now()->format('H:i:s') }}</span>
+                    <!-- FECHA DINÁMICA -->
+                    <div class="flex items-center gap-1.5 bg-[#16181f] border border-[#2d3038] px-2.5 py-1 rounded text-[#ffb800] text-xs font-mono">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/>
+                        </svg>
+                        <span id="live-date">00/00/0000</span>
+                    </div>
+
+                    <!-- HORA DINÁMICA -->
+                    <div class="flex items-center gap-1.5 bg-[#16181f] border border-[#2d3038] px-2.5 py-1 rounded text-white text-xs font-mono font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <span id="live-clock">00:00:00 PM</span>
                     </div>
 
                     <div class="h-4 w-[1px] bg-[#2d3038]"></div>
@@ -243,5 +264,38 @@
         </div>
     </div>
 
+    <!-- SCRIPT DE RELOJ & FECHA DINÁMICA (MÉXICO) -->
+    <script>
+        function updateClockAndDate() {
+            const now = new Date();
+            
+            const dateOptions = {
+                timeZone: 'America/Mexico_City',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            };
+
+            const timeOptions = {
+                timeZone: 'America/Mexico_City',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+
+            const formattedDate = new Intl.DateTimeFormat('es-MX', dateOptions).format(now);
+            const formattedTime = new Intl.DateTimeFormat('es-MX', timeOptions).format(now).toUpperCase();
+
+            const dateElement = document.getElementById('live-date');
+            const clockElement = document.getElementById('live-clock');
+
+            if (dateElement) dateElement.textContent = formattedDate;
+            if (clockElement) clockElement.textContent = formattedTime;
+        }
+
+        updateClockAndDate();
+        setInterval(updateClockAndDate, 1000);
+    </script>
 </body>
 </html>

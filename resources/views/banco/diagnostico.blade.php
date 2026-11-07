@@ -30,7 +30,7 @@
                 <textarea name="diagnostico_tecnico" rows="4" required placeholder="Ingresa pruebas realizadas, componentes dañados y solución propuesta..." class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white focus:border-[#ffb800] focus:outline-none">{{ $orden->diagnostico ?? '' }}</textarea>
             </div>
 
-            <!-- SELECTOR DE ALMACÉN & REFACCIONES (MÚLTIPLES SELECCIONES) -->
+            <!-- SELECTOR DE ALMACÉN & REFACCIONES -->
             <div class="bg-[#16181f] p-4 rounded border border-[#2d3038] space-y-4">
                 <div class="flex justify-between items-center border-b border-[#2d3038] pb-2">
                     <h3 class="text-[#ffb800] font-bold uppercase">Solicitud de Refacciones a Almacén:</h3>
@@ -105,11 +105,9 @@ document.getElementById('btn_add_refaccion').addEventListener('click', function(
     const primeraFila = contenedor.querySelector('.fila-refaccion');
     const nuevaFila = primeraFila.cloneNode(true);
     
-    // Limpiar campos de la nueva fila
     nuevaFila.querySelector('.select_item').value = "";
     nuevaFila.querySelector('.cant_item').value = 1;
     
-    // Mostrar el botón eliminar en filas secundarias
     const btnEliminar = nuevaFila.querySelector('.btn_eliminar');
     btnEliminar.classList.remove('hidden');
     

@@ -13,6 +13,11 @@
         .signatures { margin-top: 40px; }
         .sig-box { width: 45%; float: left; text-align: center; border-top: 1px solid #000; padding-top: 4px; font-size: 10px; }
         .clear { clear: both; }
+
+        /* ESTILOS DE GRILLA PARA FOTOS */
+        .grid-fotos { margin-top: 10px; width: 100%; }
+        .foto-container { width: 48%; display: inline-block; margin-bottom: 10px; text-align: center; vertical-align: top; }
+        .foto-img { width: 100%; max-height: 180px; object-fit: cover; border: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -47,6 +52,35 @@
         <div class="sig-box" style="float: right;">Firma / Sello Taller</div>
         <div class="clear"></div>
     </div>
+
+    <!-- SECCIÓN DE EVIDENCIA FOTOGRÁFICA DE RECEPCIÓN -->
+    @php
+        $fotos = !empty($orden->fotos_recepcion) ? json_decode($orden->fotos_recepcion, true) : [];
+    @endphp
+
+    @if(is_array($fotos) && count($fotos) > 0)
+        <div class="section" style="margin-top: 25px; border-bottom: none;">
+            <div class="section-title">4. Evidencia Fotográfica de Entrada</div>
+            <div class="grid-fotos">
+                @foreach($fotos as $foto)
+                    @php
+                        $path = storage_path('app/public/' . $foto);
+                        $base64 = '';
+                        if (file_exists($path)) {
+                            $type = pathinfo($path, PATHINFO_EXTENSION);
+                            $data = file_get_contents($path);
+                            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        }
+                    @endphp
+                    @if($base64)
+                        <div class="foto-container">
+                            <img src="{{ $base64 }}" class="foto-img">
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <div class="footer">
         <p>Conservar este comprobante para la entrega o seguimiento del equipo.</p>

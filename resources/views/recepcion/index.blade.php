@@ -20,7 +20,7 @@
                     Registro de Cliente y Recepción de Hardware
                 </h2>
                 <p class="text-xs text-[#8a8e9b] font-mono">
-                    Ingresa los datos del cliente, las fechas pactadas y la información técnica del dispositivo.
+                    Ingresa los datos del cliente, las fechas pactadas, la información técnica del dispositivo y las fotos de recepción.
                 </p>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: DIAGNÓSTICO INICIAL, FECHAS & EVIDENCIA -->
+            <!-- SECCIÓN 3: DIAGNÓSTICO INICIAL, FECHAS & EVIDENCIA FOTOGRÁFICA -->
             <div>
                 <h3 class="text-[#ffb800] font-mono uppercase font-bold text-xs mb-4 flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm">assignment</span>
@@ -98,15 +98,22 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block font-mono uppercase text-[#8a8e9b] mb-2">Tipo de Servicio Solicitado</label>
-                        <select name="tipo_servicio" required class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white font-mono focus:border-[#ffb800] focus:outline-none">
-                            <option value="Diagnóstico">Diagnóstico ($0)</option>
-                            <option value="Reparación">Reparación Directa</option>
-                            <option value="Mantenimiento">Mantenimiento Preventivo</option>
-                            <option value="Garantía">Garantía</option>
-                        </select>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-mono uppercase text-[#8a8e9b] mb-2">Tipo de Servicio Solicitado</label>
+                            <select name="tipo_servicio" required class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white font-mono focus:border-[#ffb800] focus:outline-none">
+                                <option value="Diagnóstico">Diagnóstico ($0)</option>
+                                <option value="Reparación">Reparación Directa</option>
+                                <option value="Mantenimiento">Mantenimiento Preventivo</option>
+                                <option value="Garantía">Garantía</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-mono uppercase text-[#ffb800] mb-2">Fotos de Estado Físico / Llegada (Múltiples)</label>
+                            <input type="file" name="fotos_recepcion[]" multiple accept="image/*" class="w-full bg-[#16181f] border border-[#2d3038] rounded p-2 text-white font-mono focus:border-[#ffb800] focus:outline-none file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-mono file:bg-[#ffb800] file:text-[#0d0f12] file:font-bold">
+                        </div>
                     </div>
+
                     <div>
                         <label class="block font-mono uppercase text-[#8a8e9b] mb-2">Falla Reportada por el Cliente</label>
                         <textarea name="falla_reportada" rows="3" required class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white font-mono focus:border-[#ffb800] focus:outline-none">{{ old('falla_reportada') }}</textarea>
