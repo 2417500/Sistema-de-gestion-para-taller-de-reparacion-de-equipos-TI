@@ -17,7 +17,7 @@
         /* ESTILOS DE GRILLA PARA FOTOS */
         .grid-fotos { margin-top: 10px; width: 100%; }
         .foto-container { width: 48%; display: inline-block; margin-bottom: 10px; text-align: center; vertical-align: top; }
-        .foto-img { width: 100%; max-height: 180px; object-fit: cover; border: 1px solid #333; }
+        .foto-img { width: 100%; max-height: 180px; object-fit: contain; border: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -25,7 +25,7 @@
         <div class="title">SOPORTEC - TALLER DE SERVICIO TÉCNICO</div>
         <div>Comprobante Oficial de Recepción</div>
         <strong>CÓDIGO: {{ $orden->codigo_servicio }}</strong><br>
-        <small>Fecha: {{ date('Y-m-d H:i', strtotime($orden->created_at)) }}</small>
+        <small>Fecha: {{ date('Y-m-d H:i', strtotime($orden->created_at ?? now())) }}</small>
     </div>
 
     <div class="section">
@@ -55,28 +55,43 @@
 
     <!-- SECCIÓN DE EVIDENCIA FOTOGRÁFICA DE RECEPCIÓN -->
     @php
-        $fotos = !empty($orden->fotos_recepcion) ? json_decode($orden->fotos_recepcion, true) : [];
+        $fotos = [];
+        if (!empty($orden->fotos_recepcion)) {
+            $decoded = json_decode($orden->fotos_recepcion, true);
+            $fotos = is_array($decoded) ? $decoded : explode(',', $orden->fotos_recepcion);
+        }
     @endphp
 
-    @if(is_array($fotos) && count($fotos) > 0)
-        <div class="section" style="margin-top: 25px; border-bottom: none;">
+    @if(count($fotos) > 0)
+        <div class="section" style="margin-top: 25px; border-bottom: none; page-break-inside: avoid;">
             <div class="section-title">4. Evidencia Fotográfica de Entrada</div>
             <div class="grid-fotos">
                 @foreach($fotos as $foto)
                     @php
-                        $path = storage_path('app/public/' . $foto);
-                        $base64 = '';
-                        if (file_exists($path)) {
-                            $type = pathinfo($path, PATHINFO_EXTENSION);
-                            $data = file_get_contents($path);
-                            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        $fotoLimpia = trim(str_replace('\\', '/', $foto));
+                        // Intentar obtener la ruta desde storage app public o public storage
+                        $pathApp = storage_path('app/public/' . $fotoLimpia);
+                        $pathPublic = public_path('storage/' . $fotoLimpia);
+                        
+                        $pathFinal = file_exists($pathApp) ? $pathApp : (file_exists($pathPublic) ? $pathPublic : null);
+                        $srcImg = '';
+
+                        if ($pathFinal) {
+                            $type = pathinfo($pathFinal, PATHINFO_EXTENSION);
+                            $data = file_get_contents($pathFinal);
+                            $srcImg = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         }
                     @endphp
-                    @if($base64)
-                        <div class="foto-container">
-                            <img src="{{ $base64 }}" class="foto-img">
-                        </div>
-                    @endif
+
+                    <div class="foto-container">
+                        @if(!empty($srcImg))
+                            <img src="{{ $srcImg }}" class="foto-img">
+                        @else
+                            <div style="border: 1px dashed #999; padding: 20px; font-size: 8px; color: #666;">
+                                [Imagen no encontrada]
+                            </div>
+                        @endif
+                    </div>
                 @endforeach
             </div>
         </div>

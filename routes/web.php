@@ -11,11 +11,14 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - SoporTec (Flujo Completo Sincronizado + Módulo Herramientas + Fotos Entrada/Salida)
+| Web Routes - SoporTec (Flujo Completo Sincronizado + Herramientas + Evidencias Técnico)
 |--------------------------------------------------------------------------
 */
 
-// 1. Rutas Públicas (Portal y Seguimiento de Cliente)
+// ------------------------------------------------------------------------
+// 1. RUTAS PÚBLICAS (Portal de Inicio y Consulta de Cliente)
+// ------------------------------------------------------------------------
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -25,7 +28,7 @@ Route::get('/seguimiento', function () {
     $orden = null;
     $refaccionesCotizadas = [];
     
-    // Si el usuario logueado es CLIENTE y no especifica código manual, consulta su equipo automáticamente
+    // Consulta automática si el usuario autenticado es un Cliente
     if (!$codigo && Auth::check()) {
         $user = Auth::user();
         $rol = strtolower(trim($user->role->nombre ?? ''));
@@ -71,7 +74,7 @@ Route::get('/seguimiento', function () {
     return view('welcome', compact('orden', 'codigo', 'refaccionesCotizadas'));
 })->name('seguimiento');
 
-// RESPUESTA DEL CLIENTE: ACEPTAR Ó RECHAZAR COTIZACIÓN
+// ACEPTAR O RECHAZAR COTIZACIÓN POR PARTE DEL CLIENTE
 Route::post('/cotizacion/responder', function () {
     $ordenId = request('orden_id');
     $accion = request('accion');
@@ -99,7 +102,7 @@ Route::post('/cotizacion/responder', function () {
     }
 })->name('cotizacion.responder');
 
-// Impresión de Ticket de Recepción
+// IMPRESIÓN DE TICKET DE RECEPCIÓN
 Route::get('/recepcion/imprimir/{id}', function ($id) {
     $orden = DB::table('orden_servicios')
         ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -124,10 +127,13 @@ Route::get('/recepcion/imprimir/{id}', function ($id) {
 })->name('recepcion.imprimir');
 
 
-// 2. Rutas Autenticadas (Panel Privado)
+// ------------------------------------------------------------------------
+// 2. RUTAS AUTENTICADAS (Panel Privado y Flujo Operativo)
+// ------------------------------------------------------------------------
+
 Route::middleware(['auth', 'verified'])->group(function () {
     
-    // DASHBOARD PRINCIPAL CON DIRECCIONAMIENTO POR ROL
+    // DASHBOARD PRINCIPAL CON REDIRECCIÓN POR ROL
     Route::get('/dashboard', function () {
         $user = Auth::user();
         $rolNombre = strtolower(trim($user->role->nombre ?? 'cliente'));
@@ -169,7 +175,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard', compact('ordenes'));
     })->name('dashboard');
 
-    // MENÚ CLIENTE 2: COTIZACIONES PENDIENTES O POR APROBAR
+    // MENÚ CLIENTE: COTIZACIONES PENDIENTES
     Route::get('/cliente/cotizaciones', function () {
         $user = Auth::user();
         $cliente = DB::table('clientes')->where('user_id', $user->id)->first();
@@ -193,7 +199,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('cliente.cotizaciones', compact('ordenes', 'refaccionesGrouped'));
     })->name('cliente.cotizaciones');
 
-    // MENÚ CLIENTE 3: HISTORIAL DE MIS PEDIDOS
+    // MENÚ CLIENTE: HISTORIAL
     Route::get('/cliente/historial', function () {
         $user = Auth::user();
         $cliente = DB::table('clientes')->where('user_id', $user->id)->first();
@@ -349,7 +355,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Petición de Herramienta RECHAZADA.');
     })->name('aprobaciones.herramientas.rechazar');
 
-    // APROBAR / AUTORIZAR REFACCIONES DESDE ADMIN
+    // APROBAR REFACCIONES DESDE ADMIN
     Route::post('/aprobaciones/aprobar/{orden_id}', function ($orden_id) {
         $solicitudes = DB::table('solicitudes_repuestos')
             ->where('orden_id', $orden_id)
@@ -370,7 +376,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Todas las refacciones fueron APROBADAS por el Administrador y el stock ha sido actualizado en Almacén.');
     })->name('aprobaciones.aprobar');
 
-    // RECHAZAR TODAS LAS REFACCIONES DE UNA MISMA ORDEN
+    // RECHAZAR REFACCIONES DE UNA MISMA ORDEN
     Route::post('/aprobaciones/rechazar/{orden_id}', function ($orden_id) {
         DB::table('solicitudes_repuestos')
             ->where('orden_id', $orden_id)
@@ -406,7 +412,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return $pdf->download('Ticket_Recepcion_' . $orden->codigo_servicio . '.pdf');
     })->name('recepcion.pdf');
 
-    // DESCARGA DE PDF - ENTREGA (SALIDA CON FOTOS)
+    // DESCARGA DE PDF - ENTREGA (SALIDA CON FOTOS DE TÉCNICO)
     Route::get('/entrega/pdf/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -436,16 +442,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return $pdf->download('Nota_Entrega_' . $orden->codigo_servicio . '.pdf');
     })->name('entrega.pdf');
 
-    // Módulos de Recepción
+    // MÓDULOS DE RECEPCIÓN
     Route::get('/recepcion', function () {
         return view('recepcion.index');
     })->name('recepcion.index');
 
-    // GUARDADO CON FOTOS DE RECEPCIÓN Y REUTILIZACIÓN DE EQUIPO
+    // GUARDADO DE RECEPCIÓN (ENTRADA CON REGISTRO CORRECTO DE HASH DE CONTRASEÑA DE CLIENTE)
     Route::post('/recepcion', function () {
         try {
             $ordenId = DB::transaction(function () {
                 $email = trim(strtolower(request('cliente_email', 'cliente_' . time() . '@soportec.com')));
+                $passwordIngresada = request('cliente_password');
+                $passwordFinal = !empty($passwordIngresada) ? $passwordIngresada : '12345678';
                 
                 $rol = DB::table('roles')->where('nombre', 'Cliente')->first();
                 $roleId = $rol ? $rol->id : DB::table('roles')->insertGetId([
@@ -460,7 +468,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $userId = DB::table('users')->insertGetId([
                         'name' => request('cliente_name', 'Cliente Nuevo'),
                         'email' => $email,
-                        'password' => Hash::make(request('cliente_password', '12345678')),
+                        'password' => Hash::make($passwordFinal),
                         'role_id' => $roleId,
                         'telefono' => request('cliente_telefono', '0000000000'),
                         'created_at' => now(),
@@ -468,6 +476,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ]);
                 } else {
                     $userId = $userCliente->id;
+                    if (!empty($passwordIngresada)) {
+                        DB::table('users')->where('id', $userId)->update([
+                            'password' => Hash::make($passwordIngresada),
+                            'updated_at' => now()
+                        ]);
+                    }
                 }
 
                 $cliente = DB::table('clientes')->where('user_id', $userId)->first();
@@ -513,7 +527,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $tipoSaneado = 'Diagnostico';
                 }
 
-                // Guardado de fotos de entrada
                 $rutasFotosRecepcion = [];
                 if (request()->hasFile('fotos_recepcion')) {
                     foreach (request()->file('fotos_recepcion') as $foto) {
@@ -547,7 +560,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         }
     })->name('recepcion.store');
 
-    // Módulos de Banco Técnico
+    // MÓDULO BANCO TÉCNICO - TABLA PRINCIPAL
     Route::get('/banco-tecnico', function () {
         $ordenes = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -558,7 +571,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('banco.index', compact('ordenes'));
     })->name('banco.index');
 
-    // VISTA PETICIÓN Y CONTROL DE HERRAMIENTAS DEL TÉCNICO
+    // PETICIÓN Y CONTROL DE HERRAMIENTAS
     Route::get('/banco-tecnico/herramientas', function () {
         $catHerramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
         
@@ -573,7 +586,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('banco.herramientas', compact('catHerramientas', 'misPrestamos'));
     })->name('banco.herramientas');
 
-    // TÉCNICO ENVÍA SOLICITUD MÚLTIPLE DE HERRAMIENTAS
     Route::post('/banco-tecnico/herramientas/solicitar', function () {
         $items = request('items_id', []);
         $cantidades = request('cantidades', []);
@@ -604,16 +616,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('error', 'Por favor seleccione al menos una herramienta válida.');
     })->name('banco.herramientas.solicitar');
 
-    // TÉCNICO PRESIONA "RECIBIR HERRAMIENTAS"
     Route::post('/banco-tecnico/herramientas/recibir/{id}', function ($id) {
         DB::table('prestamos_herramientas')->where('id', $id)->where('tecnico_id', Auth::id())->update([
             'estado' => 'EN_USO',
             'updated_at' => now()
         ]);
-        return back()->with('success', '¡Herramientas recibidas! Ahora las tienes en uso. El botón de regresar se ha activado.');
+        return back()->with('success', '¡Herramientas recibidas! Ahora las tienes en uso.');
     })->name('banco.herramientas.recibir');
 
-    // TÉCNICO PRESIONA "REGRESAR HERRAMIENTAS" -> RESTAURA STOCK EN ALMACÉN
     Route::post('/banco-tecnico/herramientas/devolver/{id}', function ($id) {
         $prestamo = DB::table('prestamos_herramientas')->where('id', $id)->where('tecnico_id', Auth::id())->first();
         if ($prestamo && $prestamo->estado === 'EN_USO') {
@@ -622,12 +632,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'estado' => 'DEVUELTO_FINALIZADO',
                 'updated_at' => now()
             ]);
-            return back()->with('success', 'Herramientas DEVUELTAS al Almacén correctamente. El Stock ha sido restaurado.');
+            return back()->with('success', 'Herramientas DEVUELTAS al Almacén correctamente.');
         }
-        return back()->with('error', 'No se puede regresar esta herramienta hasta que haya sido recibida primeramente.');
+        return back()->with('error', 'No se puede regresar esta herramienta hasta que haya sido recibida.');
     })->name('banco.herramientas.devolver');
 
-    // VISTA DE DIAGNÓSTICO
+    // VISTA DIAGNÓSTICO TÉCNICO
     Route::get('/banco-tecnico/diagnosticar/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -644,7 +654,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('banco.diagnostico', compact('orden', 'inventario'));
     })->name('banco.diagnosticar');
 
-    // GUARDAR COTIZACIÓN Y REGISTRAR REFACCIONES CON ESTADO "En_Proceso"
+    // GUARDAR COTIZACIÓN
     Route::post('/banco-tecnico/cotizar/{id}', function ($id) {
         $manoObra = floatval(request('costo_mano_obra', 0));
         $refaccionesCosto = floatval(request('costo_refacciones', 0));
@@ -698,7 +708,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('banco.index')->with('success', 'Cotización guardada y enviada al Cliente exitosamente.');
     })->name('banco.cotizar');
 
-    // Finalizar Servicio
+    // TÉCNICO SUBE FOTOS DE SALIDA DESDE BANCO TÉCNICO
+    Route::post('/banco-tecnico/subir-fotos/{id}', function ($id) {
+        $rutasFotosEntrega = [];
+        if (request()->hasFile('fotos_entrega')) {
+            foreach (request()->file('fotos_entrega') as $foto) {
+                $path = $foto->store('entrega', 'public');
+                $rutasFotosEntrega[] = $path;
+            }
+            DB::table('orden_servicios')->where('id', $id)->update([
+                'fotos_entrega' => json_encode($rutasFotosEntrega),
+                'updated_at' => now()
+            ]);
+            return back()->with('success', 'Evidencias fotográficas del equipo reparado subidas correctamente.');
+        }
+        return back()->with('error', 'Debes seleccionar al menos una imagen.');
+    })->name('banco.subirFotosEntrega');
+
+    // TÉCNICO MARCA COMO TERMINADO
     Route::post('/banco-tecnico/finalizar/{id}', function ($id) {
         DB::table('orden_servicios')->where('id', $id)->update([
             'estado' => 'Terminado',
@@ -708,7 +735,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Orden marcada como TERMINADA exitosamente.');
     })->name('banco.finalizar');
 
-    // Módulo Cotizaciones
+    // MÓDULO COTIZACIONES & LISTADO
     Route::get('/cotizaciones', function () {
         $cotizaciones = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -731,14 +758,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/cotizaciones/revisar/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
-            ->select('orden_servicios.*', 'equipos.marca', 'equipos.modelo', 'equipos.numero_serie', 'equipos.tipo_equipo')
+            ->leftJoin('clientes', 'equipos.cliente_id', '=', 'clientes.id')
+            ->leftJoin('users as cliente_user', 'clientes.user_id', '=', 'cliente_user.id')
+            ->select(
+                'orden_servicios.*',
+                'equipos.marca',
+                'equipos.modelo',
+                'equipos.numero_serie',
+                'equipos.tipo_equipo',
+                'cliente_user.name as cliente_nombre',
+                'cliente_user.email as cliente_email',
+                'cliente_user.telefono as cliente_telefono'
+            )
             ->where('orden_servicios.id', $id)
             ->first();
 
         return view('cotizaciones.show', compact('orden'));
     })->name('cotizaciones.show');
 
-    // Cobrar Anticipo
+    // RECEPCIÓN COBRA ANTICIPO
     Route::post('/recepcion/cobrar-anticipo/{id}', function ($id) {
         DB::table('orden_servicios')->where('id', $id)->update([
             'estado' => 'En_Proceso',
@@ -748,26 +786,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Anticipo del 50% registrado.');
     })->name('recepcion.cobrar');
 
-    // Liquidar y Entregar (con guardado de fotos de salida)
+    // RECEPCIÓN LIQUIDA Y ENTREGA EL EQUIPO AL CLIENTE
     Route::post('/recepcion/entregar/{id}', function ($id) {
-        $rutasFotosEntrega = [];
-        if (request()->hasFile('fotos_entrega')) {
-            foreach (request()->file('fotos_entrega') as $foto) {
-                $path = $foto->store('entrega', 'public');
-                $rutasFotosEntrega[] = $path;
-            }
-        }
-
         DB::table('orden_servicios')->where('id', $id)->update([
             'estado' => 'Entregado',
-            'fotos_entrega' => json_encode($rutasFotosEntrega),
             'updated_at' => now(),
         ]);
 
         return back()->with('success', 'Pago liquidado y equipo ENTREGADO exitosamente.');
     })->name('recepcion.entregar');
 
-    // Perfil y Administración
+    // RUTAS DE PERFIL Y ADMIN
     Route::get('/admin/usuarios/crear', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/admin/usuarios', [AdminUserController::class, 'store'])->name('admin.users.store');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
