@@ -19,6 +19,114 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
+    \entry{zurita2024sistema}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=88d2dce8aa72fae0828b876cc66fa931}{%
+           family={Zurita\bibnamedelima Caiza},
+           familyi={Z\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Kevin\bibnamedelima Stalin},
+           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Escuela Politécnica Nacional}%
+      }
+      \list{location}{1}{%
+        {Quito, Ecuador}%
+      }
+      \strng{namehash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{fullhash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{fullhashraw}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{bibnamehash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{authorbibnamehash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{authornamehash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{authorfullhash}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{authorfullhashraw}{88d2dce8aa72fae0828b876cc66fa931}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sistema de gestión para reparaciones electrónicas para el taller ``Electrónica Zurita'': aplicación móvil}
+      \field{type}{Trabajo de integración curricular}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb http://bibdigital.epn.edu.ec/handle/15000/26114
+      \endverb
+      \verb{url}
+      \verb http://bibdigital.epn.edu.ec/handle/15000/26114
+      \endverb
+    \endentry
+    \entry{ramirez2020desarrollo}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=403d2ebe873b737965cfc011e066ca44}{%
+           family={Ramírez\bibnamedelima Silva},
+           familyi={R\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Rogelio},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Tecnológico Nacional de México / Instituto Tecnológico de Acapulco}%
+      }
+      \list{location}{1}{%
+        {Acapulco, Guerrero, México}%
+      }
+      \strng{namehash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{fullhash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{fullhashraw}{403d2ebe873b737965cfc011e066ca44}
+      \strng{bibnamehash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{authorbibnamehash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{authornamehash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{authorfullhash}{403d2ebe873b737965cfc011e066ca44}
+      \strng{authorfullhashraw}{403d2ebe873b737965cfc011e066ca44}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Desarrollo de un sistema de información web para el seguimiento y control del mantenimiento de infraestructura y equipo}
+      \field{type}{Tesis de Maestría en Sistemas Computacionales}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://rinacional.tecnm.mx/handle/TecNM/1464
+      \endverb
+      \verb{url}
+      \verb https://rinacional.tecnm.mx/handle/TecNM/1464
+      \endverb
+    \endentry
+    \entry{vargas2023sistema}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=b4d95e9f116591e9cf5a8b1e8187c7be}{%
+           family={Vargas\bibnamedelima Muñoz},
+           familyi={V\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={Emmanuel},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Tecnológico Nacional de México / Tecnológico de Estudios Superiores de Cuautitlán Izcalli}%
+      }
+      \list{location}{1}{%
+        {Cuautitlán Izcalli, Estado de México, México}%
+      }
+      \strng{namehash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{fullhash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{fullhashraw}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{bibnamehash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{authorbibnamehash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{authornamehash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{authorfullhash}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \strng{authorfullhashraw}{b4d95e9f116591e9cf5a8b1e8187c7be}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sistema automatizado de gestión de calidad en base al {ISO} 9001:2015 (Emtékna)}
+      \field{type}{Tesis de Maestría en Tecnologías de la Información}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://rinacional.tecnm.mx/handle/TecNM/6798
+      \endverb
+      \verb{url}
+      \verb https://rinacional.tecnm.mx/handle/TecNM/6798
+      \endverb
+    \endentry
     \entry{johnson1997arti}{article}{}{}
       \name{author}{1}{}{%
         {{hash=8c41afbec95f0ea87452b63aba943737}{%
@@ -35,8 +143,8 @@
       \strng{authornamehash}{8c41afbec95f0ea87452b63aba943737}
       \strng{authorfullhash}{8c41afbec95f0ea87452b63aba943737}
       \strng{authorfullhashraw}{8c41afbec95f0ea87452b63aba943737}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{-----}
@@ -68,8 +176,8 @@
       \strng{authornamehash}{03e521e698008e0232391ec992630b56}
       \strng{authorfullhash}{03e521e698008e0232391ec992630b56}
       \strng{authorfullhashraw}{03e521e698008e0232391ec992630b56}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}
@@ -108,8 +216,8 @@
       \strng{authornamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
       \strng{authorfullhash}{0665757d44a898dfbaa92d6e2e0f89cf}
       \strng{authorfullhashraw}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{OCEANS 2009-EUROPE}
@@ -151,8 +259,8 @@
       \strng{authornamehash}{662b72b9547a78567d9183742e9b2e54}
       \strng{authorfullhash}{662b72b9547a78567d9183742e9b2e54}
       \strng{authorfullhashraw}{662b72b9547a78567d9183742e9b2e54}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Control Systems Technology}
@@ -197,8 +305,8 @@
       \strng{authornamehash}{2269d8bee7feb8c13037b2f2c02c177b}
       \strng{authorfullhash}{f827fffeb5de6818aec926f5e1d3de27}
       \strng{authorfullhashraw}{f827fffeb5de6818aec926f5e1d3de27}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Robots y sistemas sensoriales}
