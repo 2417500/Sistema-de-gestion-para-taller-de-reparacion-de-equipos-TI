@@ -33,8 +33,33 @@ class UserController extends Controller
             'telefono' => $request->telefono,
             'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
+            'activo' => 1,
         ]);
 
-        return redirect()->back()->with('success', 'Usuario de personal creado exitosamente.');
+        return redirect()->route('admin.personal')->with('success', 'Usuario de personal creado exitosamente.');
+    }
+
+    // LISTAR EMPLEADOS PARA EL PANEL DE CUENTAS ACTIVAS
+    public function personal()
+    {
+        $empleados = User::whereHas('role', function($q) {
+            $q->whereIn('nombre', ['Recepcion', 'Tecnico', 'Almacen']);
+        })->with('role')->get();
+
+        return view('admin.personal', compact('empleados'));
+    }
+
+    // INTERRUPTOR DE ESTADO (ACTIVAR / DAR DE BAJA)
+    public function toggleEstado($id)
+    {
+        $empleado = User::findOrFail($id);
+        
+        // Alterna entre activo (1) e inactivo (0)
+        $empleado->activo = !$empleado->activo;
+        $empleado->save();
+
+        $estadoTexto = $empleado->activo ? 'ACTIVADA' : 'DADA DE BAJA';
+
+        return back()->with('success', "La cuenta del empleado {$empleado->name} ha sido {$estadoTexto} correctamente.");
     }
 }

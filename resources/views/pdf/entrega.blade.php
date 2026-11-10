@@ -15,6 +15,11 @@
         .signatures { margin-top: 40px; }
         .sig-box { width: 45%; float: left; text-align: center; border-top: 1px solid #000; padding-top: 4px; font-size: 10px; }
         .clear { clear: both; }
+
+        /* ESTILOS DE GRILLA PARA FOTOS DE SALIDA */
+        .grid-fotos { margin-top: 10px; width: 100%; }
+        .foto-container { width: 48%; display: inline-block; margin-bottom: 10px; text-align: center; vertical-align: top; }
+        .foto-img { width: 100%; max-height: 180px; object-fit: cover; border: 1px solid #333; }
     </style>
 </head>
 <body>
@@ -92,5 +97,34 @@
         <div class="sig-box" style="float: right;">Firma Cajero / Taller</div>
         <div class="clear"></div>
     </div>
+
+    <!-- SECCIÓN DE EVIDENCIA FOTOGRÁFICA DE SALIDA -->
+    @php
+        $fotosSalida = !empty($orden->fotos_entrega) ? json_decode($orden->fotos_entrega, true) : [];
+    @endphp
+
+    @if(is_array($fotosSalida) && count($fotosSalida) > 0)
+        <div class="section" style="margin-top: 25px; border-bottom: none;">
+            <div class="section-title">Evidencia Fotográfica de Entrega / Reparado</div>
+            <div class="grid-fotos">
+                @foreach($fotosSalida as $foto)
+                    @php
+                        $path = storage_path('app/public/' . $foto);
+                        $base64 = '';
+                        if (file_exists($path)) {
+                            $type = pathinfo($path, PATHINFO_EXTENSION);
+                            $data = file_get_contents($path);
+                            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        }
+                    @endphp
+                    @if($base64)
+                        <div class="foto-container">
+                            <img src="{{ $base64 }}" class="foto-img">
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    @endif
 </body>
 </html>

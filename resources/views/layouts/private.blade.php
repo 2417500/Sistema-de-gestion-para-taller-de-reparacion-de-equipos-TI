@@ -74,12 +74,12 @@
                         $esCliente = str_contains($rolNombre, 'client');
                     @endphp
 
-                    <!-- 1. CREAR EMPLEADOS (EXCLUSIVO ADMINISTRADOR) -->
+                    <!-- 1. GESTIÓN DE PERSONAL (EXCLUSIVO ADMINISTRADOR) -->
                     @if($esAdmin)
-                        <a href="{{ route('admin.users.create') }}" 
+                        <a href="{{ route('admin.personal') }}" 
                            class="flex items-center gap-3 px-3 py-2.5 rounded text-xs font-mono font-bold uppercase tracking-wider text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors mb-2">
-                            <span class="material-symbols-outlined text-base">person_add</span>
-                            <span>Crear Empleados</span>
+                            <span class="material-symbols-outlined text-base">manage_accounts</span>
+                            <span>Gestión de Personal</span>
                         </a>
                     @endif
 
@@ -107,12 +107,22 @@
                     <!-- 4. BANCO TÉCNICO (ADMIN Y TÉCNICO) -->
                     @if($esAdmin || $esTecnico)
                         <a href="{{ route('banco.index') }}" 
-                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.*') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
+                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.index') || request()->routeIs('banco.diagnosticar') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
                             <div class="flex items-center gap-3">
                                 <span class="material-symbols-outlined text-base">build</span>
                                 <span>Banco Técnico</span>
                             </div>
                             <span class="text-[9px] bg-[#1a1c23] text-[#ffb800] px-1 border border-[#ffb800]/30">FIX</span>
+                        </a>
+
+                        <!-- 4.1 MÓDULO INDEPENDIENTE DE HERRAMIENTAS (ADMIN Y TÉCNICO) -->
+                        <a href="{{ route('banco.herramientas') }}" 
+                           class="flex items-center justify-between px-3 py-2 rounded text-xs font-mono transition-colors {{ request()->routeIs('banco.herramientas') ? 'bg-[#ffb800]/20 text-[#ffb800] border border-[#ffb800]/40 font-bold' : 'text-[#c4c6cf] hover:bg-[#1a1c23] hover:text-white' }}">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-base">handyman</span>
+                                <span>Petición Herramientas</span>
+                            </div>
+                            <span class="text-[9px] bg-[#1a1c23] text-[#ffb800] px-1 border border-[#ffb800]/30">TOOL</span>
                         </a>
                     @endif
 
@@ -168,8 +178,13 @@
                         </a>
                     @endif
 
-                    <!-- 10. MI EQUIPO / SEGUIMIENTO (EXCLUSIVO CLIENTE) -->
+                    <!-- 10. MI PERFIL Y MI EQUIPO (EXCLUSIVO CLIENTE) -->
                     @if($esCliente)
+                        <a href="{{ route('cliente.perfil') }}" 
+                           class="flex items-center gap-3 px-3 py-2 rounded text-xs font-mono text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors mb-1">
+                            <span class="material-symbols-outlined text-base">account_circle</span>
+                            <span>Mi Perfil</span>
+                        </a>
                         <a href="{{ route('seguimiento') }}" 
                            class="flex items-center gap-3 px-3 py-2 rounded text-xs font-mono text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors">
                             <span class="material-symbols-outlined text-base">devices</span>
@@ -195,7 +210,7 @@
         <!-- CONTENIDO PRINCIPAL -->
         <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#0d0f12]">
             
-            <!-- BARRA SUPERIOR DE TELEMETRÍA Y ACCIONES DE USUARIO -->
+            <!-- BARRA SUPERIOR DE TELEMETRÍA Y ACCIONES DE USUARIO (SIN FECHA/HORA) -->
             <header class="h-14 bg-[#111318] border-b border-[#2d3038] px-6 flex items-center justify-between shrink-0">
                 <!-- BUSCADOR RÁPIDO DE ÓRDENES -->
                 <div class="flex items-center gap-4 flex-1 max-w-xl">
@@ -209,16 +224,8 @@
                     </form>
                 </div>
 
-                <!-- USUARIO Y CONTROL DE SESIÓN -->
+                <!-- USER INFO & LOGOUT -->
                 <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 font-mono text-xs text-[#8a8e9b]">
-                        <span class="material-symbols-outlined text-sm text-[#ffb800]">schedule</span>
-                        <span>{{ now()->format('H:i:s') }}</span>
-                    </div>
-
-                    <div class="h-4 w-[1px] bg-[#2d3038]"></div>
-
-                    <!-- USER INFO & LOGOUT -->
                     <div class="flex items-center gap-3">
                         <div class="text-right font-mono">
                             <div class="text-xs font-bold text-white uppercase">{{ Auth::user()->name }}</div>
@@ -242,6 +249,5 @@
             </main>
         </div>
     </div>
-
 </body>
 </html>

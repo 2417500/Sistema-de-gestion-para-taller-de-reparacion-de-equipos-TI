@@ -1,6 +1,12 @@
 <x-guest-layout>
-    <!-- Estado de Sesión -->
+    <!-- Estado de Sesión / Mensaje de Éxito al Cambiar Contraseña -->
     <x-auth-session-status class="mb-4 text-emerald-400 font-mono text-xs" :status="session('status')" />
+
+    @if (session('success'))
+        <div class="mb-4 p-3 bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono text-xs rounded">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <div class="mb-6 border-b border-outline-variant pb-3">
         <h2 class="text-headline-md font-bold text-white uppercase text-base tracking-wider">Identificación de Terminal</h2>
@@ -34,11 +40,9 @@
                 <span class="text-on-surface-variant text-[11px]">Recordar terminal</span>
             </label>
 
-            @if (Route::has('password.request'))
-                <a class="text-on-surface-variant hover:text-primary-container text-[11px] underline transition-colors" href="{{ route('password.request') }}">
-                    ¿Olvidó contraseña?
-                </a>
-            @endif
+            <a class="text-on-surface-variant hover:text-primary-container text-[11px] underline transition-colors" href="{{ route('password.custom.request') }}">
+                ¿Olvidó contraseña?
+            </a>
         </div>
 
         <div class="pt-4 flex items-center justify-between border-t border-outline-variant/60">

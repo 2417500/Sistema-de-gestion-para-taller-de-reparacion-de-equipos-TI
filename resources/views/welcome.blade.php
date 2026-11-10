@@ -6,6 +6,33 @@
 <div class="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-12">
     <!-- HERO SECTION NOIR DE ALTO IMPACTO -->
     <div class="relative noir-card bg-surface-container-lowest p-8 md:p-12 amber-line overflow-hidden">
+        
+        <!-- HEADER PÚBLICO CON FECHA Y HORA DINÁMICA -->
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-outline-variant/40 font-mono text-xs">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-primary-container animate-ping rounded-full"></span>
+                <span class="text-white font-bold tracking-widest uppercase">TECNOFIX PUBLIC WORKBENCH</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- FECHA PÚBLICA -->
+                <div class="flex items-center gap-1.5 bg-[#111318] border border-[#2d3038] px-2.5 py-1 rounded text-[#ffb800]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
+                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/>
+                    </svg>
+                    <span id="public-live-date">00/00/0000</span>
+                </div>
+
+                <!-- RELOJ PÚBLICO -->
+                <div class="flex items-center gap-1.5 bg-[#111318] border border-[#2d3038] px-2.5 py-1 rounded text-white font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    <span id="public-live-clock">00:00:00 PM</span>
+                </div>
+            </div>
+        </div>
+
         <div class="max-w-3xl space-y-6 relative z-10">
             <!-- Aviso Protocolar Destacado -->
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-noir-blue border border-primary-container">
@@ -142,7 +169,7 @@
                                     <ul class="space-y-1 pl-2 text-slate-300">
                                         @foreach($refaccionesCotizadas as $ref)
                                             <li class="flex justify-between">
-                                                <span>• {{ $ref->nombre }} (x{{ $ref->cantidad }})</span>
+                                                <span>{{ $ref->nombre }} (x{{ $ref->cantidad }})</span>
                                                 <span class="font-bold text-white">${{ number_format($ref->precio_unitario * $ref->cantidad, 2) }} MXN</span>
                                             </li>
                                         @endforeach
@@ -285,4 +312,24 @@
         </div>
     </div>
 </div>
+
+<!-- SCRIPT DE RELOJ Y FECHA DINÁMICA PÚBLICA (MÉXICO) -->
+<script>
+    function updatePublicClock() {
+        const now = new Date();
+        const dateOptions = { timeZone: 'America/Mexico_City', day: '2-digit', month: '2-digit', year: 'numeric' };
+        const timeOptions = { timeZone: 'America/Mexico_City', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+
+        const d = new Intl.DateTimeFormat('es-MX', dateOptions).format(now);
+        const t = new Intl.DateTimeFormat('es-MX', timeOptions).format(now).toUpperCase();
+
+        const elD = document.getElementById('public-live-date');
+        const elT = document.getElementById('public-live-clock');
+
+        if (elD) elD.textContent = d;
+        if (elT) elT.textContent = t;
+    }
+    updatePublicClock();
+    setInterval(updatePublicClock, 1000);
+</script>
 @endsection
