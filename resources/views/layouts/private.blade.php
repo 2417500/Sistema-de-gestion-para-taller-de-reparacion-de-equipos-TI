@@ -74,12 +74,12 @@
                         $esCliente = str_contains($rolNombre, 'client');
                     @endphp
 
-                    <!-- 1. CREAR EMPLEADOS (EXCLUSIVO ADMINISTRADOR) -->
+                    <!-- 1. GESTIÓN DE PERSONAL (EXCLUSIVO ADMINISTRADOR) -->
                     @if($esAdmin)
-                        <a href="{{ route('admin.users.create') }}" 
+                        <a href="{{ route('admin.personal') }}" 
                            class="flex items-center gap-3 px-3 py-2.5 rounded text-xs font-mono font-bold uppercase tracking-wider text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors mb-2">
-                            <span class="material-symbols-outlined text-base">person_add</span>
-                            <span>Crear Empleados</span>
+                            <span class="material-symbols-outlined text-base">manage_accounts</span>
+                            <span>Gestión de Personal</span>
                         </a>
                     @endif
 
@@ -178,8 +178,13 @@
                         </a>
                     @endif
 
-                    <!-- 10. MI EQUIPO / SEGUIMIENTO (EXCLUSIVO CLIENTE) -->
+                    <!-- 10. MI PERFIL Y MI EQUIPO (EXCLUSIVO CLIENTE) -->
                     @if($esCliente)
+                        <a href="{{ route('cliente.perfil') }}" 
+                           class="flex items-center gap-3 px-3 py-2 rounded text-xs font-mono text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors mb-1">
+                            <span class="material-symbols-outlined text-base">account_circle</span>
+                            <span>Mi Perfil</span>
+                        </a>
                         <a href="{{ route('seguimiento') }}" 
                            class="flex items-center gap-3 px-3 py-2 rounded text-xs font-mono text-[#ffb800] bg-[#ffb800]/10 border border-[#ffb800]/30 hover:bg-[#ffb800]/20 transition-colors">
                             <span class="material-symbols-outlined text-base">devices</span>
@@ -205,7 +210,7 @@
         <!-- CONTENIDO PRINCIPAL -->
         <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#0d0f12]">
             
-            <!-- BARRA SUPERIOR DE TELEMETRÍA Y ACCIONES DE USUARIO -->
+            <!-- BARRA SUPERIOR DE TELEMETRÍA Y ACCIONES DE USUARIO (SIN FECHA/HORA) -->
             <header class="h-14 bg-[#111318] border-b border-[#2d3038] px-6 flex items-center justify-between shrink-0">
                 <!-- BUSCADOR RÁPIDO DE ÓRDENES -->
                 <div class="flex items-center gap-4 flex-1 max-w-xl">
@@ -219,27 +224,8 @@
                     </form>
                 </div>
 
-                <!-- RELOJ Y FECHA DINÁMICA CON SVG Y CONTROL DE SESIÓN -->
+                <!-- USER INFO & LOGOUT -->
                 <div class="flex items-center gap-4">
-                    <!-- FECHA DINÁMICA -->
-                    <div class="flex items-center gap-1.5 bg-[#16181f] border border-[#2d3038] px-2.5 py-1 rounded text-[#ffb800] text-xs font-mono">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
-                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/>
-                        </svg>
-                        <span id="live-date">00/00/0000</span>
-                    </div>
-
-                    <!-- HORA DINÁMICA -->
-                    <div class="flex items-center gap-1.5 bg-[#16181f] border border-[#2d3038] px-2.5 py-1 rounded text-white text-xs font-mono font-bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 fill-current text-[#ffb800]" viewBox="0 0 24 24">
-                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                        </svg>
-                        <span id="live-clock">00:00:00 PM</span>
-                    </div>
-
-                    <div class="h-4 w-[1px] bg-[#2d3038]"></div>
-
-                    <!-- USER INFO & LOGOUT -->
                     <div class="flex items-center gap-3">
                         <div class="text-right font-mono">
                             <div class="text-xs font-bold text-white uppercase">{{ Auth::user()->name }}</div>
@@ -263,39 +249,5 @@
             </main>
         </div>
     </div>
-
-    <!-- SCRIPT DE RELOJ & FECHA DINÁMICA (MÉXICO) -->
-    <script>
-        function updateClockAndDate() {
-            const now = new Date();
-            
-            const dateOptions = {
-                timeZone: 'America/Mexico_City',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            };
-
-            const timeOptions = {
-                timeZone: 'America/Mexico_City',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-
-            const formattedDate = new Intl.DateTimeFormat('es-MX', dateOptions).format(now);
-            const formattedTime = new Intl.DateTimeFormat('es-MX', timeOptions).format(now).toUpperCase();
-
-            const dateElement = document.getElementById('live-date');
-            const clockElement = document.getElementById('live-clock');
-
-            if (dateElement) dateElement.textContent = formattedDate;
-            if (clockElement) clockElement.textContent = formattedTime;
-        }
-
-        updateClockAndDate();
-        setInterval(updateClockAndDate, 1000);
-    </script>
 </body>
 </html>

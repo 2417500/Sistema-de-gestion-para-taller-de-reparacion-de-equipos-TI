@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <!-- TABLA PRINCIPAL DE ÓRDENES CON ENCABEZADO AZUL -->
+    <!-- TABLA PRINCIPAL DE ÓRDENES -->
     <div class="noir-card bg-[#111318] border border-[#2d3038] p-6 space-y-4">
         <div class="flex justify-between items-center pb-4 border-b border-[#2d3038]">
             <div class="flex items-center gap-2">
@@ -87,6 +87,7 @@
                         <th class="p-3 font-semibold tracking-wider">CLIENTE</th>
                         <th class="p-3 font-semibold tracking-wider">TÉCNICO</th>
                         <th class="p-3 font-semibold tracking-wider">ESTADO</th>
+                        <th class="p-3 font-semibold tracking-wider">ESTADO ORDEN</th>
                         <th class="p-3 font-semibold tracking-wider text-right">ACCIÓN</th>
                     </tr>
                 </thead>
@@ -103,27 +104,51 @@
                                     {{ $orden->estado }}
                                 </span>
                             </td>
-                            <td class="p-3 text-right">
-                                @php
-                                    $rolNombre = strtolower(Auth::user()->role->nombre ?? '');
-                                    $esTecnico = str_contains($rolNombre, 'tecnic') || str_contains($rolNombre, 'técnic');
-                                    $estadoStr = strtolower($orden->estado ?? '');
-                                @endphp
 
-                                @if($esTecnico && in_array($estadoStr, ['pendiente', 'en diagnostico']))
-                                    <a href="{{ route('banco.diagnosticar', $orden->id) }}" class="px-3 py-1 bg-[#ffb800] text-[#0d0f12] font-bold uppercase rounded hover:bg-[#e0a200] transition-colors inline-block text-[10px]">
-                                        ATENDER
-                                    </a>
+                            <!-- COLUMNA ESTADO ORDEN (NORMAL / URGENTE) -->
+                            <td class="p-3">
+                                @if(strtoupper($orden->prioridad ?? 'NORMAL') === 'URGENTE')
+                                    <span class="px-2 py-0.5 text-[10px] font-bold border rounded uppercase bg-rose-950/80 border-rose-500 text-rose-400">
+                                        URGENTE
+                                    </span>
                                 @else
-                                    <a href="{{ route('cotizaciones.show', $orden->id) }}" class="px-3 py-1 bg-[#ffb800] text-[#0d0f12] font-bold uppercase rounded hover:bg-[#e0a200] transition-colors inline-block text-[10px]">
-                                        DETALLES
-                                    </a>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold border rounded uppercase bg-emerald-950/80 border-emerald-500 text-emerald-400">
+                                        NORMAL
+                                    </span>
                                 @endif
+                            </td>
+
+                            <!-- ACCIONES VER ORDEN / ATENDER ORDEN CON BLOQUEO -->
+                            <td class="p-3 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <!-- Botón Ver Orden -->
+                                    <a href="{{ route('ordenes.show', $orden->id) }}" class="px-3 py-1 bg-[#182238] border border-[#2d3038] text-white font-bold uppercase rounded hover:border-[#ffb800] transition-colors inline-block text-[10px]">
+                                        VER ORDEN
+                                    </a>
+
+                                    <!-- Botón Atender Orden -->
+                                    @if(empty($orden->tecnico_id))
+                                        <form action="{{ route('ordenes.atender', $orden->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="px-3 py-1 bg-[#ffb800] text-[#0d0f12] font-bold uppercase rounded hover:bg-white transition-colors text-[10px]">
+                                                ATENDER ORDEN
+                                            </button>
+                                        </form>
+                                    @elseif($orden->tecnico_id == Auth::id())
+                                        <span class="px-2 py-1 bg-sky-500/20 border border-sky-400 text-sky-300 font-bold uppercase rounded text-[10px]">
+                                            EN ATENCIÓN
+                                        </span>
+                                    @else
+                                        <button disabled class="px-3 py-1 bg-[#16181f] border border-[#2d3038] text-[#8a8e9b] font-bold uppercase rounded text-[10px] cursor-not-allowed">
+                                            ATENDIDO POR: {{ $orden->tecnico_nombre }}
+                                        </button>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="p-6 text-center text-[#8a8e9b] uppercase">No hay órdenes registradas en el sistema.</td>
+                            <td colspan="8" class="p-6 text-center text-[#8a8e9b] uppercase">No hay órdenes registradas en el sistema.</td>
                         </tr>
                     @endforelse
                 </tbody>

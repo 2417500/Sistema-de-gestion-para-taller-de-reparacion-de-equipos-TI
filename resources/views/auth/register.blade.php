@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6 border-b border-outline-variant pb-3">
-        <h2 class="text-headline-md font-bold text-white uppercase text-base tracking-wider">Alta de Nuevo Operador / Cliente</h2>
-        <p class="text-on-surface-variant text-[11px] font-mono">Registro en el sistema SoporTec v4.2.</p>
+        <h2 class="text-headline-md font-bold text-white uppercase text-base tracking-wider">Registro de Cuenta de Cliente</h2>
+        <p class="text-on-surface-variant text-[11px] font-mono">Crea tu cuenta pública para dar seguimiento a tus equipos en SoporTec v4.2.</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
@@ -10,15 +10,22 @@
         <!-- Name -->
         <div>
             <x-input-label for="name" value="Nombre Completo / Razón Social" />
-            <x-text-input id="name" class="block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Ing. Carlos Ramos" />
+            <x-text-input id="name" class="block w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Juan Pérez" />
             <x-input-error :messages="$errors->get('name')" class="mt-1 text-xs text-error font-mono" />
         </div>
 
         <!-- Email Address -->
         <div>
             <x-input-label for="email" value="Correo Electrónico de Contacto" />
-            <x-text-input id="email" class="block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="carlos@empresa.com" />
+            <x-text-input id="email" class="block w-full" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="cliente@correo.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs text-error font-mono" />
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+            <x-input-label for="telefono" value="Número Telefónico de Contacto" />
+            <x-text-input id="telefono" class="block w-full" type="text" name="telefono" :value="old('telefono')" required placeholder="55 1234 5678" />
+            <x-input-error :messages="$errors->get('telefono')" class="mt-1 text-xs text-error font-mono" />
         </div>
 
         <!-- Password -->
@@ -46,7 +53,7 @@
             </a>
 
             <x-primary-button>
-                Crear Registro
+                Crear Cuenta
             </x-primary-button>
         </div>
     </form>

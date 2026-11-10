@@ -9,6 +9,7 @@ use App\Models\Inventario;
 use App\Models\SolicitudRepuesto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class OrdenServicioController extends Controller
 {
@@ -33,6 +34,33 @@ class OrdenServicioController extends Controller
         $inventario = Inventario::where('stock_actual', '>', 0)->get();
 
         return view('banco.diagnostico', compact('orden', 'inventario'));
+    }
+
+    /**
+     * Permite a un Técnico asignarse/atender la orden (Control de concurrencia).
+     */
+    public function atender($id)
+    {
+        $orden = OrdenServicio::findOrFail($id);
+
+        if ($orden->tecnico_id !== null) {
+            return back()->with('error', 'Esta orden ya fue tomada por otro técnico.');
+        }
+
+        $orden->tecnico_id = Auth::id();
+        $orden->estado = 'En_Proceso';
+        $orden->save();
+
+        return redirect()->back()->with('success', 'Has tomado la orden de servicio exitosamente.');
+    }
+
+    /**
+     * Muestra la ficha detallada de la orden en modo lectura (Ver Orden).
+     */
+    public function show($id)
+    {
+        $orden = OrdenServicio::with(['equipo', 'cliente.user'])->findOrFail($id);
+        return view('recepcion.ver_orden', compact('orden'));
     }
 
     /**

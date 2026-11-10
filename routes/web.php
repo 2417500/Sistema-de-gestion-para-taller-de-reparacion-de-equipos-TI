@@ -11,12 +11,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - SoporTec (Flujo Completo Sincronizado + Herramientas + Evidencias Técnico)
+| Web Routes - SoporTec v4.2 (Sistema Multitenant & Control Técnico)
 |--------------------------------------------------------------------------
 */
 
 // ------------------------------------------------------------------------
-// 1. RUTAS PÚBLICAS (Portal de Inicio y Consulta de Cliente)
+// 1. RUTAS PÚBLICAS (Portal de Inicio, Seguimiento y Cotizaciones)
 // ------------------------------------------------------------------------
 
 Route::get('/', function () {
@@ -126,9 +126,81 @@ Route::get('/recepcion/imprimir/{id}', function ($id) {
     return view('recepcion.imprimir', compact('orden'));
 })->name('recepcion.imprimir');
 
+// ------------------------------------------------------------------------
+// 2. RECUPERACIÓN DE CONTRASEÑA (SMS SIMULADO & GMAIL)
+// ------------------------------------------------------------------------
+
+Route::get('/forgot-password-custom', function () {
+    return view('auth.forgot-password-custom');
+})->middleware('guest')->name('password.custom.request');
+
+Route::post('/forgot-password-custom/send', function () {
+    $metodo = request('metodo');
+    $contacto = trim(request('contacto'));
+
+    $user = DB::table('users')
+        ->where('email', $contacto)
+        ->orWhere('telefono', $contacto)
+        ->first();
+
+    if (!$user) {
+        return back()->with('error', 'No encontramos ninguna cuenta registrada asociada a este correo o teléfono.');
+    }
+
+    $codigo = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
+
+    session([
+        'reset_user_id' => $user->id,
+        'reset_codigo' => $codigo,
+        'reset_metodo' => $metodo,
+        'reset_contacto' => $contacto
+    ]);
+
+    if ($metodo === 'sms') {
+        return redirect()->route('password.custom.verify')
+            ->with('simulated_sms', "Código de recuperación simulado enviado al ({$contacto}): {$codigo}");
+    } else {
+        return redirect()->route('password.custom.verify')
+            ->with('success', "Se ha enviado el código a tu correo {$contacto}. (Código simulado para pruebas: {$codigo})");
+    }
+})->middleware('guest')->name('password.custom.send');
+
+Route::get('/forgot-password-custom/verify', function () {
+    if (!session('reset_user_id')) {
+        return redirect()->route('password.custom.request');
+    }
+    return view('auth.verify-code-custom');
+})->middleware('guest')->name('password.custom.verify');
+
+Route::post('/forgot-password-custom/reset', function () {
+    $codigoIngresado = trim(request('codigo'));
+    $password = request('password');
+    $passwordConfirmation = request('password_confirmation');
+
+    $codigoGuardado = session('reset_codigo');
+    $userId = session('reset_user_id');
+
+    if ($codigoIngresado !== $codigoGuardado) {
+        return back()->with('error', 'El código de 6 dígitos ingresado es incorrecto.');
+    }
+
+    if ($password !== $passwordConfirmation || strlen($password) < 8) {
+        return back()->with('error', 'Las contraseñas no coinciden o la clave es menor a 8 caracteres.');
+    }
+
+    DB::table('users')->where('id', $userId)->update([
+        'password' => Hash::make($password),
+        'updated_at' => now()
+    ]);
+
+    session()->forget(['reset_user_id', 'reset_codigo', 'reset_metodo', 'reset_contacto']);
+
+    return redirect()->route('login')->with('success', '¡Contraseña actualizada exitosamente! Ya puedes iniciar sesión con tu nueva clave.');
+})->middleware('guest')->name('password.custom.reset');
+
 
 // ------------------------------------------------------------------------
-// 2. RUTAS AUTENTICADAS (Panel Privado y Flujo Operativo)
+// 3. RUTAS AUTENTICADAS (Panel Privado y Flujo Operativo)
 // ------------------------------------------------------------------------
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -175,6 +247,64 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard', compact('ordenes'));
     })->name('dashboard');
 
+    // BÚSQUEDA AUTOMÁTICA DE CLIENTES PARA RECEPCIÓN (AJAX)
+    Route::get('/recepcion/buscar-cliente', function () {
+        $term = trim(request('term'));
+
+        if (strlen($term) < 2) {
+            return response()->json(['encontrado' => false]);
+        }
+
+        $cliente = DB::table('users')
+            ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->where(function($q) use ($term) {
+                $q->where('users.email', 'LIKE', "%{$term}%")
+                  ->orWhere('users.telefono', 'LIKE', "%{$term}%")
+                  ->orWhere('users.name', 'LIKE', "%{$term}%");
+            })
+            ->select('users.name', 'users.email', 'users.telefono')
+            ->first();
+
+        if ($cliente) {
+            return response()->json([
+                'encontrado' => true,
+                'name' => $cliente->name,
+                'email' => $cliente->email,
+                'telefono' => $cliente->telefono
+            ]);
+        }
+
+        return response()->json(['encontrado' => false]);
+    })->name('recepcion.buscarCliente');
+
+    // PERFIL Y ACTUALIZACIÓN DEL CLIENTE ("MI PERFIL")
+    Route::get('/cliente/perfil', function () {
+        return view('cliente.perfil');
+    })->name('cliente.perfil');
+
+    Route::put('/cliente/perfil', function () {
+        $user = Auth::user();
+
+        request()->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'telefono' => 'required|string|max:20',
+        ]);
+
+        DB::table('users')->where('id', $user->id)->update([
+            'name' => request('name'),
+            'email' => request('email'),
+            'telefono' => request('telefono'),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('clientes')->where('user_id', $user->id)->update([
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Tus datos de perfil han sido actualizados correctamente.');
+    })->name('cliente.perfil.update');
+
     // MENÚ CLIENTE: COTIZACIONES PENDIENTES
     Route::get('/cliente/cotizaciones', function () {
         $user = Auth::user();
@@ -214,7 +344,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('cliente.historial', compact('ordenes'));
     })->name('cliente.historial');
 
-    // MÓDULO ALMACÉN & STOCK
+    // MÓDULO ALMACÉN & CONTROL DE STOCK
     Route::get('/almacen', function () {
         $refacciones = DB::table('inventario')->where('tipo', '!=', 'herramienta')->get();
         $herramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
@@ -246,6 +376,44 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return view('almacen.index', compact('refacciones', 'herramientas', 'herramientasParaEnviar', 'prestamosActivos', 'solicitudesAutorizadas'));
     })->name('almacen.index');
+
+    // REABASTECER STOCK DE UN ÍTEM EXISTENTE EN ALMACÉN
+    Route::post('/almacen/reabastecer/{id}', function ($id) {
+        $cantidad = intval(request('cantidad', 0));
+        
+        if ($cantidad <= 0) {
+            return back()->with('error', 'Por favor ingresa una cantidad mayor a cero.');
+        }
+
+        DB::table('inventario')->where('id', $id)->increment('stock_actual', $cantidad);
+
+        return back()->with('success', "Stock reabastecido correctamente (+{$cantidad} unidades).");
+    })->name('almacen.reabastecer');
+
+    // REGISTRAR NUEVO ÍTEM EN ALMACÉN (REFACCIÓN CON PRECIO / HERRAMIENTA SIN PRECIO)
+    Route::post('/almacen/nuevo-item', function () {
+        request()->validate([
+            'nombre' => 'required|string|max:255',
+            'tipo' => 'required|string',
+            'stock_actual' => 'required|integer|min:1',
+            'precio_unitario' => 'nullable|numeric|min:0',
+        ]);
+
+        $tipo = request('tipo');
+        // El precio unitario sólo aplica a Refacciones; para Herramientas siempre será 0
+        $precio = ($tipo === 'refaccion') ? floatval(request('precio_unitario', 0)) : 0.00;
+
+        DB::table('inventario')->insert([
+            'nombre' => request('nombre'),
+            'tipo' => $tipo,
+            'stock_actual' => intval(request('stock_actual')),
+            'precio_unitario' => $precio,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', '¡Nuevo ítem registrado exitosamente en el catálogo de Almacén!');
+    })->name('almacen.nuevoItem');
 
     // ALMACÉN ENVÍA HERRAMIENTA Y DESCUENTA STOCK
     Route::post('/almacen/herramientas/enviar/{id}', function ($id) {
@@ -389,7 +557,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Solicitudes RECHAZADAS para esta orden.');
     })->name('aprobaciones.rechazar');
 
-    // DESCARGA DE PDF - RECEPCIÓN (ENTRADA CON FOTOS)
+    // DESCARGA DE PDF - RECEPCIÓN (ENTRADA CON FOTOS GRANDES Y VERIFICACIÓN BASE64)
     Route::get('/recepcion/pdf/{id}', function ($id) {
         $orden = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
@@ -447,54 +615,56 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('recepcion.index');
     })->name('recepcion.index');
 
-    // GUARDADO DE RECEPCIÓN (ENTRADA CON REGISTRO CORRECTO DE HASH DE CONTRASEÑA DE CLIENTE)
+    // GUARDADO DE RECEPCIÓN (CON VALIDACIÓN DE FECHA MÍNIMA)
     Route::post('/recepcion', function () {
         try {
-            $ordenId = DB::transaction(function () {
-                $email = trim(strtolower(request('cliente_email', 'cliente_' . time() . '@soportec.com')));
-                $passwordIngresada = request('cliente_password');
-                $passwordFinal = !empty($passwordIngresada) ? $passwordIngresada : '12345678';
-                
-                $rol = DB::table('roles')->where('nombre', 'Cliente')->first();
-                $roleId = $rol ? $rol->id : DB::table('roles')->insertGetId([
-                    'nombre' => 'Cliente',
-                    'descripcion' => 'Cliente final',
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ]);
+            $fechaLimite = request('fecha_limite');
+            $hoy = date('Y-m-d');
 
+            if ($fechaLimite < $hoy) {
+                return back()->with('error', 'La fecha límite no puede ser anterior a la fecha actual (' . date('d/m/Y') . ').')->withInput();
+            }
+
+            $ordenId = DB::transaction(function () {
+                $email = trim(strtolower(request('cliente_email')));
+                $nombre = request('cliente_name');
+                $telefono = request('cliente_telefono');
+
+                $rol = DB::table('roles')->where('nombre', 'Cliente')->first();
+                $roleId = $rol ? $rol->id : 4;
+
+                // 1. Vincular o crear usuario base
                 $userCliente = DB::table('users')->where('email', $email)->first();
+
                 if (!$userCliente) {
                     $userId = DB::table('users')->insertGetId([
-                        'name' => request('cliente_name', 'Cliente Nuevo'),
+                        'name' => $nombre,
                         'email' => $email,
-                        'password' => Hash::make($passwordFinal),
+                        'password' => Hash::make('12345678'),
                         'role_id' => $roleId,
-                        'telefono' => request('cliente_telefono', '0000000000'),
+                        'telefono' => $telefono,
+                        'activo' => 1,
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
                 } else {
                     $userId = $userCliente->id;
-                    if (!empty($passwordIngresada)) {
-                        DB::table('users')->where('id', $userId)->update([
-                            'password' => Hash::make($passwordIngresada),
-                            'updated_at' => now()
-                        ]);
-                    }
-                }
-
-                $cliente = DB::table('clientes')->where('user_id', $userId)->first();
-                if (!$cliente) {
-                    $clienteId = DB::table('clientes')->insertGetId([
-                        'user_id' => $userId,
-                        'created_at' => now(),
+                    DB::table('users')->where('id', $userId)->update([
+                        'name' => $nombre,
+                        'telefono' => $telefono,
                         'updated_at' => now()
                     ]);
-                } else {
-                    $clienteId = $cliente->id;
                 }
 
+                // 2. Expediente en la tabla clientes
+                $cliente = DB::table('clientes')->where('user_id', $userId)->first();
+                $clienteId = $cliente ? $cliente->id : DB::table('clientes')->insertGetId([
+                    'user_id' => $userId,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                // 3. Registrar o actualizar Equipo
                 $numeroSerie = trim(request('numero_serie', 'SN-' . time()));
                 $equipo = DB::table('equipos')->where('numero_serie', $numeroSerie)->first();
                 
@@ -516,6 +686,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     ]);
                 }
 
+                // 4. Saneamiento de Tipo de Servicio
                 $rawTipo = request('tipo_servicio', 'Diagnostico');
                 if (str_contains(strtolower($rawTipo), 'reparac')) {
                     $tipoSaneado = 'Reparacion';
@@ -527,17 +698,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     $tipoSaneado = 'Diagnostico';
                 }
 
-                $rutasFotosRecepcion = [];
-                if (request()->hasFile('fotos_recepcion')) {
-                    foreach (request()->file('fotos_recepcion') as $foto) {
-                        $path = $foto->store('recepcion', 'public');
-                        $rutasFotosRecepcion[] = $path;
+                // 5. Subida de Fotos
+                $rutasFotosEquipo = [];
+                if (request()->hasFile('fotos_equipo')) {
+                    foreach (request()->file('fotos_equipo') as $foto) {
+                        $rutasFotosEquipo[] = $foto->store('recepcion/equipo', 'public');
                     }
                 }
 
+                $rutasFotosExtras = [];
+                if (request()->hasFile('fotos_extras')) {
+                    foreach (request()->file('fotos_extras') as $foto) {
+                        $rutasFotosExtras[] = $foto->store('recepcion/extras', 'public');
+                    }
+                }
+
+                $prioridad = request('prioridad', 'NORMAL');
                 $codigoServicio = 'ST-2026-' . str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+                
                 $falla = request('falla_reportada', 'Sin reporte') . 
-                    "\n\n[FECHA DESEADA CLIENTE]: " . request('fecha_deseada', date('Y-m-d')) . 
+                    "\n\n[PRIORIDAD]: " . $prioridad .
                     "\n[FECHA LÍMITE OFICIAL]: " . request('fecha_limite', date('Y-m-d'));
 
                 return DB::table('orden_servicios')->insertGetId([
@@ -546,7 +726,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'recepcion_id' => Auth::id() ?? 1,
                     'tipo_servicio' => $tipoSaneado,
                     'falla_reportada' => $falla,
-                    'fotos_recepcion' => json_encode($rutasFotosRecepcion),
+                    'fotos_recepcion' => json_encode([
+                        'equipo' => $rutasFotosEquipo,
+                        'extras' => $rutasFotosExtras
+                    ]),
+                    'prioridad' => $prioridad,
                     'estado' => 'Pendiente',
                     'created_at' => now(),
                     'updated_at' => now()
@@ -556,9 +740,47 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return redirect()->route('recepcion.imprimir', $ordenId);
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Error al guardar la orden: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Error al procesar la orden: ' . $e->getMessage())->withInput();
         }
     })->name('recepcion.store');
+
+    // CONCURRENCIA Y VER ORDEN EN DASHBOARD TÉCNICO
+    Route::post('/ordenes/{id}/atender', function ($id) {
+        $orden = DB::table('orden_servicios')->where('id', $id)->first();
+
+        if ($orden && $orden->tecnico_id !== null) {
+            return back()->with('error', 'Esta orden ya fue reclamada por otro técnico.');
+        }
+
+        DB::table('orden_servicios')->where('id', $id)->update([
+            'tecnico_id' => Auth::id(),
+            'estado' => 'En_Proceso',
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Has tomado la orden de servicio correctamente.');
+    })->name('ordenes.atender');
+
+    Route::get('/ordenes/{id}/ver', function ($id) {
+        $orden = DB::table('orden_servicios')
+            ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
+            ->leftJoin('clientes', 'equipos.cliente_id', '=', 'clientes.id')
+            ->leftJoin('users as cliente_user', 'clientes.user_id', '=', 'cliente_user.id')
+            ->select(
+                'orden_servicios.*',
+                'equipos.marca',
+                'equipos.modelo',
+                'equipos.numero_serie',
+                'equipos.tipo_equipo',
+                'cliente_user.name as cliente_nombre',
+                'cliente_user.email as cliente_email',
+                'cliente_user.telefono as cliente_telefono'
+            )
+            ->where('orden_servicios.id', $id)
+            ->first();
+
+        return view('recepcion.ver_orden', compact('orden'));
+    })->name('ordenes.show');
 
     // MÓDULO BANCO TÉCNICO - TABLA PRINCIPAL
     Route::get('/banco-tecnico', function () {
@@ -654,7 +876,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('banco.diagnostico', compact('orden', 'inventario'));
     })->name('banco.diagnosticar');
 
-    // GUARDAR COTIZACIÓN
+    // GUARDAR COTIZACIÓN DE BANCO TÉCNICO
     Route::post('/banco-tecnico/cotizar/{id}', function ($id) {
         $manoObra = floatval(request('costo_mano_obra', 0));
         $refaccionesCosto = floatval(request('costo_refacciones', 0));
@@ -796,9 +1018,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Pago liquidado y equipo ENTREGADO exitosamente.');
     })->name('recepcion.entregar');
 
-    // RUTAS DE PERFIL Y ADMIN
+    // ------------------------------------------------------------------------
+    // RUTAS ADMINISTRADOR (CREACIÓN Y CONMUTACIÓN DE ESTADO DE PERSONAL)
+    // ------------------------------------------------------------------------
     Route::get('/admin/usuarios/crear', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/admin/usuarios', [AdminUserController::class, 'store'])->name('admin.users.store');
+    
+    // GESTIÓN DE PERSONAL / CUENTAS ACTIVAS (TOGGLE ALTA/BAJA)
+    Route::get('/admin/personal', [AdminUserController::class, 'personal'])->name('admin.personal');
+    Route::patch('/admin/personal/{id}/toggle', [AdminUserController::class, 'toggleEstado'])->name('admin.personal.toggle');
+
+    // RUTAS DE PERFIL GENERAL
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
