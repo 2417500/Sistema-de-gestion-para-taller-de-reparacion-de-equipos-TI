@@ -2376,11 +2376,50 @@
     <bcf:citekey order="1" intorder="1">zurita2024sistema</bcf:citekey>
     <bcf:citekey order="2" intorder="1">ramirez2020desarrollo</bcf:citekey>
     <bcf:citekey order="3" intorder="1">vargas2023sistema</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">johnson1997arti</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">9129495</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">5278262</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">lin1999robust</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">torres2002robots</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="4" intorder="2">stair2018principles</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="5" intorder="2">stair2018principles</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="6" intorder="2">stair2018principles</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">stair2018principles</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">iso9001_2015</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">iso9001_2015</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="10" intorder="2">iso9001_2015</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">laudon2020management</bcf:citekey>
+    <bcf:citekey order="11" intorder="2">iso9001_2015</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">laravel_doc</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">laravel_doc</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">mdn_web_dev</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">mdn_web_dev</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">laravel_doc</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">composer_doc</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">elmasri2016fundamentals</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">mariadb_doc</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">owasp_authentication</bcf:citekey>
+    <bcf:citekey order="25" intorder="2">laravel_authentication</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">owasp_authorization</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">owasp_authorization</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">owasp_password_storage</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">laravel_doc</bcf:citekey>
+    <bcf:citekey order="29" intorder="2">laravel_authentication</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">owasp_authorization</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">git_doc</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">github_repos</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">git_doc</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">git_doc</bcf:citekey>
+    <bcf:citekey order="34" intorder="2">github_repos</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">docker_php</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">laravel_doc</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">overleaf_latex</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">overleaf_latex</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

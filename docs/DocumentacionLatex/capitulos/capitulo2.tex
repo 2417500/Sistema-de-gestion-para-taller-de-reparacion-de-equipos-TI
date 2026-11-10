@@ -1,79 +1,442 @@
-\chapter{Marco Teórico.}
+\chapter{Marco Teórico}
 
-En el desarrollo de sistemas de control para vehículos aéreos no tripulados (UAVs), los Vehículos de Despegue y Aterrizaje Vertical (VTOL, por sus siglas en inglés) y sus variantes Planas (PVTOL) han captado una atención significativa debido a sus aplicaciones en diversas áreas como la vigilancia~\cite{johnson1997arti}, entrega de paquetes~\cite{9129495} y exploración~\cite{5278262}. Este capítulo aborda los principios teóricos que respaldan el diseño y control de estos vehículos, incluyendo modelos matemáticos y técnicas avanzadas de control.
-En primer lugar, se describen los enfoques de modelado matemático utilizados para representar el comportamiento dinámico de los VTOL y PVTOL. Estos modelos son esenciales para comprender y predecir las respuestas del sistema ante diferentes estímulos. Particularmente, se emplea el formalismo de Euler-Lagrange, un método robusto y ampliamente aceptado en la dinámica de sistemas mecánicos.
+El presente capítulo reúne los fundamentos conceptuales, metodológicos y tecnológicos que sustentan el análisis, diseño e implementación del sistema de gestión para un taller de reparación de equipos de Tecnologías de la Información (TI). En él se abordan los conceptos esenciales de los sistemas de información y de gestión organizacional, analizando los flujos operativos característicos de los servicios técnicos modernos y las ventajas de adoptar modelos de trabajo estructurados.
 
-\section{Sección}
+Asimismo, se examinan las tecnologías clave para el desarrollo de software web contemporáneo, abarcando la arquitectura cliente-servidor, el patrón de diseño Modelo-Vista-Controlador (MVC), los lenguajes de programación, el diseño de bases de datos relacionales, los principios de ciberseguridad, el control de acceso basado en roles y las herramientas de despliegue y documentación. Esta fundamentación teórica permite comprender con claridad las decisiones de ingeniería adoptadas para garantizar una solución eficiente, confiable y adaptada a las necesidades reales del personal y los clientes del taller.
 
-La capacidad de despegue y aterrizaje vertical (VTOL) es muy apreciada en los vehículos aéreos no tripulados (UAV) y tripulados (MAV), siempre que se alcance un rendimiento de vuelo comparable. La tecnología VTOL no solo resulta muy adecuada para los UAV debido a los requisitos de misión y la necesidad de ocultación, sino que también es de gran importancia para los MAV, tanto en aplicaciones militares como civiles, debido a las ventajas que ofrece, como una menor o incluso nula dependencia de aeropuertos o campos de aviación.
+\section{Sistemas de información}
 
-\section{Sección 2}
+Un sistema de información es un conjunto integrado y coordinado de elementos —personas, procedimientos, datos, recursos tecnológicos y mecanismos de comunicación— diseñado para recolectar, procesar, almacenar y distribuir información dentro de una organización. Su objetivo primordial no es simplemente acumular registros en un soporte digital, sino transformar los datos brutos en conocimiento útil y oportuno que apoye la operación diaria y fortalezca la toma de decisiones estratégicas~\cite{laudon2020management, stair2018principles}.
 
-El modelo PVTOL (Plataforma Vertical Despegue y Aterrizaje) describe el movimiento vertical de un objeto en un plano, caracterizado por tres grados de libertad $(x, y, \phi)$ que corresponden a la posición y la orientación del objeto en dicho plano. Este sistema incluye dos propulsores independientes que generan fuerzas y momentos en la máquina voladora, como se muestra en la figura~\ref{fig1:PVTOL}. Es importante destacar que el PVTOL es un sistema subactuado, ya que aunque tiene tres grados de libertad, solo cuenta con dos entradas para su control. Debido a esta característica, el PVTOL constituye un desafío significativo en el ámbito del control no lineal~\cite{lin1999robust}.
+En las organizaciones contemporáneas, los sistemas de información representan una infraestructura indispensable para garantizar la continuidad operativa y la competitividad. En el contexto de un establecimiento de servicio técnico, la implementación de un sistema de este tipo permite coordinar fluidamente las actividades entre el área de atención al público, los técnicos en laboratorio y los responsables del almacén, asegurando que todos los involucrados cuenten con datos actualizados y confiables sobre cada servicio realizado.
 
-\begin{figure}[H]
+\subsection{Definición}
+
+Desde una perspectiva formal y operativa, un sistema de información se define como una estructura sociotécnica que realiza de manera continua cuatro actividades fundamentales: entrada, procesamiento, almacenamiento y salida de datos, complementadas por un ciclo de retroalimentación. La entrada permite capturar los datos generados por las operaciones; el procesamiento organiza, transforma y aplica reglas de negocio sobre ellos; el almacenamiento conserva la información de forma persistente; y la salida presenta resultados comprensibles a través de reportes e interfaces de usuario~\cite{laudon2020management, stair2018principles}.
+
+En la dinámica cotidiana de un taller de tecnologías de la información, este ciclo se manifiesta cuando se registra un cliente y su equipo defectuoso (entrada), se calculan los tiempos de atención y se asigna el trabajo al personal disponible (procesamiento), se guardan los diagnósticos y folios en la base de datos (almacenamiento), y se emiten órdenes de trabajo o consultas de estado en pantalla (salida). La retroalimentación permite al personal directivo evaluar la eficiencia del servicio y efectuar correcciones operativas de manera oportuna.
+
+\subsection{Características y componentes}
+
+Los sistemas de información modernos se caracterizan por su capacidad de integración, precisión en el cálculo, alta disponibilidad, consistencia en la información y flexibilidad para adaptarse a los cambios del entorno operativo. Estos atributos son el resultado de la interacción sinérgica entre sus componentes esenciales: las personas que operan e interactúan con la plataforma, las políticas y procedimientos que norman su uso, los datos que representan la realidad del negocio, el software que ejecuta la lógica y el hardware y redes que proveen el soporte computacional~\cite{laudon2020management, stair2018principles}.
+
+La adecuada articulación de estos componentes previene la dispersión y duplicidad de registros que suelen ocurrir en esquemas manuales o desarticulados. Cuando la infraestructura tecnológica se complementa con procedimientos claros y personal capacitado, el sistema garantiza que los registros técnicos y administrativos se mantengan íntegros a lo largo del tiempo, facilitando la rendición de cuentas y la consulta inmediata de antecedentes de cualquier equipo atendido.
+
+\subsection{Importancia}
+
+La relevancia de los sistemas de información radica en su capacidad para centralizar el flujo de trabajo y proporcionar visibilidad integral sobre el estado de la organización. Al eliminar las barreras de comunicación entre áreas funcionales, el sistema reduce drásticamente los tiempos de búsqueda de datos, previene errores provocados por anotaciones ambiguas y permite que los responsables de la administración supervisen la productividad con base en indicadores reales y actualizados~\cite{laudon2020management, stair2018principles}.
+
+Para un taller de reparación de equipos de cómputo, contar con un sistema de información marca la diferencia entre una atención caótica y un servicio profesional y transparente. Permite a los clientes conocer el estado exacto de sus dispositivos sin necesidad de realizar consultas repetitivas, brinda a los técnicos un expediente claro de cada falla reportada y concede a la recepción elementos objetivos para responder con certeza sobre tiempos de entrega y presupuestos acordados.
+
+\section{Sistemas de gestión}
+
+Un sistema de gestión es un conjunto formalizado de políticas, objetivos, procesos documentados y recursos que una empresa coordina para dirigir y controlar sus actividades hacia el cumplimiento de sus metas de calidad y desempeño. Este enfoque concibe a la organización no como un grupo de departamentos independientes, sino como una red articulada de procesos en la cual las salidas de una etapa constituyen los insumos de la siguiente, demandando una coordinación rigurosa~\cite{iso9001_2015}.
+
+Al adoptar un sistema de gestión, la empresa establece estándares uniformes de operación que reducen la variabilidad en los resultados y aseguran que los servicios se presten de manera predecible y satisfactoria. En el ámbito del soporte técnico, esto se traduce en la estandarización de las revisiones iniciales, la formalización de diagnósticos técnicos, el control riguroso de garantías y el establecimiento de canales formales de comunicación con los usuarios.
+
+\subsection{Concepto}
+
+El concepto de sistema de gestión proviene de las metodologías de administración de calidad que buscan estructurar el trabajo humano mediante criterios claros, repetibles y medibles. Se fundamenta en documentar las mejores prácticas operativas, asignar responsabilidades inequívocas a cada puesto de trabajo y disponer de indicadores que permitan evaluar si los resultados obtenidos corresponden verdaderamente a los estándares de calidad planificados por la empresa~\cite{iso9001_2015}.
+
+Bajo esta perspectiva, cada proceso cuenta con un propósito específico, entradas claramente definidas, actividades de transformación y resultados esperados. De esta forma, el ingreso de un dispositivo al taller no se percibe como una tarea aislada, sino como el primer eslabón de una cadena de valor que abarca la revisión técnica, la aprobación del cliente, la intervención física, las pruebas de calidad y la entrega formal del equipo reparado.
+
+\subsection{Características y automatización de procesos}
+
+Entre las características distintivas de un sistema de gestión se encuentran la definición rigurosa de responsabilidades, la estandarización documental, el registro sistemático de evidencias y el seguimiento continuo del desempeño. Al implementar este marco a través de una aplicación web, muchas de las tareas rutinarias pueden automatizarse, tales como la asignación de folios únicos, la actualización automática de estados, el envío de notificaciones y la consolidación de métricas de servicio~\cite{laudon2020management, iso9001_2015}.
+
+Es fundamental destacar que la automatización no busca reemplazar el criterio técnico ni la atención humana, sino potenciar su efectividad al liberarlos de cargas manuales y repetitivas. Al encargarse la plataforma de aplicar las validaciones de negocio y registrar automáticamente las marcas de tiempo y usuario en cada movimiento, el personal técnico y administrativo puede concentrarse en la calidad del diagnóstico y en la interacción directa con el cliente.
+
+\subsection{Beneficios}
+
+La implementación de un sistema de gestión reporta amplios beneficios operativos y económicos para una organización de servicios. Facilita la estandarización de los métodos de trabajo, disminuye los costos derivados de errores o reprocesos, optimiza el aprovechamiento de los materiales y refacciones disponibles y fortalece la disciplina documental necesaria para atender auditorías o resolver reclamaciones con base en evidencias objetivas~\cite{laudon2020management, iso9001_2015}.
+
+En el contexto específico de la reparación de equipos TI, estos beneficios se manifiestan en una reducción apreciable de los tiempos de respuesta, un control estricto sobre las refacciones empleadas y un incremento sustancial en la satisfacción y fidelidad de los clientes. El cliente percibe una atención estructurada, seria y confiable, respaldada por registros digitales inmutables que avalan cada intervención técnica realizada sobre su patrimonio.
+
+\section{Gestión de talleres de reparación de equipos TI}
+
+La gestión integral de un taller de reparación de tecnologías de la información abarca el conjunto de operaciones técnicas, comerciales y administrativas que hacen posible atender las demandas de mantenimiento preventivo y correctivo de dispositivos computacionales. Este tipo de empresas enfrenta el desafío de coordinar el manejo de equipos de alto valor económico y personal, lo que exige una trazabilidad absoluta desde el momento en que el usuario cruza la puerta hasta la conclusión satisfactoria del servicio.
+
+Tradicionalmente, muchos talleres han operado mediante métodos empíricos e informales, sustentados en libretas de papel o acuerdos verbales, lo cual genera extravío de información, demoras y frecuentes desavenencias con los usuarios. La profesionalización de este sector exige sustituir estas prácticas por procedimientos digitalizados y estandarizados que ordenen cada una de las fases del servicio técnico.
+
+\subsection{Concepto de taller de reparación}
+
+Un taller de reparación de equipos TI es una unidad de servicios tecnológicos especializada en inspeccionar, diagnosticar, reacondicionar y reparar dispositivos de cómputo, periféricos y equipos de red que presentan fallas de hardware, software o degradación de componentes. Para desempeñar su labor, requiere no solo de instrumental técnico especializado y herramientas de banco, sino también de un aparato administrativo que gestione la relación con los clientes y controle los insumos utilizados.
+
+El éxito operativo de un taller depende en gran medida de su capacidad para equilibrar la destreza técnica con una administración eficiente de los tiempos y recursos. La complejidad de los dispositivos modernos requiere que el taller mantenga expedientes técnicos detallados que permitan identificar antecedentes de reparación, patrones recurrentes de falla y especificaciones de componentes compatibles para cada marca y modelo atendido.
+
+\subsection{Recepción y registro de equipos}
+
+La recepción constituye el punto de partida del flujo operativo y la primera oportunidad para generar certidumbre y formalidad en la relación con el cliente. En esta etapa se capturan los datos de identificación del propietario y las características técnicas del dispositivo, incluyendo el tipo de equipo, marca, modelo y número de serie, así como la descripción detallada del problema manifestado por el usuario y las condiciones en las que se presenta la falla.
+
+Asimismo, resulta indispensable documentar minuciosamente la condición cosmética inicial del equipo —consignando rayones, golpes, tornillos faltantes o fisuras previas— y elaborar una lista precisa de los accesorios entregados, como cargadores, cables, adaptadores o fundas. Respaldar esta información con registros digitales y fotografías de ingreso protege al taller contra reclamaciones infundadas y ofrece al cliente la tranquilidad de que su equipo fue recibido bajo un protocolo estricto de custodia.
+
+\subsection{Diagnóstico y reparación}
+
+El diagnóstico técnico es el proceso metódico mediante el cual el personal calificado examina el equipo, efectúa pruebas de banco y aísla los componentes averiados para determinar con precisión la causa raíz del fallo. Una vez identificada la avería, el técnico determina la viabilidad técnica de la reparación, especifica las refacciones y herramientas necesarias y proyecta el tiempo estimado para ejecutar la solución.
+
+Con base en el diagnóstico, la fase de reparación física comprende intervenciones como el reemplazo de módulos defectuosos, reparaciones a nivel de componentes electrónicos, mantenimiento preventivo interno, optimización de software o configuración de sistemas operativos. Cada acción efectuada debe registrarse formalmente en la plataforma para respaldar técnicamente el trabajo efectuado y justificar los costos imputados al servicio.
+
+\subsection{Órdenes de servicio}
+
+La orden de servicio es el documento digital vertebrador de todo el sistema técnico, ya que concentra en un único registro la historia completa de la intervención sobre un equipo específico. Contiene los datos del cliente, la identificación del dispositivo, las notas de recepción, el diagnóstico emitido, los costos calculados, el técnico asignado, las observaciones intermedias y el registro cronológico de las variaciones en el estado del trabajo.
+
+Además de actuar como bitácora técnica, la orden de servicio incorpora un nivel de prioridad operativa que ayuda al taller a organizar y calendarizar la carga de trabajo de su personal según criterios de urgencia o acuerdos comerciales. La asignación de folios únicos para cada orden facilita su consulta inmediata por parte de recepción, técnicos y clientes, asegurando la continuidad del servicio incluso ante relevos de personal en el taller.
+
+\subsection{Control de inventario y refacciones}
+
+El control de inventario en un taller de tecnologías de la información comprende la administración precisa de las existencias de refacciones, partes de recambio, consumibles y herramientas de diagnóstico y ensamble. Mantener un registro sistemático de las existencias disponibles, los niveles mínimos de stock y los movimientos de entrada y salida evita la paralización de reparaciones críticas debido a desabastos inesperados de componentes comunes.
+
+Asimismo, la gestión digital de materiales permite vincular las refacciones utilizadas directamente con la orden de servicio en la que fueron instaladas, garantizando un costeo exacto del trabajo y la correcta descarga de piezas del almacén. Cuando durante una intervención se detecta la falta de un componente específico, el personal técnico puede canalizar formalmente su solicitud hacia el área de almacén, optimizando los tiempos de abastecimiento y las relaciones con los proveedores.
+
+\subsection{Seguimiento y entrega}
+
+El seguimiento operativo consiste en mantener actualizado en tiempo real el estado en el que se encuentra cada orden de servicio —por ejemplo: recibido, en diagnóstico, en espera de aprobación, en reparación, en pruebas o terminado—. Esta visibilidad permanente facilita la coordinación interna entre el personal de recepción y el laboratorio técnico, permitiendo informar al cliente de manera proactiva sobre el avance de su equipo sin necesidad de acudir físicamente al establecimiento.
+
+Por su parte, la entrega formal representa la culminación del servicio y requiere un protocolo de verificación previo donde se compruebe el correcto funcionamiento del dispositivo reparado. Al momento de la entrega en recepción, se registra la salida formal del equipo, se valida la liquidación financiera del saldo pendiente y se hace entrega al cliente de su póliza de garantía, sellando un ciclo de servicio formal, profesional y confiable.
+
+\section{Desarrollo de aplicaciones web}
+
+El desarrollo de aplicaciones web es la disciplina de la ingeniería de software orientada a concebir, programar, probar y mantener sistemas informáticos que residen en servidores remotos y cuyos servicios se consumen a través de navegadores web conectados a una red de comunicaciones. Gracias a la universalidad de los estándares web, estas aplicaciones eliminan la necesidad de distribuir e instalar programas ejecutables en cada uno de los dispositivos cliente, facilitando su adopción inmediata.
+
+En el ámbito empresarial, las aplicaciones web han adquirido un papel protagónico al permitir que una única instancia del software sirva a múltiples usuarios simultáneamente con interfaces adaptadas a sus necesidades específicas. Para un taller de soporte técnico, esta tecnología brinda la posibilidad de que recepcionistas, técnicos y directivos trabajen sobre una misma fuente centralizada de datos desde computadoras de escritorio o dispositivos móviles dentro del taller, al tiempo que los clientes consultan sus servicios desde sus hogares.
+
+\subsection{Aplicación web}
+
+Una aplicación web se compone de dos vertientes complementarias: una interfaz interactiva que se visualiza e interpreta en el navegador del usuario y una lógica de procesamiento centralizada que se ejecuta en uno o varios servidores de aplicaciones. Esta disposición garantiza que las actualizaciones, las correcciones de errores y las nuevas funcionalidades se desplieguen directamente en el servidor, estando disponibles de inmediato para toda la comunidad de usuarios sin requerir intervenciones individuales.
+
+Frente al software tradicional de escritorio, las aplicaciones web ofrecen una notable portabilidad e independencia de la plataforma subyacente, funcionando de manera equivalente sobre sistemas operativos Windows, macOS, Linux, Android o iOS. Esto permite que el personal del taller aproveche la infraestructura computacional preexistente sin incurrir en costos extraordinarios de licencias o configuraciones complejas por estación de trabajo.
+
+\subsection{Arquitectura cliente-servidor}
+
+La arquitectura cliente-servidor es un modelo de computación distribuida que estructura las tareas y cargas de trabajo dividiendo el sistema en proveedores de recursos o servicios, llamados servidores, y demandantes de dichos servicios, conocidos como clientes. En el contexto web, el cliente —representado por el navegador— genera solicitudes a través de protocolos estandarizados de red (HTTP/HTTPS), mientras que el servidor web escucha, procesa y responde a dichas peticiones enviando información estructurada o código visual.
+
+Este desacoplamiento arquitectónico aporta ventajas determinantes en términos de escalabilidad, rendimiento y seguridad. Toda la lógica crítica de negocio, el control de acceso y el almacenamiento persistente de los datos permanecen resguardados en el entorno protegido del servidor, previniendo que usuarios no autorizados puedan alterar directamente las reglas de cálculo, la base de datos o los expedientes del taller desde el lado del cliente.
+
+\subsection{Frontend y backend}
+
+En la ingeniería de software web contemporánea, el desarrollo se divide funcionalmente en dos capas colaborativas: el \textit{frontend} y el \textit{backend}. El \textit{frontend} corresponde a la capa de presentación visual y experiencia de usuario que se ejecuta directamente en el navegador web; su cometido es presentar la información de forma clara, estética y amigable, capturar las acciones del usuario y ofrecer una navegación intuitiva y responsiva.
+
+Por el contrario, el \textit{backend} constituye el motor lógico y operativo que se ejecuta en el servidor. Es el responsable de procesar las transacciones comerciales, verificar la autenticación del usuario, gestionar las sesiones de trabajo, aplicar las reglas del taller y comunicarse de forma segura con la base de datos. Ambas capas deben coordinarse estrechamente para que los formularios completados por el recepcionista o el técnico se transformen en registros persistentes y coherentes en el sistema.
+
+\subsection{Funcionamiento de una aplicación web}
+
+El ciclo operativo de una aplicación web comienza cuando un usuario realiza una acción en la interfaz, como autenticarse en el sistema o buscar una orden por folio. El navegador empaqueta esta instrucción en una solicitud HTTP/HTTPS y la transmite a través de la red hacia el servidor; al recibirla, el servidor web enruta la petición hacia la capa de la aplicación, la cual valida los datos de entrada, ejecuta la lógica pertinente y realiza las consultas requeridas sobre la base de datos relacional.
+
+Una vez que el servidor procesa la información y obtiene los resultados, genera una respuesta codificada —habitualmente en forma de documento HTML estructurado o datos en formato JSON— y la envía de vuelta al navegador del cliente. Este último interpreta el contenido y actualiza la pantalla del usuario en cuestión de fracciones de segundo, garantizando un flujo interactivo ágil y seguro siempre que se mantengan controles estrictos de validación en el servidor para evitar peticiones maliciosas.
+
+\subsection{Diseño responsivo y accesibilidad}
+
+El diseño web responsivo es una técnica de desarrollo que garantiza que las páginas e interfaces de una aplicación adapten fluidamente su disposición, dimensiones y tipografías a las características de la pantalla desde la cual se accede, ya sea una computadora de escritorio con monitor amplio, una tableta en el área de almacén o un teléfono inteligente utilizado por un cliente. Para lograrlo, se utilizan sistemas de cuadrículas flexibles, dimensiones relativas y hojas de estilo basadas en \textit{media queries}.
+
+Por su parte, la accesibilidad web se orienta a diseñar sistemas informáticos que puedan ser percibidos, comprendidos, navegados e interactuados por todas las personas, independientemente de sus capacidades físicas, visuales o cognitivas. Aplicar directrices de accesibilidad —tales como contrastes de color adecuados, jerarquías visuales claras, navegación integral mediante teclado y textos descriptivos en botones y controles— mejora la experiencia de uso general y facilita una adopción rápida del sistema por parte del personal del taller.
+
+\section{Arquitectura de software}
+
+La arquitectura de software constituye el mapa fundamental que describe la estructura organizativa de un sistema computacional, definiendo sus módulos componentes, las propiedades visibles de los mismos y las relaciones e interfaces que permiten su interacción armónica. Lejos de constituir un aspecto puramente estético o secundario, las decisiones arquitectónicas condicionan profundamente la estabilidad, la capacidad de crecimiento, la seguridad y el costo de mantenimiento de un proyecto de software a mediano y largo plazo.
+
+Una arquitectura de software cuidadosamente concebida actúa como un andamio que guía a los desarrolladores durante la construcción del sistema, evitando que el código de la aplicación se vuelva caótico y difícil de interpretar. En un sistema de gestión empresarial, una sólida arquitectura asegura que la lógica de negocio se conserve aislada de la capa visual y de la tecnología de base de datos elegida, protegiendo la inversión de desarrollo ante futuras evoluciones tecnológicas.
+
+\subsection{Concepto}
+
+En la ingeniería de software, la arquitectura representa el conjunto de decisiones técnicas estructurales de más alto nivel adoptadas para satisfacer tanto los requerimientos funcionales del negocio como sus atributos de calidad no funcionales, tales como el rendimiento, la mantenibilidad, la escalabilidad y la tolerancia a fallos. Define las fronteras de los subsistemas y establece los mecanismos de comunicación autorizados entre ellos.
+
+Comprender la arquitectura de una aplicación permite a los ingenieros evaluar el impacto que tendrá cualquier cambio futuro antes de escribir una sola línea de código. En el proyecto del taller, concebir una estructura modular clara permite, por ejemplo, actualizar la interfaz de recepción o agregar un nuevo módulo de compras sin comprometer la estabilidad del catálogo de clientes ni alterar los registros históricos de las reparaciones ya concluidas.
+
+\subsection{Modelo vista controlador (MVC)}
+
+El patrón arquitectónico Modelo-Vista-Controlador (MVC) es uno de los marcos de diseño más consolidados y utilizados en el desarrollo de software orientado a la web. Su principio rector radica en desacoplar las responsabilidades de una aplicación en tres capas conceptualmente independientes: el Modelo, que representa los datos y la lógica de negocio; la Vista, encargada de la interfaz gráfica y la representación visual; y el Controlador, que actúa como intermediario entre ambas recibiendo las peticiones del usuario y decidiendo el flujo de acción~\cite{laravel_doc}.
+
+En el ecosistema del framework Laravel, el patrón MVC se implementa de manera natural y expresiva. Cuando un usuario solicita consultar el estado de una reparación, la petición es capturada por el Controlador de órdenes, el cual invoca al Modelo correspondiente para extraer los registros pertinentes de la base de datos y, finalmente, entrega dicha información a una Vista en Blade para que sea renderizada limpiamente en el navegador del usuario.
+
+\subsection{Separación de responsabilidades}
+
+El principio de separación de responsabilidades (\textit{Separation of Concerns}) establece que cada módulo o componente de un programa informático debe atender una única inquietud o propósito funcional bien delimitado. Al aplicar este principio, se evita construir archivos voluminosos y confusos donde se mezclen indebidamente sentencias de bases de datos, reglas matemáticas de cálculo y código de presentación visual.
+
+Esta separación facilita notablemente la localización y corrección de incidencias durante la fase de soporte del sistema. Si en el taller se decide rediseñar la hoja de recepción física de dispositivos para incorporar el logotipo corporativo, el ajuste se realiza exclusivamente sobre el archivo de la Vista, con la certeza de que las validaciones de negocio en el Controlador y las consultas en el Modelo permanecerán intactas y libres de efectos secundarios indeseados.
+
+\subsection{Ventajas de MVC}
+
+Entre las principales ventajas que aporta la arquitectura MVC destaca la alta modularidad y la reutilización de código. Dado que el Modelo no contiene ninguna dependencia respecto a la forma en que se presentarán los datos, puede reutilizarse indistintamente para alimentar una interfaz gráfica tradicional en el navegador, exportar datos hacia reportes impresos o suministrar respuestas en formato JSON para servicios móviles o integraciones posteriores sin necesidad de duplicar la lógica de negocio~\cite{laravel_doc}.
+
+Asimismo, el desacoplamiento favorece el trabajo concurrente entre distintos miembros del equipo de desarrollo, permitiendo que un desarrollador perfeccione las vistas de usuario mientras otro optimiza las consultas a la base de datos o programa nuevas reglas de validación. Esta organización simplifica la realización de pruebas automatizadas y garantiza que el sistema pueda mantenerse y evolucionar durante años sin degradar su rendimiento ni su legibilidad.
+
+\section{Tecnologías de desarrollo web}
+
+La construcción de una plataforma web moderna exige la integración armónica de un conjunto de herramientas, lenguajes de programación y utilidades de software que abarcan tanto el entorno del cliente como el del servidor. La correcta selección de esta pila tecnológica (\textit{tech stack}) resulta decisiva para garantizar que la solución sea segura, presente un rendimiento óptimo, cuente con amplio respaldo de la comunidad y resulte sostenible para la organización.
+
+En el presente proyecto se ha seleccionado un conjunto de tecnologías de amplia adopción en la industria de las tecnologías de la información, combinando lenguajes estándar de la web con el ecosistema de desarrollo estructurado que ofrece el lenguaje PHP y su framework líder, Laravel. A continuación, se detallan las características y el rol de cada una de estas herramientas.
+
+\subsection{HTML5}
+
+HTML5 (\textit{HyperText Markup Language}, en su quinta versión) constituye el lenguaje estándar de marcado utilizado universalmente para estructurar y organizar el contenido de los documentos que se publican en la web. Mediante una jerarquía clara de etiquetas, elementos y atributos, HTML5 permite definir el significado semántico de cada parte de una página web, distinguiendo encabezados, párrafos, tablas de datos, formularios interactivos y contenedores estructurales~\cite{mdn_web_dev}.
+
+La semántica enriquecida de HTML5 aporta ventajas decisivas en términos de accesibilidad y claridad en la interpretación del contenido por parte de navegadores y herramientas de asistencia. En el sistema de gestión del taller, este estándar se emplea para modelar formularios limpios y accesibles que guían al personal en la captura de información de clientes, el registro de fallas de equipos y la consulta organizada de expedientes de servicio.
+
+\subsection{CSS3}
+
+CSS3 (\textit{Cascading Style Sheets}, versión 3) es el lenguaje de diseño visual empleado para especificar la apariencia gráfica, el formateo tipográfico, la paleta cromática y la distribución espacial de los documentos construidos con HTML. Gracias a CSS3, es posible separar totalmente la estructura del documento de su estilo visual, permitiendo modificar radicalmente la estética del sistema sin alterar la jerarquía de los datos subyacentes~\cite{mdn_web_dev}.
+
+La utilización de módulos avanzados de CSS3, tales como Flexbox y CSS Grid, posibilita la creación de paneles de administración y tableros de control modernos, equilibrados y responsivos. En la plataforma, estos estilos permiten que los técnicos e integrantes del taller visualicen las listas de órdenes, los códigos de colores de prioridad y las tarjetas de inventario con una apariencia limpia, legible y profesional que agiliza el trabajo diario.
+
+\subsection{JavaScript}
+
+JavaScript es un lenguaje de programación interpretado, dinámico y orientado a objetos que se ejecuta primordialmente en los navegadores web del lado del cliente. Su propósito principal es dotar a las páginas web de dinamismo e interactividad en tiempo real, permitiendo que la interfaz responda instantáneamente a los eventos del usuario —tales como clics, pulsaciones de teclas o movimientos del ratón— sin necesidad de recargar la página completa.
+
+En la aplicación de gestión del taller, JavaScript cumple un papel fundamental al realizar validaciones preliminares en los formularios de captura, calcular subtotales de refacciones en tiempo real y dinamizar la interacción de los menús de navegación. Estas validaciones del lado del cliente mejoran la experiencia del usuario y reducen el consumo innecesario de ancho de banda, advirtiendo de forma inmediata sobre datos faltantes o formatos incorrectos antes de enviar la solicitud al servidor.
+
+\subsection{PHP}
+
+PHP (\textit{Hypertext Preprocessor}) es uno de los lenguajes de programación del lado del servidor más consolidados y utilizados en el mundo para la creación de aplicaciones web dinámicas y servicios backend. Se ejecuta directamente en el entorno del servidor web, procesando las solicitudes de los usuarios, interactuando con los motores de bases de datos relacionales y generando de forma segura el contenido que se enviará al navegador del cliente.
+
+A lo largo de sus versiones modernas (PHP 8 y superiores), el lenguaje ha incorporado mejoras sustanciales en rendimiento gracias al compilador Just-In-Time (JIT), así como un sistema de tipado estricto, atributos nativos y manejo avanzado de errores. Estas cualidades convierten a PHP en una plataforma sumamente estable, rápida y versátil para soportar la lógica empresarial y el flujo transaccional continuo que demanda la gestión de un taller de TI.
+
+\subsection{Laravel}
+
+Laravel es un framework de desarrollo web de código abierto para PHP que implementa el patrón de arquitectura Modelo-Vista-Controlador (MVC), destacándose por una sintaxis elegante, expresiva y diseñada para maximizar la productividad y la calidad del código. Proporciona de fábrica soluciones integrales para los desafíos más habituales en la ingeniería de software web, incluyendo un sistema de enrutamiento robusto, el motor de plantillas Blade y mecanismos avanzados de seguridad~\cite{laravel_doc}.
+
+Uno de los pilares más destacados de Laravel es su mapeador objeto-relacional (ORM) llamado Eloquent, el cual permite interactuar con las tablas de la base de datos utilizando modelos orientados a objetos intuitivos y expresivos. Asimismo, el sistema de migraciones de Laravel permite versionar y replicar la estructura de la base de datos de manera determinista en cualquier entorno, facilitando que el proyecto se desarrolle y mantenga con riguroso control técnico.
+
+\subsection{Composer}
+
+Composer es el manejador de paquetes y dependencias estándar para el lenguaje de programación PHP. Su función primordial radica en administrar de forma automatizada las bibliotecas y componentes externos que una aplicación requiere para funcionar, resolviendo los conflictos de versiones y descargando únicamente los paquetes compatibles especificados por el equipo de desarrollo~\cite{composer_doc}.
+
+A través de los archivos de configuración `composer.json` y `composer.lock`, Composer garantiza que cualquier integrante del equipo o servidor de producción instale de manera idéntica y exacta las mismas versiones de las librerías utilizadas. Esto elimina discrepancias de compatibilidad y asegura que las extensiones necesarias para el funcionamiento del framework Laravel y sus dependencias operen con plena estabilidad.
+
+\section{Bases de datos}
+
+Una base de datos es una colección organizada, estructurada y sistemática de información electrónica almacenada de forma persistente en un sistema computacional, de modo que pueda ser consultada, administrada y actualizada rápidamente por uno o múltiples usuarios concurrentes. Los datos representan el activo más valioso de cualquier organización, y su correcta estructuración constituye la base sobre la cual descansan todos los módulos funcionales de una aplicación empresarial~\cite{elmasri2016fundamentals}.
+
+Para gestionar de forma segura y eficiente esta información se emplean los Sistemas Gestores de Bases de Datos (SGBD), herramientas de software especializadas que intermedian entre las aplicaciones y los archivos físicos en disco. En un taller de reparación, el SGBD garantiza que los registros de clientes, los expedientes de dispositivos y el catálogo de piezas se almacenen con absoluta integridad, evitando la corrupción de datos ante cortes eléctricos o accesos simultáneos.
+
+\subsection{Concepto}
+
+Desde una perspectiva conceptual, una base de datos trasciende el simple almacenamiento de archivos planos al imponer reglas de consistencia, restricciones lógicas y relaciones matemáticas entre las distintas entidades del negocio. Su finalidad es proporcionar un repositorio confiable que preserve la veracidad de la información histórica y facilite la extracción de reportes analíticos para la toma de decisiones gerenciales~\cite{elmasri2016fundamentals}.
+
+La elección adecuada del tipo de base de datos depende de la naturaleza de la información que se manejará y de las necesidades operativas de la organización. En entornos donde las operaciones exigen consistencia estricta, protección contra transacciones incompletas y relaciones bien definidas entre datos estructurados —como en el caso de las órdenes de servicio vinculadas a clientes, técnicos y refacciones—, las bases de datos relacionales representan la alternativa óptima por excelencia.
+
+\subsection{Bases de datos relacionales}
+
+El modelo de base de datos relacional, introducido formalmente por Edgar F. Codd en 1970, organiza la información en colecciones de tablas bidimensionales denominadas relaciones. Cada tabla se encuentra estructurada mediante columnas verticales que representan atributos o características de la entidad, y filas horizontales denominadas tuplas o registros que representan elementos individuales del mundo real~\cite{elmasri2016fundamentals}.
+
+Las bases de datos relacionales se rigen por las propiedades ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad), garantizando que las operaciones comerciales críticas se ejecuten de manera indivisible y segura. Así, por ejemplo, si al registrar una reparación se debe asociar un componente y descontar su existencia del almacén, ambas acciones se confirman en conjunto; si alguna falla, el sistema revierte los cambios para impedir inconsistencias numéricas en el inventario.
+
+\subsection{Modelo entidad-relación}
+
+El modelo entidad-relación (E-R) es una metodología de modelado conceptual ampliamente utilizada en la ingeniería de software para diseñar la arquitectura lógica de una base de datos antes de proceder a su implementación técnica. Mediante una representación gráfica intuitiva, este modelo identifica las entidades principales del dominio del problema, los atributos que las describen y las relaciones de asociación que existen entre ellas~\cite{elmasri2016fundamentals}.
+
+Durante la etapa de análisis del taller, el modelo entidad-relación permitió identificar con precisión entidades fundamentales como Cliente, Dispositivo, Orden de Servicio, Técnico, Refacción y Proveedor, estableciendo cómo interactúan entre sí. Este paso previo de diseño conceptual es crucial para evitar errores de duplicidad, definir la cardinalidad adecuada entre los datos (por ejemplo, que un cliente puede tener múltiples dispositivos, pero cada dispositivo pertenece a un cliente) y garantizar una base escalable.
+
+\subsection{Tablas, registros, campos y relaciones}
+
+En la estructura física de una base de datos relacional, la tabla constituye la unidad básica de almacenamiento dedicada a un tipo de entidad en particular, como la tabla de clientes o la de órdenes de servicio. Cada registro o fila dentro de dicha tabla almacena un elemento específico con toda su información particular, mientras que cada campo o columna delimita un dato concreto sujeto a un tipo de dato predefinido, como texto, número entero o fecha~\cite{elmasri2016fundamentals}.
+
+Las relaciones representan los vínculos lógicos que conectan registros de distintas tablas mediante la correspondencia de valores comunes. Esta capacidad relacional permite consultar la información de un servicio técnico de forma integral: al consultar una orden de trabajo, la base de datos asocia instantáneamente los datos del cliente, la ficha del equipo y el nombre del técnico responsable sin necesidad de replicar innecesariamente los nombres o teléfonos en múltiples lugares.
+
+\subsection{Claves primarias y foráneas}
+
+La clave primaria (\textit{Primary Key}) es un atributo o combinación de atributos que identifica de manera única, inequívoca y obligatoria a cada uno de los registros de una tabla relacional, garantizando que no existan dos filas idénticas dentro de la misma estructura. La clave primaria actúa como el identificador maestro de cada entidad, permitiendo referenciarla de forma exacta desde cualquier parte del sistema~\cite{elmasri2016fundamentals}.
+
+Por su parte, la clave foránea (\textit{Foreign Key}) es un campo dentro de una tabla cuyos valores coinciden exactamente con la clave primaria de otra tabla relacionada. Este mecanismo establece la integridad referencial de la base de datos, asegurando que no puedan registrarse órdenes de servicio asociadas a un identificador de cliente ficticio, y previniendo que se borre accidentalmente un registro del cual dependen otros expedientes activos en el sistema.
+
+\subsection{MariaDB}
+
+MariaDB es un potente sistema gestor de bases de datos relacional de código abierto, desarrollado por los creadores originales de MySQL como una bifurcación comunitaria orientada a garantizar el acceso libre, el alto rendimiento y la innovación continua. Utiliza el lenguaje estándar SQL (\textit{Structured Query Language}) y destaca por sus avanzados motores de almacenamiento, su excelente velocidad de procesamiento y su estricto apego a los estándares internacionales de consistencia de datos~\cite{mariadb_doc}.
+
+En el desarrollo de la plataforma para el taller, MariaDB se seleccionó por su excelente compatibilidad nativa con PHP y el framework Laravel, su alta eficiencia en el consumo de memoria en servidores web y su capacidad para gestionar miles de consultas concurrentes con índices optimizados. Su documentación oficial y su amplia adopción internacional ofrecen un entorno confiable para albergar la información operativa del negocio a largo plazo.
+
+\subsection{Operaciones CRUD}
+
+El término CRUD es un acrónimo ampliamente utilizado en la ingeniería de software que sintetiza las cuatro operaciones fundamentales de manipulación de datos sobre cualquier sistema de información: \textit{Create} (crear o insertar un nuevo registro), \textit{Read} (leer o consultar información existente), \textit{Update} (actualizar o modificar registros) y \textit{Delete} (eliminar datos del repositorio). Estas operaciones constituyen el núcleo sobre el cual se edifican los módulos administrativos de la aplicación.
+
+En la plataforma del taller, el paradigma CRUD se implementa mediante formularios protegidos y controladores dedicados para gestionar usuarios, clientes, equipos, órdenes de servicio y catálogo de partes. Con el propósito de resguardar el historial operativo y prevenir pérdidas accidentales de datos, las operaciones de eliminación se implementan frecuentemente mediante borrado lógico (\textit{soft deletes}), marcando el registro como inactivo pero conservando sus datos intactos en la base de datos para fines de auditoría.
+
+\section{Seguridad en aplicaciones web}
+
+La seguridad en aplicaciones web comprende el conjunto de principios arquitectónicos, metodologías de programación defensiva, políticas organizativas y mecanismos criptográficos orientados a salvaguardar los activos informáticos, la integridad de los datos y la privacidad de los usuarios contra accesos no autorizados, ataques cibernéticos y pérdidas accidentales de información. En la actualidad, la seguridad debe concebirse como un requerimiento transversal desde el primer día de diseño y no como un agregado posterior.
+
+En una plataforma destinada a coordinar un taller de reparación, la seguridad cobra un valor crítico debido a la naturaleza sensible de la información que se gestiona: datos de contacto de clientes, registros de dispositivos privados, diagnósticos técnicos y movimientos de cobranza. Cualquier brecha o vulnerabilidad en el sistema podría ocasionar pérdidas económicas directas, desprestigio comercial para el establecimiento o sanciones derivadas de normativas de protección de datos personales.
+
+\subsection{Seguridad informática}
+
+La seguridad informática se sustenta en el modelo clásico de la tríada de la seguridad de la información, conocida por las siglas CIA: Confidencialidad, Integridad y Disponibilidad. La confidencialidad asegura que la información sensible permanezca accesible exclusivamente para las personas y perfiles debidamente autorizados; la integridad garantiza que los datos no sufran modificaciones fraudulentas, accidentales o no autorizadas; y la disponibilidad procura que los sistemas y servicios informáticos permanezcan operativos cuando los usuarios autorizados los necesiten.
+
+En la dinámica del taller de TI, este modelo orienta las decisiones técnicas concretas: la confidencialidad impide que un cliente consulte órdenes ajenas o que un técnico acceda a la configuración administrativa del sistema; la integridad asegura que el importe cotizado o las notas de recepción no puedan ser alteradas arbitrariamente una vez autorizadas; y la disponibilidad garantiza que la recepción pueda registrar ingresos de equipos sin interrupciones durante el horario de atención al público.
+
+\subsection{Autenticación y autorización}
+
+La autenticación y la autorización son dos fases distintas pero íntimamente ligadas dentro del control de acceso de cualquier sistema informático. La autenticación es el procedimiento mediante el cual el sistema comprueba formalmente la identidad del usuario que intenta ingresar a la plataforma, comúnmente a través de un identificador único (como el correo electrónico institucional) y un secreto compartido conocido únicamente por la persona (su contraseña)~\cite{owasp_authentication, laravel_authentication}.
+
+Una vez superada la autenticación, interviene la autorización, la cual determina con precisión qué acciones, vistas y operaciones tiene permitido ejecutar ese usuario en función de su rol o de los privilegios que le han sido concedidos. Superar el inicio de sesión no otorga automáticamente acceso total al sistema; por ello, la autorización debe verificarse en el servidor antes de procesar cualquier solicitud, garantizando que ningún usuario sobrepase los límites de sus atribuciones operativas~\cite{owasp_authorization}.
+
+\subsection{Roles y permisos}
+
+El esquema de roles y permisos es un modelo de gestión de accesos que permite agrupar privilegios de uso coherentes bajo un perfil determinado, asociando a cada empleado con el rol que corresponde a sus funciones dentro del negocio. De esta forma, en lugar de configurar autorizaciones individuales para cada usuario de manera dispersa, los permisos se asignan centralizadamente al rol correspondiente, simplificando la administración y reduciendo notablemente el riesgo de privilegios indebidos~\cite{owasp_authorization}.
+
+En la plataforma del taller, se implementa una matriz estructurada en cinco perfiles diferenciados: Administrador, Recepción, Técnico, Almacén y Cliente. El Administrador ejerce el control global sobre usuarios, configuraciones y reportes; Recepción atiende el registro de clientes, equipos y órdenes; el Técnico documenta diagnósticos y tareas de reparación; Almacén supervisa inventarios, refacciones y pedidos; y el Cliente dispone de un entorno enfocado exclusivamente en consultar el avance y la información de los servicios contratados.
+
+\subsection{Protección de contraseñas}
+
+Las contraseñas representan la primera línea de defensa para la autenticación de usuarios y, por lo tanto, nunca deben almacenarse ni transmitirse en texto legible dentro de ningún medio digital. En su lugar, las contraseñas deben procesarse mediante funciones hash criptográficas unidireccionales de alta seguridad, las cuales generan una cadena de longitud fija a partir de la contraseña original que resulta matemáticamente irreversible, impidiendo que la clave pueda reconstruirse a partir del hash almacenado~\cite{owasp_password_storage}.
+
+Adicionalmente, los algoritmos modernos como Bcrypt o Argon2 implementan de forma obligatoria el uso de sal criptográfica (\textit{salt}), un valor aleatorio generado para cada contraseña que se combina con ella antes de calcular el hash. Este mecanismo protege las credenciales contra ataques basados en tablas precalculadas (\textit{rainbow tables}) y fuerza bruta computacional, asegurando que las contraseñas de los usuarios del taller permanezcan resguardadas incluso si ocurriera una extracción no autorizada de la base de datos.
+
+\subsection{Validación de datos}
+
+La validación de datos es la práctica de seguridad defensiva que consiste en comprobar rigurosamente que toda información remitida por los usuarios a la aplicación cumpla con las especificaciones de tipo de dato, longitud máxima, formato esperado, obligatoriedad y límites de rango antes de ser admitida para su procesamiento o almacenamiento en la base de datos. Representa la medida más eficaz para neutralizar vulnerabilidades como la inyección SQL y el \textit{Cross-Site Scripting} (XSS).
+
+Es un principio rector de la ingeniería de software que las validaciones visuales ejecutadas en el navegador mediante JavaScript son exclusivamente para mejorar la comodidad del usuario, pero no deben considerarse un escudo de seguridad confiable, ya que pueden ser fácilmente desactivadas o burladas mediante herramientas de desarrollo. Por ende, la aplicación del taller implementa validaciones estrictas y exhaustivas del lado del servidor, asegurando que únicamente datos limpios y legítimos ingresen al núcleo del sistema.
+
+\subsection{Protección de rutas y sesiones}
+
+Las rutas definen los puntos de acceso y las acciones que los usuarios pueden solicitar a la aplicación web. Para garantizar que las rutas privadas permanezcan inaccesibles para personas no autenticadas o usuarios sin los privilegios requeridos, se emplean componentes de software intermediarios denominados \textit{middlewares}, los cuales interceptan cada petición entrante, comprueban el estado de autenticación y autorizan o bloquean la ejecución antes de que la solicitud alcance el controlador correspondiente~\cite{laravel_doc, laravel_authentication}.
+
+Por otra parte, la gestión de sesiones permite a la aplicación recordar la identidad de un usuario a lo largo de múltiples solicitudes sucesivas en el navegador. Para blindar estas sesiones, la plataforma genera identificadores de sesión aleatorios y de alta entropía, implementa directivas de cookies seguras (\textit{HttpOnly} y \textit{SameSite}) para evitar su robo mediante secuencias de comandos maliciosas, y renueva periódicamente el identificador de sesión para mitigar riesgos de fijación o secuestro de sesión.
+
+\subsection{Copias de seguridad}
+
+Las copias de seguridad o respaldos (\textit{backups}) representan la garantía operativa indispensable para recuperar la información del sistema y restaurar la continuidad del negocio ante contingencias graves, tales como fallas en el disco duro del servidor, errores humanos accidentales, desastres físicos o incidentes de seguridad informática. Sin una política rigurosa de copias de seguridad, cualquier imprevisto técnico podría derivar en la pérdida irrecuperable de años de expedientes y registros comerciales.
+
+Para que una estrategia de respaldos sea verdaderamente efectiva, debe contemplar la programación automática y periódica de las copias de la base de datos relacional y de los archivos adjuntos, su almacenamiento cifrado en ubicaciones físicas o en la nube independientes del servidor principal, y la realización periódica de simulacros de restauración técnica para validar que los archivos de respaldo sean legibles y aptos para una recuperación exitosa en el menor tiempo posible.
+
+\section{Gestión de usuarios y control de acceso}
+
+La gestión de usuarios y el control de acceso configuran el marco administrativo mediante el cual se crean, mantienen, supervisan y desactivan las identidades digitales de todas las personas autorizadas para interactuar con la plataforma informática. Su propósito esencial es asegurar que cada transacción efectuada en el sistema sea atribuible a un usuario individual reconocible, salvaguardando la confidencialidad de los datos y delimitando con precisión las fronteras operativas de cada miembro de la organización.
+
+En el entorno de un taller de tecnologías de la información, donde convergen técnicos con acceso a componentes delicados, personal de recepción que interactúa con el público y clientes que desean verificar sus servicios, una gestión de identidades desordenada puede conducir a brechas de seguridad o discrepancias operativas. Un control de acceso riguroso aporta transparencia, orden institucional y profesionalismo a toda la operación del taller.
+
+\subsection{Usuarios y perfiles}
+
+Un usuario es una entidad individual y autenticable dentro del sistema que representa a una persona física autorizada para interactuar con los módulos de la aplicación. Para garantizar la trazabilidad de las operaciones, cada cuenta de usuario debe ser personal e intransferible, contando con credenciales únicas y asociándose formalmente con la identidad del trabajador o del cliente que la utiliza, desaconsejando categóricamente el uso de cuentas genéricas o compartidas entre varios operadores.
+
+Los perfiles de usuario agrupan las atribuciones y responsabilidades asignadas a los usuarios según la posición que ocupan dentro de la estructura operativa del taller. La plataforma organiza su interacción mediante cinco perfiles bien definidos: Administrador, Recepción, Técnico, Almacén y Cliente, permitiendo que la interfaz presente a cada uno únicamente los menús, formularios y reportes que resultan pertinentes para el cumplimiento de sus tareas cotidianas.
+
+\subsection{Control de acceso basado en roles}
+
+El control de acceso basado en roles (RBAC, por sus siglas en inglés: \textit{Role-Based Access Control}) es un estándar ampliamente reconocido en la ingeniería de software para gestionar la seguridad lógica de las aplicaciones. En lugar de asignar permisos específicos de forma individual a cada usuario del sistema, los privilegios se conceden directamente a los roles; posteriormente, a los usuarios se les asigna el rol correspondiente a sus funciones, heredando automáticamente los permisos asociados a dicho perfil~\cite{owasp_authorization}.
+
+Este esquema simplifica notablemente la administración de la seguridad en la plataforma. Cuando un nuevo empleado ingresa al taller o cambia de puesto, basta con asignarle el rol correspondiente para que acceda de inmediato a las herramientas precisas de su labor, sin riesgo de otorgarle permisos excesivos o de omitir controles necesarios. Del mismo modo, revocar el acceso de un colaborador que concluye su relación laboral se realiza de forma instantánea desactivando su cuenta.
+
+\subsection{Permisos según responsabilidades}
+
+La configuración de permisos dentro del sistema se fundamenta en el principio de menor privilegio (\textit{Principle of Least Privilege}), el cual estipula que cada usuario debe contar únicamente con las autorizaciones estrictamente indispensables para llevar a cabo sus tareas cotidianas, ni una más. De este modo, se minimiza la superficie de ataque del sistema y se previenen modificaciones indebidas en módulos no relacionados con la función del colaborador.
+
+En el taller de TI, este principio se plasma de forma tangible: el personal técnico no requiere facultades para modificar datos de facturación ni crear cuentas de usuario, así como el personal de recepción no debe tener autorización para alterar diagnósticos de laboratorio ni dar de baja refacciones del almacén. La Tabla~\ref{tab:matriz_permisos} resume la distribución de permisos y responsabilidades entre los distintos perfiles de la plataforma.
+
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/Modelo_PVTOL.png}
-    \caption{Modelo del sistema PVTOL.}
-    \label{fig1:PVTOL}
-\end{figure}
+    \caption{Matriz de permisos según responsabilidades del personal y clientes.}
+    \label{tab:matriz_permisos}
+    \small
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Módulo o funcionalidad} & \textbf{Admin.} & \textbf{Recep.} & \textbf{Técn.} & \textbf{Almac.} & \textbf{Cliente} \\ \hline
+        Gestionar cuentas de usuario y permisos & Sí & No & No & No & No \\ \hline
+        Configurar parámetros generales del taller & Sí & No & No & No & No \\ \hline
+        Registrar y consultar clientes & Sí & Sí & No & No & Propio \\ \hline
+        Registrar ingreso y recepción de equipos & Sí & Sí & No & No & No \\ \hline
+        Consultar órdenes de servicio & Sí & Sí & Asignadas & Vinculadas & Propias \\ \hline
+        Registrar diagnósticos técnicos y avances & Sí & No & Sí & No & No \\ \hline
+        Solicitar refacciones y herramientas & Sí & No & Sí & No & No \\ \hline
+        Gestionar catálogo de almacén y pedidos & Sí & No & No & Sí & No \\ \hline
+        Actualizar estado operativo de la orden & Sí & Según etapa & Sí & No & No \\ \hline
+        Registrar entrega de equipos y salidas & Sí & Sí & No & No & No \\ \hline
+        Consultar avance del servicio en tiempo real & Sí & Sí & Sí & Sí & Sí \\ \hline
+    \end{tabularx}
+\end{table}
 
-\subsection{Subsección}
-El modelado y diseño de control para plataformas UAV es un trabajo difícil debido a su complicada estructura no lineal y subactuada, donde su comportamiento es función de efectos aerodinámicos, estructura mecánica, perturbaciones, incertidumbre, etc. 
+\subsection{Registro de actividades y auditoría}
 
-\section{Modelos matemáticos.}
+El registro de actividades o bitácora de auditoría (\textit{audit trail}) es un mecanismo transversal de seguridad que registra automáticamente los eventos significativos y las operaciones críticas efectuadas dentro de la plataforma. Para cada acción relevante —como la creación de una orden, un cambio en el estado de una reparación o el descuento de piezas en el almacén—, el sistema almacena un registro inmutable que consigna el usuario responsable, la fecha, la hora exacta y el valor modificado.
 
-Para entender los sistemas, es esencial desarrollar modelos matemáticos que los representen con exactitud. Un modelo de un sistema se describe como una representación de sus características relevantes, y el proceso de abstracción necesario para crear esta representación se conoce como modelado. El modelo es una versión simplificada de una realidad compleja; el término \say{modelar} se refiere a crear una descripción que capture de manera precisa un sistema y sus actividades. Los modelos científicos se desarrollan para realizar inferencias sobre ciertos aspectos de sistemas reales previamente observados. Este proceso de creación y utilización de un modelo se ilustra en la figura~\ref{fig:tipos-de-modelo} a). Estos modelos se pueden clasificar de acuerdo al conocimiento previo sobre el proceso ilustrados en la figura~\ref{fig:tipos-de-modelo} b).
+Esta bitácora proporciona transparencia total sobre la dinámica del taller y facilita la reconstrucción cronológica de los hechos en caso de discrepancias, reclamaciones de clientes o auditorías internas. Saber con certeza quién recibió un dispositivo, en qué momento exacto se diagnosticó y cuándo se autorizó la salida del equipo aporta certeza jurídica, eleva la calidad del servicio y fomenta la responsabilidad individual en cada área del taller.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth, height=8cm]{imagenes/esquema_modelado.png}
-    \caption{Sistema de modelado.}
-    \label{fig:tipos-de-modelo}
-\end{figure}
+\section{Herramientas de desarrollo y control de versiones}
 
-Otra forma de modelar un sistema es mediante modelos matemáticos, los cuales replican las relaciones de entrada(s) - salida(s) utilizando expresiones matemáticas. Cuando existe una relación lineal entre la entrada y la salida, el modelo matemático se expresa como:
-\begin{equation}
-     y(t) = u(t)k_{p}
-     \label{eq_modelo}
-\end{equation}
+En la práctica moderna de la ingeniería de software, el desarrollo de aplicaciones web complejas no se concibe como una labor artesanal y aislada, sino como un proceso colaborativo y disciplinado que requiere el uso de herramientas especializadas para gobernar el ciclo de vida del código fuente. Estas herramientas permiten a los desarrolladores coordinar sus esfuerzos de forma ordenada, mantener un historial cronológico de cada modificación y asegurar la estabilidad de las versiones que operan en producción.
 
-Donde $y(t)$ es la salida, $u(t)$ es la entrada del sistema, y $k_{p}$ es la constante de proporcionalidad. No obstante, la ecuación (\ref{eq_modelo}) implica que cualquier cambio en la entrada se reflejará instantáneamente en la salida, lo cual no es cierto en sistemas reales, ya que la salida requiere tiempo para ajustarse. Esta relación se cumple únicamente cuando se ha alcanzado un tiempo suficiente para estabilizarse, conocido como la condición de estado estable, y puede representarse como:\\
-\textit{El valor en estado estable de $u(t)$ es $y(t)$ por el valor en estado estable de $k_{p}$}.
-\begin{equation}
-    k_{p} = \frac{y(t)}{u(t)}
-\end{equation}
+El control de versiones representa la piedra angular sobre la cual se apoyan la integración continua, la detección temprana de defectos y la gestión organizada de ramas de trabajo. En el desarrollo del sistema de gestión para el taller, estas utilidades han permitido asegurar que los distintos módulos —interfaces, lógica de negocio y persistencia— se integren de manera cohesiva y libre de conflictos técnicos.
 
-Donde $k_{p}$ se refiere a la ganancia del sistema o función de transferencia. Así, una función de transferencia se define como la relación entre la salida en estado estable y la entrada en estado estable de un sistema.
+\subsection{Git}
 
- 
-\subsection{Formalismo de Euler-Lagrange.}
+Git es un sistema de control de versiones distribuido de código abierto, diseñado originalmente por Linus Torvalds, que se ha consolidado como el estándar universal en la industria del software para gestionar proyectos de cualquier envergadura. A diferencia de los sistemas centralizados tradicionales, en Git cada desarrollador posee una copia local completa del repositorio en su propia computadora, conteniendo el historial íntegro de cambios y confirmaciones (\textit{commits})~\cite{git_doc}.
 
-La formulación Lagrangiana proporciona una forma de modelar la dinámica de un robot al analizar el balance de energía. En este enfoque, el robot se conceptualiza como una entidad cerrada, y las ecuaciones derivadas se centran únicamente en la energía almacenada, representada a través de las energías cinética y potencial. Para un robot dado, los resultados obtenidos mediante esta formulación son idénticos a los obtenidos mediante la formulación de Newton-Euler.
-El Lagrangiano es una función escalar definida como la diferencia entre las energías cinética y potencial de un sistema mecánico, en función de las llamadas coordenadas generalizadas~\cite{torres2002robots}. En la figura~\ref{fig:euler-lagrange} se desarrolla en detalle la formulación Lagrangiana.
+Esta naturaleza distribuida confiere a Git una extraordinaria velocidad de procesamiento, ya que casi todas las operaciones —como consultar historiales, comparar versiones o crear ramas alternativas— se realizan localmente sin depender de una conexión continua a internet. Además, ofrece una sólida protección contra pérdidas de datos, ya que cada copia de trabajo de los colaboradores actúa como un respaldo integral del proyecto.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/Esquema Euler de Lagrange.png}
-    \caption{Formalismo de Euler-Lagrange.}
-    \label{fig:euler-lagrange}
-\end{figure}
+\subsection{GitHub}
 
-\begin{equation}
-J_{i}=
-    \begin{bmatrix}
-        \lambda_{i} & 1 & 0 & \cdots & 0 \\
-        0 & \lambda_{i} & 1 & \cdots & 0 \\
-        \vdots & \vdots & \ddots & \ddots & \vdots \\
-        0 & 0 & \cdots & \lambda_{i} & 1 \\
-        0 & 0 & \cdots & 0 & \lambda_{i}
-    \end{bmatrix}_{m \times m}
-\end{equation}
+GitHub es una plataforma de servicios web líder a nivel mundial que ofrece alojamiento en la nube para repositorios Git, complementando las funcionalidades del control de versiones con herramientas avanzadas para la gestión de proyectos, la colaboración en equipo y la automatización del despliegue. Permite centralizar el código del proyecto en un entorno seguro y accesible para los integrantes autorizados del equipo de desarrollo~\cite{github_repos}.
 
-Donde $J_{i}$ es el bloque de Jordan asociado al eigenvalor $\lambda_{i}$  en $A$ y $m$ es el orden del bloque de Jordan. Esta representación es útil porque simplifica el análisis de la dinámica de sistemas lineales, especialmente cuando $A$ no es diagonalizable. La solución del sistema en términos de la forma de Jordan es:
+Entre sus herramientas más valiosas se encuentran los \textit{Pull Requests}, un mecanismo estructurado que permite proponer cambios de código, revisarlos mediante inspección visual y comentarlos colaborativamente antes de incorporarlos a la rama principal del proyecto. Asimismo, GitHub provee seguimiento de incidencias (\textit{issue tracking}) y tableros de tareas que facilitan la planificación y monitoreo del avance del sistema de manera transparente.
 
-\begin{equation}
-     \exp(at) = P\exp(Jt)P^{-1} = \sum_{i=1}^{r}\sum_{k=1}^{m_{i}} t^{k-1}\exp(\lambda_{i}t)R_{ik}
-\end{equation}
+\subsection{Control de versiones}
 
-Donde $m_{i}$ es el orden del bloque de  Jordan asociado al eigenvalor $A$. El siguiente teorema caracteriza las propiedades de estabilidad del origen.
+El control de versiones es la disciplina metodológica que consiste en registrar, documentar y administrar la evolución de los archivos que integran un proyecto de software a lo largo del tiempo. Permite a los ingenieros comprender qué cambios se efectuaron en el código, cuándo ocurrieron, quién los implementó y cuál fue la motivación técnica detrás de cada ajuste realizado~\cite{git_doc}.
+
+Esta capacidad de auditoría cronológica resulta invaluable cuando surge un error no previsto en una nueva versión del sistema, ya que el control de versiones permite comparar minuciosamente los cambios recientes con estados anteriores y, de ser necesario, revertir el código a una versión estable previa de manera inmediata. De esta forma, el desarrollo avanza con seguridad y con una notable reducción de la deuda técnica.
+
+\subsection{Repositorios y trabajo colaborativo}
+
+Un repositorio es el contenedor central donde reside la totalidad de los archivos que componen una aplicación de software, junto con sus metadatos, archivos de configuración, documentación y la base de datos histórica de todas las modificaciones realizadas. En el trabajo colaborativo, el repositorio remoto actúa como el punto de convergencia y verdad absoluta al cual concurren todos los integrantes del equipo para sincronizar su trabajo diario~\cite{git_doc, github_repos}.
+
+Para evitar que las modificaciones de un programador sobrescriban o interfieran con las de otro, se emplean estrategias de ramificación (\textit{branching}) mediante las cuales cada funcionalidad, corrección o módulo se desarrolla en una rama aislada e independiente. Solo tras completar las pruebas y validar el código se procede a la fusión (\textit{merge}) hacia la rama principal, garantizando que la versión de producción permanezca siempre limpia, funcional y libre de fallos.
+
+\section{Contenedores y despliegue}
+
+El despliegue de software (\textit{deployment}) es el conjunto de actividades técnicas y operativas necesarias para poner una aplicación terminada a disposición de sus usuarios finales en un entorno de producción seguro, estable y accesible a través de la red. Comprende la configuración del servidor, la preparación del entorno de ejecución, la vinculación con la base de datos, la gestión de dependencias y la verificación de las variables de entorno operativas.
+
+Tradicionalmente, el despliegue presentaba numerosas fricciones debido a las disparidades entre el entorno de desarrollo utilizado por los programadores y el servidor de producción donde se alojaba el sistema. La llegada de la tecnología de contenedores ha transformado radicalmente este panorama al permitir empaquetar la aplicación junto con todas sus dependencias y configuraciones en una unidad autónoma y reproducible en cualquier servidor.
+
+\subsection{Virtualización y contenedores}
+
+La virtualización es una tecnología que permite crear múltiples entornos de computación simulados a partir de una única infraestructura física de hardware. Mientras que la virtualización tradicional basada en hipervisores requiere emular una computadora completa con su propio sistema operativo invitado —lo cual demanda considerables recursos de memoria y almacenamiento—, la virtualización a nivel de sistema operativo o contenedorización comparte el mismo núcleo (\textit{kernel}) del sistema operativo anfitrión.
+
+Gracias a esta diferencia estructural, los contenedores son sumamente ligeros, consumen una fracción reducida de memoria RAM y arrancan en apenas segundos. Cada contenedor funciona como un entorno aislado que aloja la aplicación y sus dependencias estrictamente necesarias, asegurando que el software se comporte con exactitud matemática tanto en la computadora de desarrollo como en el servidor de producción.
+
+\subsection{Docker}
+
+Docker es la plataforma de código abierto líder en la industria para automatizar la creación, empaquetado, distribución y ejecución de aplicaciones dentro de contenedores de software. Utiliza un archivo declarativo denominado `Dockerfile` para construir imágenes inmutables de la aplicación y herramientas como Docker Compose para orquestar múltiples contenedores que interactúan entre sí dentro de una red privada y segura~\cite{docker_php}.
+
+En el desarrollo de la solución para el taller, Docker permite organizar y aislar de forma limpia los distintos servicios que componen el sistema: un contenedor para el servidor web Nginx o Apache, otro contenedor para el entorno de ejecución PHP y un contenedor dedicado para el motor de base de datos MariaDB. Esto garantiza que todos los integrantes del equipo trabajen sobre réplicas idénticas del sistema, previniendo los clásicos problemas de incompatibilidad de librerías.
+
+\subsection{Servidores web y alojamiento}
+
+Un servidor web es una aplicación de software —o el equipo físico que la alberga— cuya función consiste en escuchar solicitudes entrantes a través de los protocolos HTTP y HTTPS, procesarlas y devolver los recursos correspondientes hacia los navegadores de los clientes. En el caso de aplicaciones dinámicas desarrolladas en PHP, el servidor web delega la ejecución del código hacia un procesador rápido de scripts antes de generar la respuesta final.
+
+Por su parte, el alojamiento web (\textit{web hosting}) constituye el servicio que provee la infraestructura tecnológica física o virtualizada, el almacenamiento en disco de alta velocidad, la dirección IP pública y la conectividad continua a internet necesarias para que la plataforma permanezca accesible las veinticuatro horas del día para los usuarios del taller y sus clientes.
+
+\subsection{Despliegue de aplicaciones web}
+
+El proceso de despliegue de una aplicación basada en Laravel demanda la ejecución metódica de diversas tareas de optimización orientadas a maximizar la seguridad y el rendimiento del sistema en producción. Esto comprende desactivar el modo de depuración visual para evitar la exposición pública de datos internos ante un error imprevisto, optimizar la carga del enrutador y compilar en caché los archivos de configuración y vistas del framework~\cite{laravel_doc}.
+
+Asimismo, el despliegue formal implica ejecutar las migraciones de la base de datos para crear o actualizar las tablas sin perder la información preexistente, configurar los enlaces simbólicos de almacenamiento para los archivos fotográficos de los dispositivos recibidos y asegurar que los permisos de lectura y escritura en los directorios del servidor sean estrictamente los necesarios para salvaguardar la integridad de los archivos.
+
+\subsection{Alojamiento en la nube}
+
+La computación en la nube (\textit{cloud computing}) se refiere al suministro de recursos informáticos —procesamiento, almacenamiento, redes, bases de datos gestionadas y herramientas de seguridad— a través de internet, bajo modelos de aprovisionamiento flexible y alta disponibilidad. Este paradigma ha sustituido progresivamente a los servidores físicos dedicados en sitio debido a su menor costo de mantenimiento, redundancia geográfica y capacidad de adaptación inmediata ante variaciones en la demanda.
+
+Para un sistema de gestión empresarial como el del taller de TI, el alojamiento en la nube ofrece la ventaja de contar con respaldos automatizados, alta disponibilidad de conexión y la posibilidad de acceder a la plataforma de forma remota y segura desde cualquier ubicación con conexión a internet, garantizando que el servicio continúe operando sin depender de la infraestructura física del local del taller.
+
+\subsection{Hostinger}
+
+Hostinger es un proveedor internacional de servicios de infraestructura y alojamiento web que ofrece plataformas optimizadas para el despliegue de aplicaciones desarrolladas en PHP y bases de datos relacionales MySQL y MariaDB. Proporciona herramientas de administración intuitivas, certificados de seguridad SSL gratuitos, gestión integrada de nombres de dominio y paneles de configuración para controlar los recursos del servidor.
+
+Al desplegar una aplicación web construida sobre el framework Laravel en los servidores de Hostinger, es necesario configurar cuidadosamente el entorno operativo para apuntar el directorio raíz del dominio hacia la carpeta pública (`public`) del proyecto, protegiendo así los archivos de configuración y el código fuente contra accesos directos desde la web. Asimismo, debe verificarse la compatibilidad de las extensiones activas de PHP y parametrizar las variables de conexión a la base de datos mediante archivos de entorno protegidos.
+
+\section{Herramientas de documentación}
+
+La documentación técnica y académica representa un componente fundamental en todo proyecto de ingeniería de software, pues constituye el testimonio formal donde se registran los objetivos, el marco conceptual, los requerimientos del sistema, las decisiones de diseño arquitectónico y las guías de operación de la plataforma desarrollada. Una documentación clara, estructurada y profesional es indispensable para garantizar la comprensión del sistema, facilitar su mantenimiento futuro y respaldar la memoria de estadía técnica.
+
+En el ámbito universitario y científico, la elaboración de reportes técnicos exige un alto nivel de rigor formal, consistencia tipográfica y exactitud en la citación bibliográfica. Para alcanzar estos estándares, se desaconseja el uso de procesadores de texto convencionales —que suelen desajustar el diseño visual ante cambios menores— y se prefiere el empleo de sistemas de composición tipográfica profesionales de alta precisión.
+
+\subsection{LaTeX}
+
+\LaTeX{} es un sistema de preparación de documentos de alta precisión tipográfica basado en el motor de composición \TeX{}, diseñado específicamente para la producción de documentos científicos, técnicos y académicos de la más alta calidad visual. A diferencia de los procesadores de texto visuales (\textit{WYSIWYG}), \LaTeX{} opera bajo el paradigma de separación entre el contenido textual y su presentación visual, permitiendo que el autor se concentre enteramente en la redacción mientras el compilador calcula con rigor matemático los espaciados, saltos de línea y formateo de la página~\cite{overleaf_latex}.
+
+Entre las ventajas más sobresalientes de \LaTeX{} destacan su capacidad inigualable para gestionar automáticamente la numeración de capítulos, secciones, figuras, ecuaciones y tablas, así como la generación automatizada de tablas de contenido y la administración impecable de referencias bibliográficas mediante herramientas como BibLaTeX. Su estabilidad garantiza que el documento conserve una presentación sobria, uniforme y perfectamente alineada con los estándares académicos de titulación.
+
+\subsection{Overleaf}
+
+Overleaf es una plataforma de desarrollo colaborativo en la nube diseñada específicamente para redactar, compilar y revisar documentos en \LaTeX{} de manera concurrente desde cualquier navegador web. Elimina por completo las dificultades asociadas a la instalación local de distribuciones voluminosas de \TeX{}, proporcionando un entorno preconfigurado con miles de paquetes tipográficos actualizados y visualización en tiempo real del documento PDF compilado~\cite{overleaf_latex}.
+
+Para el desarrollo de la memoria técnica en equipo, Overleaf resulta una herramienta de extraordinario valor al permitir que múltiples autores editen simultáneamente diferentes capítulos del documento, aportando comentarios en línea, control de versiones integrado e historial de revisiones. Su empleo asegura que los integrantes del proyecto trabajen sobre una única versión centralizada, facilitando la revisión continua por parte de asesores académicos y garantizando una entrega documental impecable.

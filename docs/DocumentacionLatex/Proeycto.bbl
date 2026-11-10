@@ -127,190 +127,514 @@
       \verb https://rinacional.tecnm.mx/handle/TecNM/6798
       \endverb
     \endentry
-    \entry{johnson1997arti}{article}{}{}
-      \name{author}{1}{}{%
-        {{hash=8c41afbec95f0ea87452b63aba943737}{%
-           family={Johnson},
-           familyi={J\bibinitperiod},
-           given={R.\bibnamedelimi E},
-           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+    \entry{laudon2020management}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=2a3d8893ad04ba3c98081349c47e2f6c}{%
+           family={Laudon},
+           familyi={L\bibinitperiod},
+           given={Kenneth\bibnamedelima C.},
+           giveni={K\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=7104f050b378ef23f0bc36c2b73e5ea2}{%
+           family={Laudon},
+           familyi={L\bibinitperiod},
+           given={Jane\bibnamedelima P.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
       }
-      \strng{namehash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{fullhash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{fullhashraw}{8c41afbec95f0ea87452b63aba943737}
-      \strng{bibnamehash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{authorbibnamehash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{authornamehash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{authorfullhash}{8c41afbec95f0ea87452b63aba943737}
-      \strng{authorfullhashraw}{8c41afbec95f0ea87452b63aba943737}
+      \list{location}{1}{%
+        {Harlow, Reino Unido}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{fullhash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{fullhashraw}{a99ce1573b42821945806f73f25db5a4}
+      \strng{bibnamehash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{authorbibnamehash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{authornamehash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{authorfullhash}{a99ce1573b42821945806f73f25db5a4}
+      \strng{authorfullhashraw}{a99ce1573b42821945806f73f25db5a4}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{-----}
-      \field{number}{40/10}
-      \field{title}{Frameworks=(components+ patterns). Communications of the ACM}
-      \field{volume}{-}
-      \field{year}{1997}
-      \field{pages}{39\bibrangedash 42}
-      \range{pages}{4}
-    \endentry
-    \entry{9129495}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=019594840542c40396ef3585dbcab39d}{%
-           family={Khosravi},
-           familyi={K\bibinitperiod},
-           given={Mohammadjavad},
-           giveni={M\bibinitperiod}}}%
-        {{hash=33c512a801f6604a8ccf9e8a4570a45e}{%
-           family={Pishro-Nik},
-           familyi={P\bibinithyphendelim N\bibinitperiod},
-           given={Hossein},
-           giveni={H\bibinitperiod}}}%
-      }
-      \strng{namehash}{03e521e698008e0232391ec992630b56}
-      \strng{fullhash}{03e521e698008e0232391ec992630b56}
-      \strng{fullhashraw}{03e521e698008e0232391ec992630b56}
-      \strng{bibnamehash}{03e521e698008e0232391ec992630b56}
-      \strng{authorbibnamehash}{03e521e698008e0232391ec992630b56}
-      \strng{authornamehash}{03e521e698008e0232391ec992630b56}
-      \strng{authorfullhash}{03e521e698008e0232391ec992630b56}
-      \strng{authorfullhashraw}{03e521e698008e0232391ec992630b56}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{2020 IEEE 91st Vehicular Technology Conference (VTC2020-Spring)}
-      \field{title}{Unmanned Aerial Vehicles for Package Delivery and Network Coverage}
+      \field{edition}{16}
+      \field{title}{Management Information Systems: Managing the Digital Firm}
       \field{year}{2020}
-      \field{pages}{1\bibrangedash 5}
-      \range{pages}{5}
-      \verb{doi}
-      \verb 10.1109/VTC2020-Spring48590.2020.9129495
-      \endverb
-      \keyw{Drones;Trajectory;Surveillance;Mathematical model;Task analysis;Shape;Unmanned aerial vehicles;multi-purpose drones;package delivery;uniform network coverage}
     \endentry
-    \entry{5278262}{inproceedings}{}{}
-      \name{author}{3}{}{%
-        {{hash=63fba6206c5fdf8267ad8e20bd44041f}{%
-           family={Sujit},
+    \entry{stair2018principles}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=52cd8a2ba8dde40c31547ce5f545ef3a}{%
+           family={Stair},
            familyi={S\bibinitperiod},
-           given={P.B.},
-           giveni={P\bibinitperiod}}}%
-        {{hash=6069115beb2c8c8533c02fa5b50337d5}{%
-           family={Sousa},
-           familyi={S\bibinitperiod},
-           given={Joao},
-           giveni={J\bibinitperiod}}}%
-        {{hash=086de1693c9f7319df0d8da12cd3f068}{%
-           family={Pereira},
-           familyi={P\bibinitperiod},
-           given={F.\bibnamedelimi L.},
-           giveni={F\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+           given={Ralph\bibnamedelima M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=16382f9dc03cab1b3684112d6d7e067d}{%
+           family={Reynolds},
+           familyi={R\bibinitperiod},
+           given={George\bibnamedelima W.},
+           giveni={G\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
       }
-      \strng{namehash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{fullhash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{fullhashraw}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{bibnamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{authorbibnamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{authornamehash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{authorfullhash}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \strng{authorfullhashraw}{0665757d44a898dfbaa92d6e2e0f89cf}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{OCEANS 2009-EUROPE}
-      \field{title}{UAV and AUVs coordination for ocean exploration}
-      \field{year}{2009}
-      \field{pages}{1\bibrangedash 7}
-      \range{pages}{7}
-      \verb{doi}
-      \verb 10.1109/OCEANSE.2009.5278262
-      \endverb
-      \keyw{Unmanned aerial vehicles;Oceans;Base stations;Sea surface;Leg;Robot kinematics;Underwater vehicles;Robustness;Broadcasting;Humans}
-    \endentry
-    \entry{lin1999robust}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=37177639f418a6c6c34ed11f1d8ee99c}{%
-           family={Lin},
-           familyi={L\bibinitperiod},
-           given={Feng},
-           giveni={F\bibinitperiod}}}%
-        {{hash=4f3dfb68997ebd788dcb6aff6c1dbded}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={William},
-           giveni={W\bibinitperiod}}}%
-        {{hash=d4a8562d29baf76371faf44f15eaa38d}{%
-           family={Brandt},
-           familyi={B\bibinitperiod},
-           given={Robert\bibnamedelima D},
-           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      \list{location}{1}{%
+        {Boston, MA, EE. UU.}%
       }
       \list{publisher}{1}{%
-        {IEEE}%
+        {Cengage Learning}%
       }
-      \strng{namehash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{fullhash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{fullhashraw}{662b72b9547a78567d9183742e9b2e54}
-      \strng{bibnamehash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{authorbibnamehash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{authornamehash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{authorfullhash}{662b72b9547a78567d9183742e9b2e54}
-      \strng{authorfullhashraw}{662b72b9547a78567d9183742e9b2e54}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \strng{namehash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{fullhash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{fullhashraw}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{bibnamehash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{authorbibnamehash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{authornamehash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{authorfullhash}{4965d5e0fe14870ca825ff45381ac613}
+      \strng{authorfullhashraw}{4965d5e0fe14870ca825ff45381ac613}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{IEEE Transactions on Control Systems Technology}
-      \field{number}{3}
-      \field{title}{Robust hovering control of a PVTOL aircraft}
-      \field{volume}{7}
-      \field{year}{1999}
-      \field{pages}{343\bibrangedash 351}
-      \range{pages}{9}
+      \field{edition}{13}
+      \field{title}{Principles of Information Systems}
+      \field{year}{2018}
     \endentry
-    \entry{torres2002robots}{book}{}{}
-      \name{author}{4}{}{%
-        {{hash=fd40167722a3b329b77fbfd741e6a1ac}{%
-           family={Torres},
-           familyi={T\bibinitperiod},
-           given={Fernando},
-           giveni={F\bibinitperiod}}}%
-        {{hash=7539be85b8b5c3d2362fa25f5c363485}{%
-           family={Gil},
-           familyi={G\bibinitperiod},
-           given={Pablo},
-           giveni={P\bibinitperiod}}}%
-        {{hash=b9cfbadc462fe0ff81d192fe18f77a84}{%
-           family={Puente},
-           familyi={P\bibinitperiod},
-           given={Santiago\bibnamedelima T},
-           giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
-        {{hash=e907df91cedb599fbf3fad7e1648b98a}{%
-           family={Aracil},
-           familyi={A\bibinitperiod},
-           given={Rafael},
-           giveni={R\bibinitperiod}}}%
+    \entry{iso9001_2015}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7058e4bd76f877c52b621c942b30613c}{%
+           family={{International Organization for Standardization}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Ginebra, Suiza}%
       }
       \list{publisher}{1}{%
-        {Pearson Educación}%
+        {ISO}%
       }
-      \strng{namehash}{2269d8bee7feb8c13037b2f2c02c177b}
-      \strng{fullhash}{f827fffeb5de6818aec926f5e1d3de27}
-      \strng{fullhashraw}{f827fffeb5de6818aec926f5e1d3de27}
-      \strng{bibnamehash}{2269d8bee7feb8c13037b2f2c02c177b}
-      \strng{authorbibnamehash}{2269d8bee7feb8c13037b2f2c02c177b}
-      \strng{authornamehash}{2269d8bee7feb8c13037b2f2c02c177b}
-      \strng{authorfullhash}{f827fffeb5de6818aec926f5e1d3de27}
-      \strng{authorfullhashraw}{f827fffeb5de6818aec926f5e1d3de27}
+      \strng{namehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{fullhashraw}{7058e4bd76f877c52b621c942b30613c}
+      \strng{bibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorbibnamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authornamehash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhash}{7058e4bd76f877c52b621c942b30613c}
+      \strng{authorfullhashraw}{7058e4bd76f877c52b621c942b30613c}
       \field{sortinit}{8}
       \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Robots y sistemas sensoriales}
-      \field{year}{2002}
+      \field{title}{Quality Management Systems---Requirements, {ISO} 9001:2015}
+      \field{year}{2015}
+    \endentry
+    \entry{laravel_doc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a5c95b86291ea299fcbe64458ed12702}{%
+           family={{Laravel}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{fullhash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{fullhashraw}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{bibnamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorbibnamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authornamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorfullhash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorfullhashraw}{a5c95b86291ea299fcbe64458ed12702}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Laravel 13.x Documentation}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://laravel.com/docs/13.x
+      \endverb
+      \verb{url}
+      \verb https://laravel.com/docs/13.x
+      \endverb
+    \endentry
+    \entry{mdn_web_dev}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=eace3534eb86e51f9a1db37427425ce9}{%
+           family={{MDN Web Docs}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{fullhash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{fullhashraw}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{bibnamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorbibnamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authornamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorfullhash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorfullhashraw}{eace3534eb86e51f9a1db37427425ce9}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learn web development}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \endverb
+      \verb{url}
+      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \endverb
+    \endentry
+    \entry{composer_doc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=bcba235aa0401fd10464df6afbfaab77}{%
+           family={{Composer}},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{fullhash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{fullhashraw}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{bibnamehash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{authorbibnamehash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{authornamehash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{authorfullhash}{bcba235aa0401fd10464df6afbfaab77}
+      \strng{authorfullhashraw}{bcba235aa0401fd10464df6afbfaab77}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://getcomposer.org/doc/00-intro.md
+      \endverb
+      \verb{url}
+      \verb https://getcomposer.org/doc/00-intro.md
+      \endverb
+    \endentry
+    \entry{elmasri2016fundamentals}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c7e2fe1a0e649bf469f3feb7c5aa840d}{%
+           family={Elmasri},
+           familyi={E\bibinitperiod},
+           given={Ramez},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4ae94109c6efa1688beb655559324ba2}{%
+           family={Navathe},
+           familyi={N\bibinitperiod},
+           given={Shamkant\bibnamedelima B.},
+           giveni={S\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Boston, MA, EE. UU.}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \strng{bibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorbibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authornamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Fundamentals of Database Systems}
+      \field{year}{2016}
+    \endentry
+    \entry{mariadb_doc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f9733e208088b1ce6df3d4be1765396}{%
+           family={{MariaDB}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{fullhash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{fullhashraw}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{bibnamehash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{authorbibnamehash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{authornamehash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{authorfullhash}{7f9733e208088b1ce6df3d4be1765396}
+      \strng{authorfullhashraw}{7f9733e208088b1ce6df3d4be1765396}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{MariaDB Server Documentation}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://mariadb.com/kb/en/documentation/
+      \endverb
+      \verb{url}
+      \verb https://mariadb.com/kb/en/documentation/
+      \endverb
+    \endentry
+    \entry{owasp_authentication}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=b0d7a4bf1a0878d4e92cdd7461e48710}{%
+           family={{OWASP Foundation}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{bibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorbibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authornamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Authentication Cheat Sheet}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
+      \endverb
+      \verb{url}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
+      \endverb
+    \endentry
+    \entry{laravel_authentication}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a5c95b86291ea299fcbe64458ed12702}{%
+           family={{Laravel}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{fullhash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{fullhashraw}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{bibnamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorbibnamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authornamehash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorfullhash}{a5c95b86291ea299fcbe64458ed12702}
+      \strng{authorfullhashraw}{a5c95b86291ea299fcbe64458ed12702}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Authentication}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://laravel.com/docs/13.x/authentication
+      \endverb
+      \verb{url}
+      \verb https://laravel.com/docs/13.x/authentication
+      \endverb
+    \endentry
+    \entry{owasp_authorization}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=b0d7a4bf1a0878d4e92cdd7461e48710}{%
+           family={{OWASP Foundation}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{bibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorbibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authornamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Authorization Cheat Sheet}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+      \endverb
+      \verb{url}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+      \endverb
+    \endentry
+    \entry{owasp_password_storage}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=b0d7a4bf1a0878d4e92cdd7461e48710}{%
+           family={{OWASP Foundation}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{fullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{bibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorbibnamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authornamehash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \strng{authorfullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
+      \field{extraname}{3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Password Storage Cheat Sheet}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+      \endverb
+      \verb{url}
+      \verb https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+      \endverb
+    \endentry
+    \entry{git_doc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=0bcc70105ad279503e31fe7b3f47b665}{%
+           family={{Git}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{fullhash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{fullhashraw}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{bibnamehash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{authorbibnamehash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{authornamehash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{authorfullhash}{0bcc70105ad279503e31fe7b3f47b665}
+      \strng{authorfullhashraw}{0bcc70105ad279503e31fe7b3f47b665}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Git Documentation}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://git-scm.com/doc
+      \endverb
+      \verb{url}
+      \verb https://git-scm.com/doc
+      \endverb
+    \endentry
+    \entry{github_repos}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=1bff645e70f77b50981aead7bcc51327}{%
+           family={{GitHub Docs}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{fullhash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{fullhashraw}{1bff645e70f77b50981aead7bcc51327}
+      \strng{bibnamehash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{authorbibnamehash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{authornamehash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{authorfullhash}{1bff645e70f77b50981aead7bcc51327}
+      \strng{authorfullhashraw}{1bff645e70f77b50981aead7bcc51327}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About repositories}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+      \verb{url}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+    \endentry
+    \entry{docker_php}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{PHP language-specific guide}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/guides/php/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/guides/php/
+      \endverb
+    \endentry
+    \entry{overleaf_latex}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=80d685e90fa23d7996a66e45aa2d24ad}{%
+           family={{Overleaf}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{fullhash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{fullhashraw}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{bibnamehash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{authorbibnamehash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{authornamehash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{authorfullhash}{80d685e90fa23d7996a66e45aa2d24ad}
+      \strng{authorfullhashraw}{80d685e90fa23d7996a66e45aa2d24ad}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learn \LaTeX{} in 30 minutes}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes
+      \endverb
+      \verb{url}
+      \verb https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes
+      \endverb
     \endentry
   \enddatalist
 \endrefsection
