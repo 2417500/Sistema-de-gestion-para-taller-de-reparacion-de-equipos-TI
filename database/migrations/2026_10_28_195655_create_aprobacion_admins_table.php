@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('aprobacion_admins');
+        Schema::enableForeignKeyConstraints();
         Schema::create('aprobacion_admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->nullable()->constrained('users');

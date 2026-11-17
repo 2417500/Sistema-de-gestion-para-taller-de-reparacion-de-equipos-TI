@@ -1,0 +1,77 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soportec_app
+    restart: unless-stopped
+    user: "1000:1000"
+    working_dir: /var/www/html
+    environment:
+      APP_NAME: "SoporTec V4.2"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: soportec_db
+      DB_USERNAME: soportec_user
+      DB_PASSWORD: SoporTec_User_2026!
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+    volumes:
+      - ./:/var/www/html
+      - app_vendor:/var/www/html/vendor
+      - app_build:/var/www/html/public/build
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - soportec_net
+
+  nginx:
+    image: nginxinc/nginx-unprivileged:1.27-alpine
+    container_name: soportec_nginx
+    restart: unless-stopped
+    user: "101:101"
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./:/var/www/html:ro
+      - app_build:/var/www/html/public/build:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - soportec_net
+
+  db:
+    image: mysql:8.4
+    container_name: soportec_db
+    restart: unless-stopped
+    user: "999:999"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: soportec_db
+      MYSQL_USER: soportec_user
+      MYSQL_PASSWORD: SoporTec_User_2026!
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "soportec_user", "-pSoporTec_User_2026!"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - soportec_net
+
+volumes:
+  db_data:
+  app_vendor:
+  app_build:
+
+networks:
+  soportec_net:
+    driver: bridge

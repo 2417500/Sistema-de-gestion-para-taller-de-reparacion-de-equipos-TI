@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('refaccions');
+        Schema::enableForeignKeyConstraints();
         Schema::create('refaccions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');

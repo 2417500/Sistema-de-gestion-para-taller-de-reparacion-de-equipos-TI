@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('prestamo_herramientas');
+        Schema::enableForeignKeyConstraints();
         Schema::create('prestamo_herramientas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('orden_servicio_id')->constrained('orden_servicios');

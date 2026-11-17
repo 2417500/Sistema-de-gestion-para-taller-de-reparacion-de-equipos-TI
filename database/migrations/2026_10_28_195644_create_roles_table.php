@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('roles');
+        Schema::enableForeignKeyConstraints();
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50)->unique(); // Administrador, Recepcion, Tecnico, Almacen, Cliente

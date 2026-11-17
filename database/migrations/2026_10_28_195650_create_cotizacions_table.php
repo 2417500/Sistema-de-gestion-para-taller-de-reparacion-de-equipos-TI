@@ -8,6 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('cotizacions');
+        Schema::enableForeignKeyConstraints();
         Schema::create('cotizacions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('orden_servicio_id')->constrained('orden_servicios')->onDelete('cascade');
