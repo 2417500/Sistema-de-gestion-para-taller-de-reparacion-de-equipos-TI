@@ -8,9 +8,9 @@
         </div>
     @endif
 
-    <div class="mb-6 border-b border-outline-variant pb-3">
-        <h2 class="text-headline-md font-bold text-white uppercase text-base tracking-wider">Identificación de Terminal</h2>
-        <p class="text-on-surface-variant text-[11px] font-mono">Ingrese credenciales de operador técnico o cliente.</p>
+    <div class="mb-6 border-b border-[#588157] pb-3">
+        <h2 class="text-base font-bold uppercase tracking-wider dynamic-title font-titulos">Identificación de Terminal</h2>
+        <p class="dynamic-muted text-[11px] font-subtitulos mt-1">Ingrese credenciales de operador técnico o cliente.</p>
     </div>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
@@ -18,43 +18,43 @@
 
         <!-- Email -->
         <div>
-            <x-input-label for="email" value="Credencial / Correo Electrónico" />
-            <x-text-input id="email" class="block w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="usuario@tecnofix.local" />
-            <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs text-error font-mono" />
+            <x-input-label for="email" value="Credencial / Correo Electrónico" class="block text-xs font-bold uppercase dynamic-muted font-subtitulos mb-1" />
+            <x-text-input id="email" class="block w-full px-3 py-2.5 rounded text-xs outline-none focus:border-[#588157]" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="usuario@tecnofix.local" />
+            <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs text-rose-400 font-mono" />
         </div>
 
         <!-- Contraseña -->
         <div>
-            <x-input-label for="password" value="Contraseña de Seguridad" />
-            <x-text-input id="password" class="block w-full"
+            <x-input-label for="password" value="Contraseña de Seguridad" class="block text-xs font-bold uppercase dynamic-muted font-subtitulos mb-1" />
+            <x-text-input id="password" class="block w-full px-3 py-2.5 rounded text-xs outline-none focus:border-[#588157]"
                             type="password"
                             name="password"
                             required autocomplete="current-password" placeholder="••••••••" />
-            <x-input-error :messages="$errors->get('password')" class="mt-1 text-xs text-error font-mono" />
+            <x-input-error :messages="$errors->get('password')" class="mt-1 text-xs text-rose-400 font-mono" />
         </div>
 
         <!-- Recordarme & Olvidé contraseña -->
-        <div class="flex items-center justify-between text-xs font-mono pt-2">
+        <div class="flex items-center justify-between text-xs pt-2">
             <label for="remember_me" class="inline-flex items-center gap-2 cursor-pointer">
-                <input id="remember_me" type="checkbox" class="accent-amber-500 bg-surface-container border-outline-variant" name="remember">
-                <span class="text-on-surface-variant text-[11px]">Recordar terminal</span>
+                <input id="remember_me" type="checkbox" class="accent-[#588157] rounded border-[#588157]" name="remember">
+                <span class="dynamic-muted text-[11px]">Recordar terminal</span>
             </label>
 
-            <a class="text-on-surface-variant hover:text-primary-container text-[11px] underline transition-colors" href="{{ route('password.custom.request') }}">
+            <a class="dynamic-muted hover:underline text-[11px] transition-colors" href="{{ route('password.custom.request') }}">
                 ¿Olvidó contraseña?
             </a>
         </div>
 
-        <div class="pt-4 flex items-center justify-between border-t border-outline-variant/60">
+        <div class="pt-4 flex items-center justify-between border-t border-[#588157]">
             @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="text-xs font-mono text-on-surface-variant hover:text-white uppercase transition-colors">
+                <a href="{{ route('register') }}" class="text-xs font-bold uppercase dynamic-muted hover:text-[#588157] transition-colors">
                     Registrar Cuenta
                 </a>
             @endif
 
-            <x-primary-button>
+            <button type="submit" class="px-5 py-2.5 bg-[#a3b18a] text-[#344e41] font-bold text-xs uppercase tracking-wider rounded hover:bg-[#588157] hover:text-white transition-colors shadow">
                 Acceder al Workbench
-            </x-primary-button>
+            </button>
         </div>
     </form>
 </x-guest-layout>

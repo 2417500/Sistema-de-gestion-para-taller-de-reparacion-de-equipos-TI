@@ -204,11 +204,25 @@ Route::post('/forgot-password-custom/reset', function () {
 // ------------------------------------------------------------------------
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Helper inline para validar roles sin romper ninguna consulta
+    $obtenerRolNormalizado = function () {
+        $u = Auth::user();
+        $raw = $u->role->nombre ?? $u->rol->nombre ?? ($u->role ?? ($u->rol ?? 'cliente'));
+        if (is_object($raw)) {
+            $raw = $raw->nombre ?? $raw->name ?? 'cliente';
+        }
+        return strtolower(trim(str_replace(
+            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+            ['a', 'e', 'i', 'o', 'u', 'a', 'e', 'i', 'o', 'u'],
+            (string) $raw
+        )));
+    };
     
     // DASHBOARD PRINCIPAL CON REDIRECCIÓN POR ROL
-    Route::get('/dashboard', function () {
+    Route::get('/dashboard', function () use ($obtenerRolNormalizado) {
         $user = Auth::user();
-        $rolNombre = strtolower(trim($user->role->nombre ?? 'cliente'));
+        $rolNombre = $obtenerRolNormalizado();
 
         if (str_contains($rolNombre, 'client')) {
             $cliente = DB::table('clientes')->where('user_id', $user->id)->first();
@@ -344,8 +358,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('cliente.historial', compact('ordenes'));
     })->name('cliente.historial');
 
-    // MÓDULO ALMACÉN & CONTROL DE STOCK
-    Route::get('/almacen', function () {
+    // MÓDULO ALMACÉN & CONTROL DE STOCK (PROTEGIDO PARA ADMIN Y ALMACÉN)
+    Route::get('/almacen', function () use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador', 'almacen'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido al módulo de Almacén.');
+        }
+
         $refacciones = DB::table('inventario')->where('tipo', '!=', 'herramienta')->get();
         $herramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
 
@@ -400,7 +419,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
 
         $tipo = request('tipo');
-        // El precio unitario sólo aplica a Refacciones; para Herramientas siempre será 0
         $precio = ($tipo === 'refaccion') ? floatval(request('precio_unitario', 0)) : 0.00;
 
         DB::table('inventario')->insert([
@@ -414,6 +432,38 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return back()->with('success', '¡Nuevo ítem registrado exitosamente en el catálogo de Almacén!');
     })->name('almacen.nuevoItem');
+
+    // EDITAR ÍTEM DE ALMACÉN (REFACCIÓN: NOMBRE Y PRECIO | HERRAMIENTA: SOLO NOMBRE)
+    Route::put('/almacen/item/{id}', function ($id) use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador', 'almacen'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido al módulo de Almacén.');
+        }
+
+        request()->validate([
+            'nombre' => 'required|string|max:255',
+            'tipo' => 'required|string|in:refaccion,herramienta',
+            'precio_unitario' => 'nullable|numeric|min:0',
+        ]);
+
+        $item = DB::table('inventario')->where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'El ítem seleccionado no existe en el inventario.');
+        }
+
+        $datosActualizar = [
+            'nombre' => trim(request('nombre')),
+            'updated_at' => now(),
+        ];
+
+        if ($item->tipo !== 'herramienta') {
+            $datosActualizar['precio_unitario'] = floatval(request('precio_unitario', 0));
+        }
+
+        DB::table('inventario')->where('id', $id)->update($datosActualizar);
+
+        return back()->with('success', '¡Datos del ítem actualizados correctamente!');
+    })->name('almacen.editarItem');
 
     // ALMACÉN ENVÍA HERRAMIENTA Y DESCUENTA STOCK
     Route::post('/almacen/herramientas/enviar/{id}', function ($id) {
@@ -464,8 +514,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('success', 'Herramienta DEVUELTA al Almacén correctamente y stock restaurado.');
     })->name('almacen.devolver');
 
-    // MÓDULO APROBACIONES ADMIN
-    Route::get('/aprobaciones', function () {
+    // MÓDULO APROBACIONES ADMIN (PROTEGIDO SOLO PARA ADMIN)
+    Route::get('/aprobaciones', function () use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido solo para Administrador.');
+        }
+
         $solicitudesRaw = DB::table('solicitudes_repuestos')
             ->join('orden_servicios', 'solicitudes_repuestos.orden_id', '=', 'orden_servicios.id')
             ->join('users', 'solicitudes_repuestos.tecnico_id', '=', 'users.id')
@@ -610,7 +665,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return $pdf->download('Nota_Entrega_' . $orden->codigo_servicio . '.pdf');
     })->name('entrega.pdf');
 
-    // MÓDULOS DE RECEPCIÓN
+    // MÓDULOS DE RECEPCIÓN (REGISTRO / INGRESO DE NUEVA ORDEN)
     Route::get('/recepcion', function () {
         return view('recepcion.index');
     })->name('recepcion.index');
@@ -754,11 +809,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         DB::table('orden_servicios')->where('id', $id)->update([
             'tecnico_id' => Auth::id(),
-            'estado' => 'En_Proceso',
+            'estado' => 'Pendiente',
             'updated_at' => now(),
         ]);
 
-        return back()->with('success', 'Has tomado la orden de servicio correctamente.');
+        return back()->with('success', 'Has tomado la orden correctamente. Ya aparece en tu Banco Técnico para diagnosticar.');
     })->name('ordenes.atender');
 
     Route::get('/ordenes/{id}/ver', function ($id) {
@@ -782,19 +837,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('recepcion.ver_orden', compact('orden'));
     })->name('ordenes.show');
 
-    // MÓDULO BANCO TÉCNICO - TABLA PRINCIPAL
-    Route::get('/banco-tecnico', function () {
-        $ordenes = DB::table('orden_servicios')
+    // MÓDULO BANCO TÉCNICO - TABLA PRINCIPAL (PROTEGIDO PARA ADMIN Y TÉCNICO)
+    Route::get('/banco-tecnico', function () use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador', 'tecnico'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido al Banco Técnico.');
+        }
+
+        $query = DB::table('orden_servicios')
             ->leftJoin('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
             ->select('orden_servicios.*', 'equipos.marca', 'equipos.modelo', 'equipos.numero_serie')
-            ->orderBy('orden_servicios.id', 'desc')
-            ->get();
+            ->orderBy('orden_servicios.id', 'desc');
+
+        if ($rol === 'tecnico') {
+            $query->where('orden_servicios.tecnico_id', Auth::id());
+        }
+
+        $ordenes = $query->get();
 
         return view('banco.index', compact('ordenes'));
     })->name('banco.index');
 
     // PETICIÓN Y CONTROL DE HERRAMIENTAS
-    Route::get('/banco-tecnico/herramientas', function () {
+    Route::get('/banco-tecnico/herramientas', function () use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador', 'tecnico'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido.');
+        }
+
         $catHerramientas = DB::table('inventario')->where('tipo', 'herramienta')->get();
         
         $misPrestamos = DB::table('prestamos_herramientas')
@@ -913,21 +983,42 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
         }
 
+        // Guardar evidencias fotográficas subidas por el técnico
+        $rutasFotosDiagnostico = [];
+        if (request()->hasFile('fotos_diagnostico')) {
+            foreach (request()->file('fotos_diagnostico') as $foto) {
+                $rutasFotosDiagnostico[] = $foto->store('diagnostico', 'public');
+            }
+        }
+
         $total = $manoObra + $refaccionesCosto;
         $ordenActual = DB::table('orden_servicios')->where('id', $id)->first();
-        $fallaConDiag = ($ordenActual->falla_reportada ?? '') . "\n\n[DIAGNÓSTICO TÉCNICO]: " . request('diagnostico_tecnico');
+        $observacionesTaller = trim(request('observaciones_taller', ''));
+        $diagnosticoTecnico = trim(request('diagnostico_tecnico', ''));
 
-        DB::table('orden_servicios')->where('id', $id)->update([
-            'estado' => 'En_Proceso',
+        $fallaConDiag = ($ordenActual->falla_reportada ?? '') . "\n\n[DIAGNÓSTICO TÉCNICO]: " . $diagnosticoTecnico;
+        if ($observacionesTaller !== '') {
+            $fallaConDiag .= "\n\n[OBSERVACIONES TÉCNICOS]: " . $observacionesTaller;
+        }
+
+        $datosUpdate = [
+            'estado' => 'Cotizado',
             'falla_reportada' => $fallaConDiag,
+            'observaciones_taller' => $observacionesTaller,
             'costo_mano_obra' => $manoObra,
             'costo_refacciones' => $refaccionesCosto,
             'costo_total' => $total,
             'anticipo' => $total * 0.50,
             'updated_at' => now(),
-        ]);
+        ];
 
-        return redirect()->route('banco.index')->with('success', 'Cotización guardada y enviada al Cliente exitosamente.');
+        if (count($rutasFotosDiagnostico) > 0) {
+            $datosUpdate['fotos_diagnostico'] = json_encode($rutasFotosDiagnostico);
+        }
+
+        DB::table('orden_servicios')->where('id', $id)->update($datosUpdate);
+
+        return redirect()->route('banco.index')->with('success', 'Cotización, observaciones y evidencias guardadas y enviadas al Cliente exitosamente.');
     })->name('banco.cotizar');
 
     // TÉCNICO SUBE FOTOS DE SALIDA DESDE BANCO TÉCNICO
@@ -1019,14 +1110,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('recepcion.entregar');
 
     // ------------------------------------------------------------------------
-    // RUTAS ADMINISTRADOR (CREACIÓN Y CONMUTACIÓN DE ESTADO DE PERSONAL)
+    // RUTAS ADMINISTRADOR (PROTEGIDAS SOLO PARA ADMIN)
     // ------------------------------------------------------------------------
-    Route::get('/admin/usuarios/crear', [AdminUserController::class, 'create'])->name('admin.users.create');
-    Route::post('/admin/usuarios', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('/admin/usuarios/crear', function () use ($obtenerRolNormalizado) {
+        if (!in_array($obtenerRolNormalizado(), ['admin', 'administrador'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso exclusivo para Administrador.');
+        }
+        return app(AdminUserController::class)->create();
+    })->name('admin.users.create');
+
+    Route::post('/admin/usuarios', function (\Illuminate\Http\Request $request) use ($obtenerRolNormalizado) {
+        if (!in_array($obtenerRolNormalizado(), ['admin', 'administrador'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso exclusivo para Administrador.');
+        }
+        return app(AdminUserController::class)->store($request);
+    })->name('admin.users.store');
     
     // GESTIÓN DE PERSONAL / CUENTAS ACTIVAS (TOGGLE ALTA/BAJA)
-    Route::get('/admin/personal', [AdminUserController::class, 'personal'])->name('admin.personal');
-    Route::patch('/admin/personal/{id}/toggle', [AdminUserController::class, 'toggleEstado'])->name('admin.personal.toggle');
+    Route::get('/admin/personal', function () use ($obtenerRolNormalizado) {
+        if (!in_array($obtenerRolNormalizado(), ['admin', 'administrador'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso exclusivo para Administrador.');
+        }
+        return app(AdminUserController::class)->personal();
+    })->name('admin.personal');
+
+    Route::patch('/admin/personal/{id}/toggle', function ($id) use ($obtenerRolNormalizado) {
+        if (!in_array($obtenerRolNormalizado(), ['admin', 'administrador'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso exclusivo para Administrador.');
+        }
+        return app(AdminUserController::class)->toggleEstado($id);
+    })->name('admin.personal.toggle');
 
     // RUTAS DE PERFIL GENERAL
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

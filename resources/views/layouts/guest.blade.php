@@ -13,18 +13,20 @@
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme === 'light') {
                     document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light-mode');
                 } else {
                     document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light-mode');
                 }
             })();
         </script>
 
-        <!-- Google Fonts -->
+        <!-- Google Fonts Oficiales (Amaranth | Karla | Jost) -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500;600;700&family=Josefin+Sans:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Jost:ital,wght@0,100..900;1,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
-        <!-- Tailwind CSS v3 via CDN y Vite -->
+        <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
         <script>
             tailwind.config = {
@@ -32,29 +34,11 @@
                 theme: {
                     extend: {
                         colors: {
-                            "noir-black": "#000000",
-                            "noir-blue": "#14213d",
-                            "noir-amber": "#fca311",
-                            "noir-grey": "#e5e5e5",
-                            "noir-white": "#ffffff",
-                            "background": "#131313",
-                            "surface": "#131313",
-                            "surface-container-lowest": "#0e0e0e",
-                            "surface-container-low": "#1b1b1b",
-                            "surface-container": "#1f1f1f",
-                            "surface-container-high": "#2a2a2a",
-                            "on-surface": "#e2e2e2",
-                            "on-surface-variant": "#d9c3ad",
-                            "outline-variant": "rgba(229, 229, 229, 0.12)",
-                            "primary-container": "#fca311",
-                            "error": "#ffb4ab",
-                            "error-container": "#93000a"
-                        },
-                        fontFamily: {
-                            "headline-md": ["Space Grotesk", "sans-serif"],
-                            "label-md": ["JetBrains Mono", "monospace"],
-                            "label-sm": ["JetBrains Mono", "monospace"],
-                            "josefin": ["Josefin Sans", "sans-serif"]
+                            'dust-grey': '#dad7cd',
+                            'dry-sage': '#a3b18a',
+                            'fern': '#588157',
+                            'hunter-green': '#3a5a40',
+                            'pine-teal': '#344e41',
                         }
                     }
                 }
@@ -62,130 +46,138 @@
         </script>
 
         <style>
+            /* APLICACIÓN ESTRICTA DE TIPOGRAFÍAS */
+            h1, h2, h3, .font-titulos { 
+                font-family: 'Amaranth', sans-serif !important; 
+            }
+            h4, h5, h6, .font-subtitulos { 
+                font-family: 'Karla', sans-serif !important; 
+            }
+            body, p, input, button, span, a, td, th, label, select, option, textarea, div { 
+                font-family: 'Jost', sans-serif !important; 
+            }
+
+            /* PALETA DE VARIABLES - MODO OSCURO (TONALIDAD PROFUNDA WORKBENCH) */
+            :root {
+                --bg-main: #1d2e26;
+                --bg-card: #24382e;
+                --bg-box: #16241d;
+                --border-color: #588157;
+                --text-title: #ffffff;
+                --text-body: #dad7cd;
+                --text-muted: #a3b18a;
+                --bg-input: #16241d;
+            }
+
+            /* PALETA DE VARIABLES - MODO CLARO (ALTO CONTRASTE - INTACTO) */
+            html:not(.dark), html.light-mode {
+                color-scheme: light;
+                --bg-main: #dad7cd;
+                --bg-card: #ffffff;
+                --bg-box: #eef2e6;
+                --border-color: #588157;
+                --text-title: #344e41;
+                --text-body: #3a5a40;
+                --text-muted: #588157;
+                --bg-input: #ffffff;
+            }
+
+            body {
+                background-color: var(--bg-main) !important;
+                color: var(--text-body) !important;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
             .film-grid {
                 background-size: 24px 24px;
                 background-image: 
-                    linear-gradient(to right, rgba(229, 229, 229, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(229, 229, 229, 0.03) 1px, transparent 1px);
-            }
-            .noir-card {
-                border: 1px solid rgba(229, 229, 229, 0.12);
-                box-shadow: 0 4px 0px 0px rgba(0, 0, 0, 0.85);
-                border-radius: 0px !important;
-            }
-            .amber-glow {
-                box-shadow: 0 0 10px rgba(252, 163, 17, 0.28);
-            }
-            .amber-line {
-                border-top: 2px solid #fca311;
-            }
-            * {
-                border-radius: 0px !important;
+                    linear-gradient(to right, rgba(88, 129, 87, 0.15) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(88, 129, 87, 0.15) 1px, transparent 1px);
             }
 
-            /* MODO CLARO / INVERSIÓN DIAGNÓSTICA (TECHNICAL NOIR WORKSHOP) */
-            html:not(.dark) {
-                color-scheme: light;
+            .noir-card {
+                background-color: var(--bg-card) !important;
+                border: 1px solid var(--border-color) !important;
+                border-top: 3px solid #588157 !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
             }
-            html:not(.dark) body {
-                background-color: #f4f4f5 !important;
-                color: #09090b !important;
+
+            .dynamic-title { 
+                color: var(--text-title) !important; 
             }
-            html:not(.dark) .film-grid {
-                background-image: 
-                    linear-gradient(to right, rgba(20, 33, 61, 0.06) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(20, 33, 61, 0.06) 1px, transparent 1px) !important;
+
+            .dynamic-muted { 
+                color: var(--text-muted) !important; 
             }
-            html:not(.dark) .bg-background {
-                background-color: #f4f4f5 !important;
+
+            input[type="text"], 
+            input[type="email"], 
+            input[type="password"],
+            input[type="tel"],
+            input[type="number"],
+            select,
+            option,
+            textarea {
+                background-color: var(--bg-input) !important;
+                border: 1px solid var(--border-color) !important;
+                color: var(--text-title) !important;
             }
-            html:not(.dark) .bg-surface-container-lowest,
-            html:not(.dark) .bg-surface {
-                background-color: #ffffff !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
+
+            input::placeholder,
+            textarea::placeholder {
+                color: var(--text-muted) !important;
+                opacity: 0.7;
             }
-            html:not(.dark) .bg-surface-container-low {
-                background-color: #fafafa !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                border-color: #a3b18a !important;
+                box-shadow: 0 0 0 1px #588157 !important;
+                outline: none !important;
             }
-            html:not(.dark) .bg-surface-container {
-                background-color: #f4f4f5 !important;
-                border-color: rgba(20, 33, 61, 0.15) !important;
+
+            /* CAJAS DE NOTIFICACIÓN / SIMULACIÓN SMS Y CÓDIGOS EN MODO OSCURO */
+            html.dark .noir-card [class*="bg-emerald-"],
+            html.dark .noir-card [class*="bg-amber-"],
+            html.dark .noir-card [class*="bg-yellow-"],
+            html.dark .noir-card [class*="bg-zinc-"],
+            html.dark .noir-card [class*="bg-gray-"],
+            html.dark .noir-card [class*="bg-slate-"],
+            html.dark .noir-card [class*="bg-[#1"],
+            html.dark .noir-card [class*="bg-[#2"],
+            html.dark .noir-card [class*="bg-[#3"] {
+                background-color: #16241d !important;
+                border-color: #588157 !important;
+                color: #dad7cd !important;
             }
-            html:not(.dark) .bg-surface-container-high {
-                background-color: #e4e4e7 !important;
-                border-color: rgba(20, 33, 61, 0.2) !important;
+
+            /* Botón de alternancia de tema adaptado al Modo Oscuro sin alterar Modo Claro */
+            html.dark .theme-btn-guest {
+                background-color: #24382e !important;
+                border-color: #588157 !important;
+                color: #dad7cd !important;
             }
-            html:not(.dark) .noir-card {
-                background-color: #ffffff !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
-                box-shadow: 0 4px 0px 0px rgba(20, 33, 61, 0.10) !important;
-            }
-            html:not(.dark) .border-outline-variant,
-            html:not(.dark) .border-outline {
-                border-color: rgba(20, 33, 61, 0.18) !important;
-            }
-            html:not(.dark) .text-white,
-            html:not(.dark) .text-on-surface {
-                color: #09090b !important;
-            }
-            html:not(.dark) .text-on-surface-variant {
-                color: #52525b !important;
-            }
-            html:not(.dark) .text-primary,
-            html:not(.dark) .text-primary-container {
-                color: #b45309 !important;
-            }
-            html:not(.dark) .bg-primary-container {
-                background-color: #d97706 !important;
-                color: #ffffff !important;
-                border-color: #d97706 !important;
-            }
-            html:not(.dark) .bg-primary-container * {
-                color: #ffffff !important;
-            }
-            html:not(.dark) .bg-primary-container:hover {
-                background-color: #14213d !important;
-                color: #ffffff !important;
-                border-color: #14213d !important;
-            }
-            html:not(.dark) .bg-noir-blue {
-                background-color: #14213d !important;
+            html.dark .theme-btn-guest:hover {
+                background-color: #588157 !important;
                 color: #ffffff !important;
             }
-            html:not(.dark) .bg-noir-blue * {
-                color: #ffffff !important;
-            }
-            html:not(.dark) .amber-line {
-                border-top-color: #d97706 !important;
-            }
-            html:not(.dark) .amber-glow {
-                box-shadow: 0 0 10px rgba(217, 119, 6, 0.25) !important;
-            }
-            html:not(.dark) input,
-            html:not(.dark) textarea,
-            html:not(.dark) select {
-                background-color: #ffffff !important;
-                color: #09090b !important;
-                border-color: rgba(20, 33, 61, 0.25) !important;
-            }
-            html:not(.dark) input::placeholder,
-            html:not(.dark) textarea::placeholder {
-                color: #71717a !important;
-            }
-            html:not(.dark) input:focus,
-            html:not(.dark) textarea:focus,
-            html:not(.dark) select:focus {
-                border-color: #d97706 !important;
-                box-shadow: 0 0 0 1px #d97706 !important;
+
+            html.dark .badge-terminal {
+                background-color: #16241d !important;
+                color: #a3b18a !important;
+                border-color: #588157 !important;
             }
         </style>
     </head>
-    <body class="bg-background text-on-surface antialiased font-mono film-grid min-h-screen flex flex-col justify-center items-center p-4 selection:bg-primary-container selection:text-noir-black relative">
+    <body class="antialiased film-grid min-h-screen flex flex-col justify-center items-center p-4 relative">
+        
         <!-- Botón Flotante de Tema en Esquina Superior Derecha -->
-        <div class="absolute top-4 right-4">
-            <button onclick="toggleTheme()" type="button" class="p-2 border border-outline-variant bg-surface-container hover:border-primary-container text-on-surface-variant hover:text-primary-container transition-colors cursor-pointer" title="Alternar Modo Claro / Oscuro">
-                <span class="material-symbols-outlined text-base block theme-toggle-icon">contrast</span>
+        <div class="absolute top-4 right-4 z-50">
+            <button onclick="toggleTheme()" type="button" class="theme-btn-guest p-2.5 border border-[#588157] bg-[#3a5a40] hover:bg-[#588157] text-[#dad7cd] hover:text-white transition-colors cursor-pointer rounded shadow" title="Alternar Modo Claro / Oscuro">
+                <svg class="w-5 h-5 fill-current theme-toggle-icon" viewBox="0 0 24 24">
+                    <path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 18c4.42 0 8-3.58 8-8s-3.58-8-8-8v16z"/>
+                </svg>
             </button>
         </div>
 
@@ -193,23 +185,23 @@
             <!-- Emblema de Cabecera -->
             <div class="text-center mb-6">
                 <a href="/" class="inline-flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-noir-blue border border-primary-container flex items-center justify-center font-josefin font-bold text-primary-container text-lg group-hover:bg-primary-container group-hover:text-noir-black transition-colors">
+                    <div class="w-10 h-10 bg-[#588157] text-[#dad7cd] font-bold flex items-center justify-center rounded text-sm shadow group-hover:bg-[#a3b18a] group-hover:text-[#344e41] transition-colors">
                         SF
                     </div>
                     <div class="text-left">
-                        <span class="text-headline-md font-bold tracking-wider text-primary-container uppercase block text-base">TecnoFix Solutions</span>
-                        <span class="text-[9px] font-mono uppercase bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 border border-outline-variant">SoporTec v4.2 // Terminal</span>
+                        <span class="font-titulos font-bold tracking-wider dynamic-title uppercase block text-base leading-none">TecnoFix Solutions</span>
+                        <span class="badge-terminal text-[9px] font-subtitulos uppercase bg-[#344e41] text-[#a3b18a] px-1.5 py-0.5 border border-[#588157] rounded inline-block mt-1">SoporTec v4.2 // Terminal</span>
                     </div>
                 </a>
             </div>
 
             <!-- Contenedor del Formulario Noir -->
-            <div class="noir-card bg-surface-container-lowest p-6 sm:p-8 amber-line">
+            <div class="noir-card p-6 sm:p-8 rounded">
                 {{ $slot }}
             </div>
 
             <!-- Telemetría al pie -->
-            <div class="mt-6 text-center text-[10px] font-mono text-on-surface-variant/60">
+            <div class="mt-6 text-center text-[10px] font-mono dynamic-muted">
                 <span>[SEC-ENCRYPT: TLS 1.3] // BANCO DE CONTROL INDUSTRIAL</span>
             </div>
         </div>
@@ -218,18 +210,14 @@
             function toggleTheme() {
                 const html = document.documentElement;
                 const isDark = html.classList.toggle('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                updateThemeIcons();
+                if (isDark) {
+                    html.classList.remove('light-mode');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    html.classList.add('light-mode');
+                    localStorage.setItem('theme', 'light');
+                }
             }
-
-            function updateThemeIcons() {
-                const isDark = document.documentElement.classList.contains('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.textContent = isDark ? 'contrast' : 'light_mode';
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', updateThemeIcons);
         </script>
     </body>
 </html>

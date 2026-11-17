@@ -1,256 +1,261 @@
 <!DOCTYPE html>
-<html class="dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'SoporTec') }} | Workbench</title>
+    <title>{{ config('app.name', 'TecnoFix Solutions') }}</title>
 
-        <!-- Prevención de destello de tema (Anti-Flicker Script) -->
-        <script>
-            (function() {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                } else {
-                    document.documentElement.classList.add('dark');
-                }
-            })();
-        </script>
+    <!-- FUENTES OFICIALES (TITULOS: Amaranth | SUBTITULOS: Karla | TEXTO: Jost) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Jost:ital,wght@0,100..900;1,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500;600;700&family=Josefin+Sans:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
-        <!-- Tailwind CSS v3 via CDN -->
-        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-        <script>
-            tailwind.config = {
-                darkMode: "class",
-                theme: {
-                    extend: {
-                        colors: {
-                            "noir-black": "#000000",
-                            "noir-blue": "#14213d",
-                            "noir-amber": "#fca311",
-                            "noir-grey": "#e5e5e5",
-                            "noir-white": "#ffffff",
-                            "background": "#131313",
-                            "surface": "#131313",
-                            "surface-dim": "#131313",
-                            "surface-bright": "#393939",
-                            "surface-container-lowest": "#0e0e0e",
-                            "surface-container-low": "#1b1b1b",
-                            "surface-container": "#1f1f1f",
-                            "surface-container-high": "#2a2a2a",
-                            "surface-container-highest": "#353535",
-                            "on-surface": "#e2e2e2",
-                            "on-surface-variant": "#d9c3ad",
-                            "outline": "#a18e79",
-                            "outline-variant": "rgba(229, 229, 229, 0.12)",
-                            "primary": "#ffc887",
-                            "primary-container": "#fca311",
-                            "on-primary": "#472a00",
-                            "secondary": "#b9c6ea",
-                            "secondary-container": "#14213d",
-                            "error": "#ffb4ab",
-                            "error-container": "#93000a"
-                        },
-                        fontFamily: {
-                            "headline-xl": ["Space Grotesk", "sans-serif"],
-                            "headline-lg": ["Space Grotesk", "sans-serif"],
-                            "headline-md": ["Space Grotesk", "sans-serif"],
-                            "body-lg": ["Hanken Grotesk", "sans-serif"],
-                            "body-md": ["Hanken Grotesk", "sans-serif"],
-                            "label-lg": ["JetBrains Mono", "monospace"],
-                            "label-md": ["JetBrains Mono", "monospace"],
-                            "label-sm": ["JetBrains Mono", "monospace"],
-                            "josefin": ["Josefin Sans", "sans-serif"]
-                        }
+    <!-- TAILWIND CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        'dust-grey': '#dad7cd',
+                        'dry-sage': '#a3b18a',
+                        'fern': '#588157',
+                        'hunter-green': '#3a5a40',
+                        'pine-teal': '#344e41',
                     }
                 }
             }
-        </script>
+        }
+    </script>
 
-        <style>
-            .film-grid {
-                background-size: 24px 24px;
-                background-image: 
-                    linear-gradient(to right, rgba(229, 229, 229, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(229, 229, 229, 0.03) 1px, transparent 1px);
-            }
-            .noir-card {
-                border: 1px solid rgba(229, 229, 229, 0.12);
-                box-shadow: 0 4px 0px 0px rgba(0, 0, 0, 0.85);
-                border-radius: 0px !important;
-            }
-            .amber-glow {
-                box-shadow: 0 0 10px rgba(252, 163, 17, 0.28);
-            }
-            .amber-line {
-                border-top: 2px solid #fca311;
-            }
-            * {
-                border-radius: 0px !important;
-            }
+    <style>
+        /* APLICACIÓN ESTRICTA DE TIPOGRAFÍAS */
+        h1, h2, h3, .font-titulos { 
+            font-family: 'Amaranth', sans-serif !important; 
+        }
+        h4, h5, h6, th, label, .font-subtitulos { 
+            font-family: 'Karla', sans-serif !important; 
+        }
+        body, p, input, button, span, a, td, textarea, select, div { 
+            font-family: 'Jost', sans-serif !important; 
+        }
 
-            /* MODO CLARO / INVERSIÓN DIAGNÓSTICA */
-            html:not(.dark) {
-                color-scheme: light;
-            }
-            html:not(.dark) body {
-                background-color: #f4f4f5 !important;
-                color: #09090b !important;
-            }
-            html:not(.dark) .film-grid {
-                background-image: 
-                    linear-gradient(to right, rgba(20, 33, 61, 0.06) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(20, 33, 61, 0.06) 1px, transparent 1px) !important;
-            }
-            html:not(.dark) header,
-            html:not(.dark) footer,
-            html:not(.dark) aside,
-            html:not(.dark) .bg-background {
-                background-color: #f4f4f5 !important;
-            }
-            html:not(.dark) .bg-surface-container-lowest,
-            html:not(.dark) .bg-surface {
-                background-color: #ffffff !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
-            }
-            html:not(.dark) .bg-surface-container-low {
-                background-color: #fafafa !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
-            }
-            html:not(.dark) .bg-surface-container {
-                background-color: #f4f4f5 !important;
-                border-color: rgba(20, 33, 61, 0.15) !important;
-            }
-            html:not(.dark) .bg-surface-container-high {
-                background-color: #e4e4e7 !important;
-                border-color: rgba(20, 33, 61, 0.2) !important;
-            }
-            html:not(.dark) .noir-card {
-                background-color: #ffffff !important;
-                border-color: rgba(20, 33, 61, 0.18) !important;
-                box-shadow: 0 4px 0px 0px rgba(20, 33, 61, 0.10) !important;
-            }
-            html:not(.dark) .border-outline-variant,
-            html:not(.dark) .border-outline {
-                border-color: rgba(20, 33, 61, 0.18) !important;
-            }
-            html:not(.dark) .text-white,
-            html:not(.dark) .text-on-surface {
-                color: #09090b !important;
-            }
-            html:not(.dark) .text-on-surface-variant {
-                color: #52525b !important;
-            }
-            html:not(.dark) .text-primary,
-            html:not(.dark) .text-primary-container {
-                color: #b45309 !important;
-            }
-            html:not(.dark) .bg-primary-container {
-                background-color: #d97706 !important;
-                color: #ffffff !important;
-                border-color: #d97706 !important;
-            }
-            html:not(.dark) .bg-primary-container * {
-                color: #ffffff !important;
-            }
-            html:not(.dark) .bg-primary-container:hover {
-                background-color: #14213d !important;
-                color: #ffffff !important;
-                border-color: #14213d !important;
-            }
-            html:not(.dark) .bg-noir-blue {
-                background-color: #14213d !important;
-                color: #ffffff !important;
-            }
-            html:not(.dark) .bg-noir-blue * {
-                color: #ffffff !important;
-            }
-            html:not(.dark) .amber-line {
-                border-top-color: #d97706 !important;
-            }
-            html:not(.dark) .amber-glow {
-                box-shadow: 0 0 10px rgba(217, 119, 6, 0.25) !important;
-            }
-            html:not(.dark) input,
-            html:not(.dark) textarea,
-            html:not(.dark) select {
-                background-color: #ffffff !important;
-                color: #09090b !important;
-                border-color: rgba(20, 33, 61, 0.25) !important;
-            }
-            html:not(.dark) input::placeholder,
-            html:not(.dark) textarea::placeholder {
-                color: #71717a !important;
-            }
-            html:not(.dark) input:focus,
-            html:not(.dark) textarea:focus,
-            html:not(.dark) select:focus {
-                border-color: #d97706 !important;
-                box-shadow: 0 0 0 1px #d97706 !important;
-            }
-        </style>
-    </head>
-    <body class="bg-background text-on-surface antialiased font-mono film-grid min-h-screen selection:bg-primary-container selection:text-noir-black">
-        <div class="min-h-screen flex flex-col">
-            <!-- Barra superior -->
-            <header class="h-16 bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-6">
-                <a href="/dashboard" class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-noir-blue border border-primary-container flex items-center justify-center font-bold text-primary-container font-mono">
-                        SF
-                    </div>
-                    <span class="font-bold text-primary-container uppercase tracking-wider text-sm">TecnoFix Solutions | SoporTec v4.2</span>
-                </a>
+        /* ELIMINACIÓN DE PALABRAS DE ICONOS */
+        .material-symbols-outlined,
+        .material-icons,
+        span[class*="material-symbols"] {
+            display: none !important;
+            visibility: hidden !important;
+            font-size: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
 
-                <div class="flex items-center gap-4 text-xs font-mono">
-                    <button onclick="toggleTheme()" type="button" class="p-1.5 border border-outline-variant bg-surface-container hover:border-primary-container text-on-surface-variant hover:text-primary-container transition-colors cursor-pointer" title="Alternar Modo Claro / Oscuro">
-                        <span class="material-symbols-outlined text-sm block theme-toggle-icon">contrast</span>
-                    </button>
-                    <span class="text-on-surface-variant">{{ Auth::user()?->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="px-3 py-1 border border-outline-variant hover:border-error hover:text-error transition-colors uppercase text-[11px]">
-                            Salir
-                        </button>
-                    </form>
-                </div>
-            </header>
+        /* PALETA DE VARIABLES - MODO OSCURO (TONALIDAD PROFUNDA OFICIAL) */
+        :root {
+            --bg-main: #1d2e26;
+            --bg-sidebar: #16241d;
+            --bg-card: #24382e;
+            --bg-box: #18261f;
+            --border-color: #588157;
+            --text-title: #ffffff;
+            --text-body: #dad7cd;
+            --text-muted: #a3b18a;
+            --accent-bg: #588157;
+            --btn-bg: #a3b18a;
+            --btn-text: #1d2e26;
+            --table-header: #16241d;
+        }
 
-            <!-- Encabezado de página opcional -->
-            @isset($header)
-                <div class="bg-surface-container-low border-b border-outline-variant px-6 py-3">
-                    {{ $header }}
-                </div>
-            @endisset
+        /* PALETA DE VARIABLES - MODO CLARO (ALTO CONTRASTE) */
+        html.light-mode {
+            --bg-main: #dad7cd;
+            --bg-sidebar: #a3b18a;
+            --bg-card: #ffffff;
+            --bg-box: #eef2e6;
+            --border-color: #588157;
+            --text-title: #1e3328;
+            --text-body: #2c4236;
+            --text-muted: #416350;
+            --accent-bg: #588157;
+            --btn-bg: #344e41;
+            --btn-text: #ffffff;
+            --table-header: #eef2e6;
+        }
 
-            <!-- Contenido del Componente (sin padding p-6 para ajustar sidebars a pantalla completa) -->
-            <main class="flex-grow">
-                {{ $slot }}
-            </main>
-        </div>
+        body {
+            background-color: var(--bg-main) !important;
+            color: var(--text-body) !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-        <script>
-            function toggleTheme() {
-                const html = document.documentElement;
-                const isDark = html.classList.toggle('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                updateThemeIcons();
-            }
+        aside, .admin-sidebar {
+            background-color: var(--bg-sidebar) !important;
+            border-color: var(--border-color) !important;
+        }
 
-            function updateThemeIcons() {
-                const isDark = document.documentElement.classList.contains('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.textContent = isDark ? 'contrast' : 'light_mode';
-                });
-            }
+        .admin-card, .noir-card {
+            background-color: var(--bg-card) !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-body) !important;
+        }
 
-            document.addEventListener('DOMContentLoaded', updateThemeIcons);
-        </script>
-    </body>
+        .admin-box {
+            background-color: var(--bg-box) !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-title) !important;
+        }
+
+        .dynamic-title { color: var(--text-title) !important; }
+        .dynamic-muted { color: var(--text-muted) !important; }
+
+        table thead tr {
+            background-color: var(--table-header) !important;
+            color: var(--text-title) !important;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid rgba(88, 129, 87, 0.45) !important;
+        }
+
+        table tbody tr:hover {
+            background-color: var(--bg-box) !important;
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-box) !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-title) !important;
+        }
+
+        /* CORRECCIÓN DE CONTRASTE EN MODO CLARO */
+        html.light-mode .text-white,
+        html.light-mode .text-gray-100,
+        html.light-mode .text-gray-200,
+        html.light-mode .text-gray-300,
+        html.light-mode .text-zinc-100,
+        html.light-mode .text-zinc-200,
+        html.light-mode .text-zinc-300,
+        html.light-mode .text-\[\#dad7cd\],
+        html.light-mode .text-\[\#e5e5e5\],
+        html.light-mode h1,
+        html.light-mode h2,
+        html.light-mode h3,
+        html.light-mode h4,
+        html.light-mode td,
+        html.light-mode th,
+        html.light-mode label,
+        html.light-mode p,
+        html.light-mode pre,
+        html.light-mode div {
+            color: #1e3328 !important;
+        }
+
+        html.light-mode .text-gray-400,
+        html.light-mode .text-gray-500,
+        html.light-mode .text-zinc-400,
+        html.light-mode .text-\[\#8a8e9b\],
+        html.light-mode .text-\[\#a3b18a\] {
+            color: #3a5a40 !important;
+        }
+
+        html.light-mode [class*="bg-emerald-9"],
+        html.light-mode [class*="bg-green-9"] {
+            background-color: #d8e8d4 !important;
+            border-color: #3a5a40 !important;
+            color: #143622 !important;
+        }
+        html.light-mode [class*="bg-emerald-9"] *,
+        html.light-mode [class*="bg-green-9"] *,
+        html.light-mode .text-emerald-300,
+        html.light-mode .text-emerald-400 {
+            color: #143622 !important;
+        }
+
+        html.light-mode .bg-emerald-600,
+        html.light-mode .bg-emerald-600 *,
+        html.light-mode .bg-emerald-700,
+        html.light-mode .bg-emerald-700 *,
+        html.light-mode .bg-\[\#588157\],
+        html.light-mode .bg-\[\#588157\] *,
+        html.light-mode .bg-\[\#344e41\],
+        html.light-mode .bg-\[\#344e41\] *,
+        html.light-mode .bg-\[\#24382c\],
+        html.light-mode .bg-\[\#24382c\] * {
+            color: #ffffff !important;
+        }
+
+        /* REEMPLAZO DE FONDOS NEGROS/GRISES OSCUROS POR PALETA OFICIAL */
+        [class*="bg-[#0"], [class*="bg-[#1"], [class*="bg-[#20"], [class*="bg-[#21"], [class*="bg-[#22"], [class*="bg-[#23"],
+        .bg-black, .bg-zinc-800, .bg-zinc-900, .bg-zinc-950,
+        .bg-neutral-800, .bg-neutral-900, .bg-neutral-950,
+        .bg-slate-800, .bg-slate-900, .bg-slate-950,
+        .bg-gray-800, .bg-gray-900, .bg-gray-950,
+        pre, code {
+            background-color: var(--bg-box) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-title) !important;
+        }
+
+        html.light-mode [class*="bg-[#0"], html.light-mode [class*="bg-[#1"],
+        html.light-mode .bg-black, html.light-mode .bg-zinc-800, html.light-mode .bg-zinc-900, html.light-mode .bg-zinc-950,
+        html.light-mode .bg-neutral-800, html.light-mode .bg-neutral-900, html.light-mode .bg-neutral-950,
+        html.light-mode .bg-slate-800, html.light-mode .bg-slate-900, html.light-mode .bg-slate-950,
+        html.light-mode .bg-gray-800, html.light-mode .bg-gray-900, html.light-mode .bg-gray-950,
+        html.light-mode pre, html.light-mode code {
+            background-color: #eef2e6 !important;
+            border-color: #588157 !important;
+            color: #1e3328 !important;
+        }
+
+        /* REEMPLAZO DE AMARILLOS / NARANJAS */
+        .badge-amber, .badge-warning,
+        [class*="bg-[#ffb"], [class*="bg-[#fca"], [class*="bg-amber-"], [class*="bg-yellow-"], [class*="bg-orange-"] {
+            background-color: #588157 !important;
+            color: #ffffff !important;
+            border-color: #a3b18a !important;
+            font-weight: 700 !important;
+        }
+
+        [class*="text-[#ffb"], [class*="text-[#fca"], [class*="text-amber-"], [class*="text-yellow-"], [class*="text-orange-"] {
+            color: #a3b18a !important;
+        }
+        html.light-mode [class*="text-[#ffb"], html.light-mode [class*="text-amber-"], html.light-mode [class*="text-yellow-"] {
+            color: #3a5a40 !important;
+        }
+
+        .badge-green, .badge-success {
+            background-color: #059669 !important;
+            color: #ffffff !important;
+        }
+
+        .badge-info {
+            background-color: #0284c7 !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+
+    {{ $slot ?? '' }}
+    @yield('content')
+
+    <!-- SCRIPT DE INTERACCIÓN MODO CLARO / OSCURO -->
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('light-mode');
+            const isLight = document.documentElement.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light-mode');
+        }
+    </script>
+</body>
 </html>

@@ -23,11 +23,27 @@
             <p class="text-white">{{ $orden->falla_reportada }}</p>
         </div>
 
-        <form action="{{ url('/banco-tecnico/cotizar/' . $orden->id) }}" method="POST" class="space-y-6">
+        <form action="{{ url('/banco-tecnico/cotizar/' . $orden->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+
+            <!-- DIAGNÓSTICO TÉCNICO DETALLADO -->
             <div>
                 <label class="block font-bold uppercase text-[#ffb800] mb-2">Diagnóstico Técnico Detallado</label>
                 <textarea name="diagnostico_tecnico" rows="4" required placeholder="Ingresa pruebas realizadas, componentes dañados y solución propuesta..." class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white focus:border-[#ffb800] focus:outline-none">{{ $orden->diagnostico ?? '' }}</textarea>
+            </div>
+
+            <!-- OBSERVACIONES TÉCNICOS + EVIDENCIAS FOTOGRÁFICAS -->
+            <div class="space-y-3">
+                <div>
+                    <label class="block font-bold uppercase text-[#ffb800] mb-2">Observaciones Técnicos</label>
+                    <textarea name="observaciones_taller" rows="3" placeholder="Ingresa observaciones físicas de cómo llegó el dispositivo al taller (ej. teclas faltantes, golpes, tornillos ausentes, detalles distintos al ingreso)..." class="w-full bg-[#16181f] border border-[#2d3038] rounded p-3 text-white focus:border-[#ffb800] focus:outline-none">{{ $orden->observaciones_taller ?? '' }}</textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold uppercase text-[#8a8e9b] mb-2">Evidencias / Fotos del Técnico (Visible para el Cliente)</label>
+                    <input type="file" name="fotos_diagnostico[]" id="fotos_diagnostico" multiple accept="image/*" onchange="previsualizarEvidencias(this)" class="w-full bg-[#16181f] border border-[#2d3038] rounded p-2.5 text-[#c4c6cf] file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-[#588157] file:text-white hover:file:bg-[#a3b18a] hover:file:text-black cursor-pointer">
+                    <div id="preview_evidencias" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 hidden"></div>
+                </div>
             </div>
 
             <!-- SELECTOR DE ALMACÉN & REFACCIONES -->
@@ -91,8 +107,8 @@
 
             <div class="flex justify-between items-center pt-4 border-t border-[#2d3038]">
                 <a href="{{ route('banco.index') }}" class="text-[#8a8e9b] hover:text-white">← Volver al Banco</a>
-                <button type="submit" class="px-6 py-3 bg-[#ffb800] text-[#0d0f12] font-bold uppercase tracking-wider hover:bg-white transition-colors">
-                    Generar Cotización y Enviar al Cliente
+                <button type="submit" class="px-6 py-3 bg-[#588157] text-white font-bold uppercase rounded hover:bg-[#a3b18a] hover:text-black transition-colors">
+                    GENERAR COTIZACIÓN Y ENVIAR AL CLIENTE
                 </button>
             </div>
         </form>
@@ -100,54 +116,71 @@
 </div>
 
 <script>
-document.getElementById('btn_add_refaccion').addEventListener('click', function() {
-    const contenedor = document.getElementById('contenedor_refacciones');
-    const primeraFila = contenedor.querySelector('.fila-refaccion');
-    const nuevaFila = primeraFila.cloneNode(true);
-    
-    nuevaFila.querySelector('.select_item').value = "";
-    nuevaFila.querySelector('.cant_item').value = 1;
-    
-    const btnEliminar = nuevaFila.querySelector('.btn_eliminar');
-    btnEliminar.classList.remove('hidden');
-    
-    contenedor.appendChild(nuevaFila);
-    calcularTotal();
-});
+    function calcularTotal() {
+        let totalRefacciones = 0;
+        const filas = document.querySelectorAll('.fila-refaccion');
 
-function eliminarFila(btn) {
-    const fila = btn.closest('.fila-refaccion');
-    fila.remove();
-    calcularTotal();
-}
+        filas.forEach(fila => {
+            const select = fila.querySelector('.select_item');
+            const cantInput = fila.querySelector('.cant_item');
+            const opcion = select.options[select.selectedIndex];
+            const precio = parseFloat(opcion.getAttribute('data-precio') || 0);
+            const cantidad = parseInt(cantInput.value || 0);
 
-function calcularTotal() {
-    let acumuladoRefacciones = 0;
-    const filas = document.querySelectorAll('.fila-refaccion');
+            if (select.value !== '') {
+                totalRefacciones += (precio * cantidad);
+            }
+        });
 
-    filas.forEach(fila => {
-        const select = fila.querySelector('.select_item');
-        const cantidadInput = fila.querySelector('.cant_item');
-        
-        const selectedOption = select.options[select.selectedIndex];
-        const precioUnitario = parseFloat(selectedOption.getAttribute('data-precio')) || 0;
-        const cantidad = parseInt(cantidadInput.value) || 1;
+        const manoObra = parseFloat(document.getElementById('costo_mano_obra').value || 0);
+        const total = totalRefacciones + manoObra;
+        const anticipo = total * 0.50;
 
-        acumuladoRefacciones += (precioUnitario * cantidad);
+        document.getElementById('costo_refacciones').value = totalRefacciones.toFixed(2);
+        document.getElementById('txt_total').innerText = '$' + total.toFixed(2) + ' MXN';
+        document.getElementById('txt_anticipo').innerText = '$' + anticipo.toFixed(2) + ' MXN';
+    }
+
+    document.getElementById('btn_add_refaccion').addEventListener('click', function () {
+        const contenedor = document.getElementById('contenedor_refacciones');
+        const primeraFila = contenedor.querySelector('.fila-refaccion');
+        const nuevaFila = primeraFila.cloneNode(true);
+
+        nuevaFila.querySelector('.select_item').selectedIndex = 0;
+        nuevaFila.querySelector('.cant_item').value = 1;
+        nuevaFila.querySelector('.btn_eliminar').classList.remove('hidden');
+
+        contenedor.appendChild(nuevaFila);
+        calcularTotal();
     });
 
-    document.getElementById('costo_refacciones').value = acumuladoRefacciones.toFixed(2);
+    function eliminarFila(btn) {
+        const fila = btn.closest('.fila-refaccion');
+        fila.remove();
+        calcularTotal();
+    }
 
-    const mo = parseFloat(document.getElementById('costo_mano_obra').value) || 0;
-    const total = mo + acumuladoRefacciones;
-    const anticipo = total * 0.50;
+    function previsualizarEvidencias(input) {
+        const preview = document.getElementById('preview_evidencias');
+        preview.innerHTML = '';
 
-    document.getElementById('txt_total').innerText = '$' + total.toFixed(2) + ' MXN';
-    document.getElementById('txt_anticipo').innerText = '$' + anticipo.toFixed(2) + ' MXN';
-}
+        if (input.files && input.files.length > 0) {
+            preview.classList.remove('hidden');
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.className = 'border border-[#2d3038] rounded overflow-hidden bg-[#0d0f12]';
+                    div.innerHTML = `<img src="${e.target.result}" class="w-full h-24 object-cover">`;
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        } else {
+            preview.classList.add('hidden');
+        }
+    }
 
-document.addEventListener("DOMContentLoaded", function() {
-    calcularTotal();
-});
+    document.addEventListener('DOMContentLoaded', calcularTotal);
 </script>
 @endsection

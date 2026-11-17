@@ -1,35 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500;600;700&family=Josefin+Sans:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Jost:ital,wght@0,100..900;1,100..900&family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   RENDERIZADO DE MATERIAL SYMBOLS (CORRECCIÓN DE PALABRAS A ICONOS)
+   ========================================================================== */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}
+
+/* ==========================================================================
+   TIPOGRAFÍAS Y REGLAS BASE CORPORATIVAS
+   ========================================================================== */
+h1, h2, h3, .font-titulos {
+    font-family: 'Amaranth', sans-serif !important;
+}
+
+h4, h5, h6, th, label, .font-subtitulos {
+    font-family: 'Karla', sans-serif !important;
+}
+
+body, p, input, button, span, a, td, textarea, select, div, .font-body {
+    font-family: 'Jost', sans-serif !important;
+}
+
+/* ==========================================================================
+   VARIABLES DE COLOR CORPORATIVAS (PREDETERMINADO: MODO OSCURO VERDE)
+   ========================================================================== */
+:root {
+    --bg-main: #344e41;
+    --bg-sidebar: #2b4237;
+    --bg-card: #3a5a40;
+    --bg-box: #24382c;
+    --border-color: #588157;
+    --text-title: #ffffff;
+    --text-body: #dad7cd;
+    --text-muted: #a3b18a;
+    --table-header: #24382c;
+}
+
 @layer utilities {
     .film-grid {
         background-size: 24px 24px;
         background-image: 
-            linear-gradient(to right, rgba(229, 229, 229, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(229, 229, 229, 0.03) 1px, transparent 1px);
+            linear-gradient(to right, rgba(88, 129, 87, 0.15) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(88, 129, 87, 0.15) 1px, transparent 1px);
     }
     .noir-card {
-        border: 1px solid rgba(229, 229, 229, 0.12);
-        box-shadow: 0 4px 0px 0px rgba(0, 0, 0, 0.85);
+        border: 1px solid #588157 !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
         border-radius: 0px !important;
+        background-color: var(--bg-card) !important;
     }
-    .amber-glow {
-        box-shadow: 0 0 10px rgba(252, 163, 17, 0.28);
+    .amber-glow, .green-glow {
+        box-shadow: 0 0 10px rgba(163, 177, 138, 0.35) !important;
     }
-    .amber-line {
-        border-top: 2px solid #fca311;
+    .amber-line, .green-line {
+        border-top: 2px solid #588157 !important;
     }
     .table-cell-mono {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'Jost', sans-serif !important;
         font-variant-numeric: tabular-nums;
     }
     .thermal-receipt {
         background: #fdfbf7;
         color: #111111;
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'Jost', sans-serif !important;
         box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         border-radius: 0px;
     }
@@ -38,159 +91,215 @@
     }
 }
 
+/* SOBREESCRITURA DE FONDOS OSCUROS OBSOLETOS (#111318, #0D0F12, ETC.) */
+.bg-\[\#111318\], 
+.bg-\[\#0d0f12\], 
+.bg-\[\#182238\], 
+.bg-\[\#16181f\] {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+.text-\[\#ffb800\], 
+.text-\[\#fca311\] {
+    color: #a3b18a !important;
+}
+
 /* ==========================================================================
-   MODO CLARO (INVERSIÓN DIAGNÓSTICA - TECHNICAL NOIR WORKSHOP)
-   Activo cuando se remueve la clase .dark del elemento raíz <html>
+   MODO CLARO (INVERSIÓN ALTO CONTRASTE CORREGIDA)
+   Activo cuando se remueve la clase .dark del <html> o se añade .light-mode
    ========================================================================== */
-html:not(.dark) {
+html:not(.dark), html.light-mode {
     color-scheme: light;
 }
 
-html:not(.dark) body {
-    background-color: #f4f4f5 !important;
-    color: #18181b !important;
+html:not(.dark) body, 
+html.light-mode body {
+    background-color: #dad7cd !important;
+    color: #3a5a40 !important;
 }
 
-html:not(.dark) .film-grid {
+html:not(.dark) .film-grid, 
+html.light-mode .film-grid {
     background-image: 
-        linear-gradient(to right, rgba(20, 33, 61, 0.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(20, 33, 61, 0.06) 1px, transparent 1px) !important;
+        linear-gradient(to right, rgba(58, 90, 64, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(58, 90, 64, 0.1) 1px, transparent 1px) !important;
 }
 
 html:not(.dark) header,
 html:not(.dark) footer,
 html:not(.dark) aside,
-html:not(.dark) .bg-background {
-    background-color: #f4f4f5 !important;
+html:not(.dark) .bg-background,
+html.light-mode header,
+html.light-mode footer,
+html.light-mode aside,
+html.light-mode .bg-background {
+    background-color: #a3b18a !important;
 }
 
 html:not(.dark) .bg-surface-container-lowest,
-html:not(.dark) .bg-surface {
+html:not(.dark) .bg-surface,
+html.light-mode .bg-surface-container-lowest,
+html.light-mode .bg-surface {
     background-color: #ffffff !important;
-    border-color: rgba(20, 33, 61, 0.18) !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .bg-surface-container-low {
+html:not(.dark) .bg-surface-container-low,
+html.light-mode .bg-surface-container-low {
     background-color: #fafafa !important;
-    border-color: rgba(20, 33, 61, 0.18) !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .bg-surface-container {
-    background-color: #f4f4f5 !important;
-    border-color: rgba(20, 33, 61, 0.15) !important;
+html:not(.dark) .bg-surface-container,
+html.light-mode .bg-surface-container {
+    background-color: #dad7cd !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .bg-surface-container-high {
+html:not(.dark) .bg-surface-container-high,
+html.light-mode .bg-surface-container-high {
     background-color: #e4e4e7 !important;
-    border-color: rgba(20, 33, 61, 0.2) !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .bg-surface-container-highest {
+html:not(.dark) .bg-surface-container-highest,
+html.light-mode .bg-surface-container-highest {
     background-color: #d4d4d8 !important;
-    border-color: rgba(20, 33, 61, 0.2) !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .noir-card {
+html:not(.dark) .noir-card,
+html.light-mode .noir-card {
     background-color: #ffffff !important;
-    border-color: rgba(20, 33, 61, 0.18) !important;
-    box-shadow: 0 4px 0px 0px rgba(20, 33, 61, 0.10) !important;
+    border-color: #588157 !important;
+    box-shadow: 0 4px 10px rgba(58, 90, 64, 0.12) !important;
 }
 
 html:not(.dark) .text-white,
-html:not(.dark) .text-on-surface {
-    color: #09090b !important;
+html:not(.dark) .text-on-surface,
+html.light-mode .text-white,
+html.light-mode .text-on-surface {
+    color: #344e41 !important;
 }
 
-html:not(.dark) .text-on-surface-variant {
-    color: #52525b !important;
+html:not(.dark) .text-on-surface-variant,
+html.light-mode .text-on-surface-variant {
+    color: #588157 !important;
 }
 
 html:not(.dark) .text-primary,
-html:not(.dark) .text-primary-container {
-    color: #b45309 !important; /* Ámbar contrastado AA/AAA para fondos claros */
+html:not(.dark) .text-primary-container,
+html.light-mode .text-primary,
+html.light-mode .text-primary-container {
+    color: #344e41 !important;
 }
 
-html:not(.dark) .bg-primary-container {
-    background-color: #d97706 !important;
+html:not(.dark) .bg-primary-container,
+html.light-mode .bg-primary-container {
+    background-color: #588157 !important;
     color: #ffffff !important;
-    border-color: #d97706 !important;
+    border-color: #588157 !important;
 }
 
-html:not(.dark) .bg-primary-container * {
+html:not(.dark) .bg-primary-container *,
+html.light-mode .bg-primary-container * {
     color: #ffffff !important;
 }
 
-html:not(.dark) .bg-primary-container:hover {
-    background-color: #14213d !important;
+html:not(.dark) .bg-primary-container:hover,
+html.light-mode .bg-primary-container:hover {
+    background-color: #344e41 !important;
     color: #ffffff !important;
-    border-color: #14213d !important;
+    border-color: #344e41 !important;
 }
 
-html:not(.dark) .bg-noir-blue {
-    background-color: #14213d !important;
+html:not(.dark) .bg-noir-blue,
+html.light-mode .bg-noir-blue {
+    background-color: #3a5a40 !important;
     color: #ffffff !important;
 }
 
 html:not(.dark) .bg-noir-blue .text-white,
-html:not(.dark) .bg-noir-blue * {
+html:not(.dark) .bg-noir-blue *,
+html.light-mode .bg-noir-blue .text-white,
+html.light-mode .bg-noir-blue * {
     color: #ffffff !important;
 }
 
-html:not(.dark) thead tr.bg-noir-blue th {
-    background-color: #14213d !important;
+html:not(.dark) thead tr.bg-noir-blue th,
+html.light-mode thead tr.bg-noir-blue th {
+    background-color: #3a5a40 !important;
     color: #ffffff !important;
 }
 
-html:not(.dark) .amber-line {
-    border-top-color: #d97706 !important;
+html:not(.dark) .amber-line,
+html.light-mode .amber-line {
+    border-top-color: #588157 !important;
 }
 
-html:not(.dark) .amber-glow {
-    box-shadow: 0 0 10px rgba(217, 119, 6, 0.25) !important;
+html:not(.dark) .amber-glow,
+html.light-mode .amber-glow {
+    box-shadow: 0 0 10px rgba(88, 129, 87, 0.25) !important;
 }
 
 html:not(.dark) .border-outline-variant,
-html:not(.dark) .border-outline {
-    border-color: rgba(20, 33, 61, 0.18) !important;
+html:not(.dark) .border-outline,
+html.light-mode .border-outline-variant,
+html.light-mode .border-outline {
+    border-color: #588157 !important;
 }
 
 html:not(.dark) input,
 html:not(.dark) textarea,
-html:not(.dark) select {
+html:not(.dark) select,
+html.light-mode input,
+html.light-mode textarea,
+html.light-mode select {
     background-color: #ffffff !important;
-    color: #09090b !important;
-    border-color: rgba(20, 33, 61, 0.25) !important;
+    color: #344e41 !important;
+    border-color: #588157 !important;
 }
 
 html:not(.dark) input::placeholder,
-html:not(.dark) textarea::placeholder {
-    color: #71717a !important;
+html:not(.dark) textarea::placeholder,
+html.light-mode input::placeholder,
+html.light-mode textarea::placeholder {
+    color: #588157 !important;
 }
 
 html:not(.dark) input:focus,
 html:not(.dark) textarea:focus,
-html:not(.dark) select:focus {
-    border-color: #d97706 !important;
+html:not(.dark) select:focus,
+html.light-mode input:focus,
+html.light-mode textarea:focus,
+html.light-mode select:focus {
+    border-color: #344e41 !important;
     outline: none !important;
-    box-shadow: 0 0 0 1px #d97706 !important;
+    box-shadow: 0 0 0 1px #344e41 !important;
 }
 
-html:not(.dark) table {
-    border-color: rgba(20, 33, 61, 0.18) !important;
+html:not(.dark) table,
+html.light-mode table {
+    border-color: #588157 !important;
 }
 
-html:not(.dark) tbody tr:hover {
-    background-color: #f4f4f5 !important;
+html:not(.dark) tbody tr:hover,
+html.light-mode tbody tr:hover {
+    background-color: #e4e9dc !important;
 }
 
-html:not(.dark) .hover\:bg-surface-container:hover {
+html:not(.dark) .hover\:bg-surface-container:hover,
+html.light-mode .hover\:bg-surface-container:hover {
     background-color: #e4e4e7 !important;
 }
 
-html:not(.dark) .table-cell-mono {
-    color: #09090b !important;
+html:not(.dark) .table-cell-mono,
+html.light-mode .table-cell-mono {
+    color: #344e41 !important;
 }
 
-html:not(.dark) .hover\:text-white:hover {
-    color: #09090b !important;
+html:not(.dark) .hover\:text-white:hover,
+html.light-mode .hover\:text-white:hover {
+    color: #344e41 !important;
 }
