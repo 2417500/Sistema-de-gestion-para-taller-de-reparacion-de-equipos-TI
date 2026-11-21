@@ -388,7 +388,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->join('orden_servicios', 'solicitudes_repuestos.orden_id', '=', 'orden_servicios.id')
             ->join('users', 'solicitudes_repuestos.tecnico_id', '=', 'users.id')
             ->join('inventario', 'solicitudes_repuestos.item_id', '=', 'inventario.id')
-            ->where('solicitudes_repuestos.estado', 'PENDIENTE')
+            ->where('solicitudes_repuestos.estado', 'APROBADO')
             ->select('solicitudes_repuestos.*', 'orden_servicios.codigo_servicio', 'users.name as tecnico_nombre', 'inventario.nombre as item_nombre')
             ->orderBy('solicitudes_repuestos.id', 'desc')
             ->get();
@@ -487,7 +487,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/almacen/despachar/{orden_id}', function ($orden_id) {
         $solicitudes = DB::table('solicitudes_repuestos')
             ->where('orden_id', $orden_id)
-            ->where('estado', 'PENDIENTE')
+            ->where('estado', 'APROBADO')
             ->get();
 
         foreach ($solicitudes as $sol) {
@@ -495,13 +495,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             if ($item && ($item->stock_actual - $sol->cantidad) >= 0) {
                 DB::table('inventario')->where('id', $item->id)->decrement('stock_actual', $sol->cantidad);
                 DB::table('solicitudes_repuestos')->where('id', $sol->id)->update([
-                    'estado' => 'APROBADO',
+                    'estado' => 'DESPACHADO',
                     'updated_at' => now()
                 ]);
+            } else {
+                return back()->with('error', "Stock insuficiente en Almac\u{00E9}n para despachar la refacci\u{00F3}n.");
             }
         }
 
-        return back()->with('success', 'Refacciones ENTREGADAS al Técnico y stock descontado del Almacén correctamente.');
+        return back()->with('success', "Refacciones ENTREGADAS al T\u{00E9}cnico y stock descontado del Almac\u{00E9}n correctamente.");
     })->name('almacen.despachar');
 
     // REGRESAR HERRAMIENTA A ALMACÉN
@@ -588,7 +590,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         foreach ($solicitudes as $sol) {
             $item = DB::table('inventario')->where('id', $sol->item_id)->first();
             if ($item && ($item->stock_actual - $sol->cantidad) >= 0) {
-                DB::table('inventario')->where('id', $item->id)->decrement('stock_actual', $sol->cantidad);
                 DB::table('solicitudes_repuestos')->where('id', $sol->id)->update([
                     'estado' => 'APROBADO',
                     'updated_at' => now()
@@ -596,7 +597,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             }
         }
 
-        return back()->with('success', 'Todas las refacciones fueron APROBADAS por el Administrador y el stock ha sido actualizado en Almacén.');
+        return back()->with('success', "Refacciones APROBADAS por el Administrador. Notificaci\u{00F3}n enviada a Almac\u{00E9}n para despacho.");
     })->name('aprobaciones.aprobar');
 
     // RECHAZAR REFACCIONES DE UNA MISMA ORDEN
@@ -657,11 +658,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $refacciones = DB::table('solicitudes_repuestos')
             ->join('inventario', 'solicitudes_repuestos.item_id', '=', 'inventario.id')
             ->where('solicitudes_repuestos.orden_id', $id)
-            ->where('solicitudes_repuestos.estado', 'APROBADO')
+            ->whereIn('solicitudes_repuestos.estado', ['APROBADO', 'DESPACHADO'])
             ->select('inventario.nombre', 'solicitudes_repuestos.cantidad', 'inventario.precio_unitario')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.entrega', compact('orden', 'refacciones'));
+        $garantia = DB::table('garantias')->where('orden_id', $id)->first();
+
+        $pdf = Pdf::loadView('pdf.entrega', compact('orden', 'refacciones', 'garantia'));
         return $pdf->download('Nota_Entrega_' . $orden->codigo_servicio . '.pdf');
     })->name('entrega.pdf');
 
@@ -983,7 +986,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
         }
 
-        // Guardar evidencias fotográficas subidas por el técnico
+        // Guardar evidencias fotogr?ficas subidas por el t?cnico
         $rutasFotosDiagnostico = [];
         if (request()->hasFile('fotos_diagnostico')) {
             foreach (request()->file('fotos_diagnostico') as $foto) {
@@ -991,14 +994,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
             }
         }
 
-        $total = $manoObra + $refaccionesCosto;
         $ordenActual = DB::table('orden_servicios')->where('id', $id)->first();
+        $equipoActual = $ordenActual ? DB::table('equipos')->where('id', $ordenActual->equipo_id)->first() : null;
+
+        // Verificar lealtad: m?s de 5 reparaciones previas completadas (a partir del 6to servicio -> 15% dcto)
+        $reparacionesPrevias = 0;
+        if ($equipoActual && $equipoActual->cliente_id) {
+            $reparacionesPrevias = DB::table('orden_servicios')
+                ->join('equipos', 'orden_servicios.equipo_id', '=', 'equipos.id')
+                ->where('equipos.cliente_id', $equipoActual->cliente_id)
+                ->where('orden_servicios.id', '!=', $id)
+                ->whereIn('orden_servicios.estado', ['Entregado', 'ENTREGADO', 'Terminado', 'TERMINADO'])
+                ->count();
+        }
+
+        $subtotal = $manoObra + $refaccionesCosto;
+        $descuentoPorcentaje = ($reparacionesPrevias >= 5) ? 15.00 : 0.00;
+        $descuentoMonto = round($subtotal * ($descuentoPorcentaje / 100), 2);
+        $total = max(0, $subtotal - $descuentoMonto);
+
         $observacionesTaller = trim(request('observaciones_taller', ''));
         $diagnosticoTecnico = trim(request('diagnostico_tecnico', ''));
 
-        $fallaConDiag = ($ordenActual->falla_reportada ?? '') . "\n\n[DIAGNÓSTICO TÉCNICO]: " . $diagnosticoTecnico;
+        $fallaConDiag = ($ordenActual->falla_reportada ?? '') . "\n\n[DIAGN\u{00D3}STICO T\u{00C9}CNICO]: " . $diagnosticoTecnico;
         if ($observacionesTaller !== '') {
-            $fallaConDiag .= "\n\n[OBSERVACIONES TÉCNICOS]: " . $observacionesTaller;
+            $fallaConDiag .= "\n\n[OBSERVACIONES T\u{00C9}CNICOS]: " . $observacionesTaller;
+        }
+        if ($descuentoPorcentaje > 0) {
+            $fallaConDiag .= "\n\n[BENEFICIO FIDELIDAD]: Descuento del 15% aplicado autom\u{00E1}ticamente (-$" . number_format($descuentoMonto, 2) . " MXN) por cliente frecuente ({$reparacionesPrevias} servicios previos).";
         }
 
         $datosUpdate = [
@@ -1007,8 +1030,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'observaciones_taller' => $observacionesTaller,
             'costo_mano_obra' => $manoObra,
             'costo_refacciones' => $refaccionesCosto,
+            'descuento_porcentaje' => $descuentoPorcentaje,
+            'descuento_monto' => $descuentoMonto,
             'costo_total' => $total,
-            'anticipo' => $total * 0.50,
+            'anticipo' => round($total * 0.50, 2),
             'updated_at' => now(),
         ];
 
@@ -1018,7 +1043,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         DB::table('orden_servicios')->where('id', $id)->update($datosUpdate);
 
-        return redirect()->route('banco.index')->with('success', 'Cotización, observaciones y evidencias guardadas y enviadas al Cliente exitosamente.');
+        $msgExito = ($descuentoPorcentaje > 0)
+            ? "Cotizaci\u{00F3}n enviada con DESCUENTO FIDELIDAD DEL 15% aplicado autom\u{00E1}ticamente."
+            : "Cotizaci\u{00F3}n, observaciones y evidencias guardadas y enviadas al Cliente exitosamente.";
+
+        return redirect()->route('banco.index')->with('success', $msgExito);
     })->name('banco.cotizar');
 
     // TÉCNICO SUBE FOTOS DE SALIDA DESDE BANCO TÉCNICO
@@ -1106,8 +1135,120 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'updated_at' => now(),
         ]);
 
-        return back()->with('success', 'Pago liquidado y equipo ENTREGADO exitosamente.');
+        $orden = DB::table('orden_servicios')->where('id', $id)->first();
+        $equipo = $orden ? DB::table('equipos')->where('id', $orden->equipo_id)->first() : null;
+        $yaTieneGarantia = DB::table('garantias')->where('orden_id', $id)->first();
+
+        if ($orden && !$yaTieneGarantia) {
+            $inicio = date('Y-m-d');
+            $fin = date('Y-m-d', strtotime('+90 days'));
+            DB::table('garantias')->insert([
+                'folio' => 'GAR-' . date('Y') . '-' . str_pad($orden->id, 4, '0', STR_PAD_LEFT),
+                'orden_id' => $orden->id,
+                'cliente_id' => $equipo->cliente_id ?? null,
+                'equipo_id' => $orden->equipo_id,
+                'dias_garantia' => 90,
+                'fecha_inicio' => $inicio,
+                'fecha_fin' => $fin,
+                'estado' => 'ACTIVA',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return back()->with('success', "Pago liquidado, equipo ENTREGADO y P\u{00F3}liza de Garant\u{00ED}a de 90 d\u{00ED}as activada.");
     })->name('recepcion.entregar');
+
+    // M?DULO DE GARANT?AS (RECEPCI?N, T?CNICO Y ADMIN)
+    Route::get('/garantias', function () use ($obtenerRolNormalizado) {
+        $rol = $obtenerRolNormalizado();
+        if (!in_array($rol, ['admin', 'administrador', 'recepcion', 'tecnico'])) {
+            return redirect()->route('dashboard')->with('error', 'Acceso restringido al m\u{00F3}dulo de Garant\u{00ED}as.');
+        }
+
+        $q = trim(request('q', ''));
+        $query = DB::table('garantias')
+            ->leftJoin('orden_servicios', 'garantias.orden_id', '=', 'orden_servicios.id')
+            ->leftJoin('equipos', 'garantias.equipo_id', '=', 'equipos.id')
+            ->leftJoin('clientes', 'garantias.cliente_id', '=', 'clientes.id')
+            ->leftJoin('users as cliente_user', 'clientes.user_id', '=', 'cliente_user.id')
+            ->select(
+                'garantias.*',
+                'orden_servicios.codigo_servicio',
+                'orden_servicios.costo_total',
+                'equipos.tipo_equipo',
+                'equipos.marca',
+                'equipos.modelo',
+                'equipos.numero_serie',
+                'cliente_user.name as cliente_nombre',
+                'cliente_user.telefono as cliente_telefono'
+            )
+            ->orderBy('garantias.id', 'desc');
+
+        if ($q !== '') {
+            $query->where(function ($sub) use ($q) {
+                $sub->where('garantias.folio', 'like', "%{$q}%")
+                    ->orWhere('orden_servicios.codigo_servicio', 'like', "%{$q}%")
+                    ->orWhere('equipos.numero_serie', 'like', "%{$q}%")
+                    ->orWhere('cliente_user.name', 'like', "%{$q}%");
+            });
+        }
+
+        $garantias = $query->get();
+        return view('garantias.index', compact('garantias', 'q'));
+    })->name('garantias.index');
+
+    Route::post('/garantias/{id}/reclamar', function ($id) {
+        $garantia = DB::table('garantias')->where('id', $id)->first();
+        if (!$garantia) {
+            return back()->with('error', 'P\u{00F3}liza de garant\u{00ED}a no encontrada.');
+        }
+        if (date('Y-m-d') > $garantia->fecha_fin) {
+            DB::table('garantias')->where('id', $id)->update(['estado' => 'VENCIDA', 'updated_at' => now()]);
+            return back()->with('error', 'La p\u{00F3}liza de garant\u{00ED}a ya se encuentra VENCIDA.');
+        }
+
+        $motivo = trim(request('motivo_reclamo', 'Reingreso por garant\u{00ED}a de servicio'));
+        DB::table('garantias')->where('id', $id)->update([
+            'estado' => 'RECLAMADA',
+            'motivo_reclamo' => $motivo,
+            'updated_at' => now(),
+        ]);
+
+        // Reingresar la orden a Banco T?cnico sin costo adicional
+        $orden = DB::table('orden_servicios')->where('id', $garantia->orden_id)->first();
+        if ($orden) {
+            $notaGar = ($orden->falla_reportada ?? '') . "\n\n[RECLAMO DE GARANT\u{00CD}A " . date('Y-m-d H:i') . " - {$garantia->folio}]: " . $motivo;
+            DB::table('orden_servicios')->where('id', $orden->id)->update([
+                'estado' => 'En_Proceso',
+                'falla_reportada' => $notaGar,
+                'updated_at' => now(),
+            ]);
+        }
+
+        return back()->with('success', "Reclamo de garant\u{00ED}a registrado ({$garantia->folio}) y equipo reasignado a Banco T\u{00E9}cnico.");
+    })->name('garantias.reclamar');
+
+    Route::post('/garantias/{id}/resolver', function ($id) {
+        $garantia = DB::table('garantias')->where('id', $id)->first();
+        if (!$garantia) {
+            return back()->with('error', 'P\u{00F3}liza no encontrada.');
+        }
+
+        $resolucion = trim(request('resolucion', 'Equipo verificado y re-entregado bajo garant\u{00ED}a'));
+        DB::table('garantias')->where('id', $id)->update([
+            'estado' => 'ACTIVA',
+            'resolucion' => $resolucion,
+            'updated_at' => now(),
+        ]);
+
+        DB::table('orden_servicios')->where('id', $garantia->orden_id)->update([
+            'estado' => 'Entregado',
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', "Reclamo de garant\u{00ED}a cerrado y equipo re-entregado al cliente.");
+    })->name('garantias.resolver');
 
     // ------------------------------------------------------------------------
     // RUTAS ADMINISTRADOR (PROTEGIDAS SOLO PARA ADMIN)

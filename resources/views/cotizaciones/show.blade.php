@@ -112,6 +112,13 @@
                     <span class="text-white font-bold">${{ number_format($orden->costo_refacciones ?? 0, 2) }} MXN</span>
                 </div>
 
+                @if(($orden->descuento_monto ?? 0) > 0)
+                <div class="flex justify-between text-amber-400 font-bold">
+                    <span>Descuento Fidelidad ({{ number_format($orden->descuento_porcentaje ?? 15, 0) }}% por >5 reparaciones):</span>
+                    <span>-${{ number_format($orden->descuento_monto, 2) }} MXN</span>
+                </div>
+                @endif
+
                 <div class="flex justify-between text-white font-bold text-sm pt-3 border-t border-[#2d3038]">
                     <span>COSTO TOTAL COTIZADO:</span>
                     <span class="text-[#ffb800] text-base">${{ number_format($orden->costo_total ?? 0, 2) }} MXN</span>

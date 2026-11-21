@@ -12,21 +12,20 @@
         .table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         .table th, .table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
         .text-right { text-align: right; }
-        .signatures { margin-top: 40px; }
+        .warranty-box { border: 1.5px solid #111; background: #f7f7f7; padding: 7px; margin-top: 6px; font-size: 10px; }
+        .signatures { margin-top: 32px; }
         .sig-box { width: 45%; float: left; text-align: center; border-top: 1px solid #000; padding-top: 4px; font-size: 10px; }
         .clear { clear: both; }
-
-        /* ESTILOS DE GRILLA PARA FOTOS DE SALIDA */
         .grid-fotos { margin-top: 10px; width: 100%; }
         .foto-container { width: 48%; display: inline-block; margin-bottom: 10px; text-align: center; vertical-align: top; }
-        .foto-img { width: 100%; max-height: 180px; object-fit: cover; border: 1px solid #333; }
+        .foto-img { width: 100%; max-height: 170px; object-fit: cover; border: 1px solid #333; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="title">SOPORTEC - LIQUIDACIÓN Y CONFORMIDAD</div>
+        <div class="title">SOPORTEC - LIQUIDACION Y CONFORMIDAD</div>
         <div>Ticket Definitivo de Entrega</div>
-        <strong>CÓDIGO DE ORDEN: {{ $orden->codigo_servicio }}</strong><br>
+        <strong>CODIGO DE ORDEN: {{ $orden->codigo_servicio }}</strong><br>
         <small>Fecha Entrega: {{ date('Y-m-d H:i') }}</small>
     </div>
 
@@ -41,7 +40,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Refacción / Herramienta</th>
+                    <th>Refaccion / Insumo</th>
                     <th>Cant.</th>
                     <th class="text-right">Precio Unitario</th>
                 </tr>
@@ -55,7 +54,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3">Servicio de mantenimiento / reparación general.</td>
+                        <td colspan="3">Servicio de mantenimiento / reparacion general.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -77,6 +76,12 @@
                 <td>Refacciones / Insumos</td>
                 <td class="text-right">${{ number_format($orden->costo_refacciones ?? 0, 2) }} MXN</td>
             </tr>
+            @if(($orden->descuento_monto ?? 0) > 0)
+            <tr>
+                <td>Descuento Fidelidad ({{ number_format($orden->descuento_porcentaje ?? 15, 0) }}% - Cliente >5 reparaciones)</td>
+                <td class="text-right">-${{ number_format($orden->descuento_monto, 2) }} MXN</td>
+            </tr>
+            @endif
             <tr>
                 <th>TOTAL SERVICIO</th>
                 <th class="text-right">${{ number_format($orden->costo_total ?? 0, 2) }} MXN</th>
@@ -92,20 +97,29 @@
         </table>
     </div>
 
+    <div class="section">
+        <div class="section-title">POLIZA Y COBERTURA DE GARANTIA OFICIAL</div>
+        <div class="warranty-box">
+            <strong>FOLIO DE GARANTIA:</strong> {{ $garantia->folio ?? ('GAR-' . date('Y') . '-' . str_pad($orden->id, 4, '0', STR_PAD_LEFT)) }}
+            | <strong>COBERTURA:</strong> {{ $garantia->dias_garantia ?? 90 }} DIAS NATURALES<br>
+            <strong>VIGENCIA:</strong> Del {{ $garantia->fecha_inicio ?? date('Y-m-d') }} al <strong>{{ $garantia->fecha_fin ?? date('Y-m-d', strtotime('+90 days')) }}</strong><br>
+            Cubre defectos de mano de obra y refacciones instaladas en esta orden. No aplica por danos fisicos, humedad o intervencion externa.
+        </div>
+    </div>
+
     <div class="signatures">
         <div class="sig-box">Conformidad Cliente</div>
         <div class="sig-box" style="float: right;">Firma Cajero / Taller</div>
         <div class="clear"></div>
     </div>
 
-    <!-- SECCIÓN DE EVIDENCIA FOTOGRÁFICA DE SALIDA -->
     @php
         $fotosSalida = !empty($orden->fotos_entrega) ? json_decode($orden->fotos_entrega, true) : [];
     @endphp
 
     @if(is_array($fotosSalida) && count($fotosSalida) > 0)
-        <div class="section" style="margin-top: 25px; border-bottom: none;">
-            <div class="section-title">Evidencia Fotográfica de Entrega / Reparado</div>
+        <div class="section" style="margin-top: 22px; border-bottom: none;">
+            <div class="section-title">Evidencia Fotografica de Entrega / Reparado</div>
             <div class="grid-fotos">
                 @foreach($fotosSalida as $foto)
                     @php
