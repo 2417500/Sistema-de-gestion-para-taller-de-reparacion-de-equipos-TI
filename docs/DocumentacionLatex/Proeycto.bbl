@@ -19,40 +19,40 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{zurita2024sistema}{thesis}{}{}
+    \entry{hernandez2025novatech}{thesis}{}{}
       \name{author}{1}{}{%
-        {{hash=88d2dce8aa72fae0828b876cc66fa931}{%
-           family={Zurita\bibnamedelima Caiza},
-           familyi={Z\bibinitperiod\bibinitdelim C\bibinitperiod},
-           given={Kevin\bibnamedelima Stalin},
-           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=8811d343f9c965c77ce1cabc1d853625}{%
+           family={Hernández\bibnamedelima Hernández},
+           familyi={H\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={José\bibnamedelima Crispín},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
       }
       \list{institution}{1}{%
-        {Escuela Politécnica Nacional}%
+        {Instituto Tecnológico de Apizaco}%
       }
       \list{location}{1}{%
-        {Quito, Ecuador}%
+        {Apizaco, Tlaxcala, México}%
       }
-      \strng{namehash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{fullhash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{fullhashraw}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{bibnamehash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{authorbibnamehash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{authornamehash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{authorfullhash}{88d2dce8aa72fae0828b876cc66fa931}
-      \strng{authorfullhashraw}{88d2dce8aa72fae0828b876cc66fa931}
+      \strng{namehash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{fullhash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{fullhashraw}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{bibnamehash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{authorbibnamehash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{authornamehash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{authorfullhash}{8811d343f9c965c77ce1cabc1d853625}
+      \strng{authorfullhashraw}{8811d343f9c965c77ce1cabc1d853625}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Sistema de gestión para reparaciones electrónicas para el taller ``Electrónica Zurita'': aplicación móvil}
-      \field{type}{Trabajo de integración curricular}
-      \field{year}{2024}
+      \field{title}{NovaTech WebTech Manager}
+      \field{type}{Tesis de Licenciatura}
+      \field{year}{2025}
       \verb{urlraw}
-      \verb http://bibdigital.epn.edu.ec/handle/15000/26114
+      \verb https://rinacional.tecnm.mx/handle/TecNM/12719
       \endverb
       \verb{url}
-      \verb http://bibdigital.epn.edu.ec/handle/15000/26114
+      \verb https://rinacional.tecnm.mx/handle/TecNM/12719
       \endverb
     \endentry
     \entry{ramirez2020desarrollo}{thesis}{}{}
@@ -224,6 +224,37 @@
       \field{title}{Quality Management Systems---Requirements, {ISO} 9001:2015}
       \field{year}{2015}
     \endentry
+    \entry{mdn_web_dev}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=eace3534eb86e51f9a1db37427425ce9}{%
+           family={{MDN Web Docs}},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{fullhash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{fullhashraw}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{bibnamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorbibnamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authornamehash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorfullhash}{eace3534eb86e51f9a1db37427425ce9}
+      \strng{authorfullhashraw}{eace3534eb86e51f9a1db37427425ce9}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learn web development}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \endverb
+      \verb{url}
+      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \endverb
+    \endentry
     \entry{laravel_doc}{online}{}{}
       \name{author}{1}{}{%
         {{hash=a5c95b86291ea299fcbe64458ed12702}{%
@@ -256,35 +287,43 @@
       \verb https://laravel.com/docs/13.x
       \endverb
     \endentry
-    \entry{mdn_web_dev}{online}{}{}
+    \entry{norvic_estructura_laravel}{online}{}{}
       \name{author}{1}{}{%
-        {{hash=eace3534eb86e51f9a1db37427425ce9}{%
-           family={{MDN Web Docs}},
-           familyi={M\bibinitperiod}}}%
+        {{hash=e9c5b404e9e3e9f541767092f9e3f5fd}{%
+           family={Peña},
+           familyi={P\bibinitperiod},
+           given={Víctor},
+           giveni={V\bibinitperiod}}}%
       }
-      \strng{namehash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{fullhash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{fullhashraw}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{bibnamehash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{authorbibnamehash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{authornamehash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{authorfullhash}{eace3534eb86e51f9a1db37427425ce9}
-      \strng{authorfullhashraw}{eace3534eb86e51f9a1db37427425ce9}
+      \list{organization}{1}{%
+        {Norvic Software}%
+      }
+      \strng{namehash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{fullhash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{fullhashraw}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{bibnamehash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{authorbibnamehash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{authornamehash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{authorfullhash}{e9c5b404e9e3e9f541767092f9e3f5fd}
+      \strng{authorfullhashraw}{e9c5b404e9e3e9f541767092f9e3f5fd}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Learn web development}
-      \field{urlday}{10}
+      \field{day}{4}
+      \field{month}{5}
+      \field{title}{Estructura de un proyecto de Laravel: qué hay en cada carpeta}
+      \field{urlday}{22}
       \field{urlmonth}{11}
       \field{urlyear}{2026}
       \field{year}{2026}
+      \field{dateera}{ce}
       \field{urldateera}{ce}
       \verb{urlraw}
-      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \verb https://norvicsoftware.com/estructura-basica-de-un-proyecto-de-laravel/
       \endverb
       \verb{url}
-      \verb https://developer.mozilla.org/en-US/docs/Learn_web_development
+      \verb https://norvicsoftware.com/estructura-basica-de-un-proyecto-de-laravel/
       \endverb
     \endentry
     \entry{composer_doc}{online}{}{}
@@ -301,8 +340,8 @@
       \strng{authornamehash}{bcba235aa0401fd10464df6afbfaab77}
       \strng{authorfullhash}{bcba235aa0401fd10464df6afbfaab77}
       \strng{authorfullhashraw}{bcba235aa0401fd10464df6afbfaab77}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Introduction}
@@ -345,8 +384,8 @@
       \strng{authornamehash}{2e8829be23557c692dac07b198a7df6e}
       \strng{authorfullhash}{2e8829be23557c692dac07b198a7df6e}
       \strng{authorfullhashraw}{2e8829be23557c692dac07b198a7df6e}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{7}
@@ -495,8 +534,8 @@
       \strng{authorfullhash}{b0d7a4bf1a0878d4e92cdd7461e48710}
       \strng{authorfullhashraw}{b0d7a4bf1a0878d4e92cdd7461e48710}
       \field{extraname}{3}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Password Storage Cheat Sheet}
@@ -619,8 +658,8 @@
       \strng{authornamehash}{80d685e90fa23d7996a66e45aa2d24ad}
       \strng{authorfullhash}{80d685e90fa23d7996a66e45aa2d24ad}
       \strng{authorfullhashraw}{80d685e90fa23d7996a66e45aa2d24ad}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Learn \LaTeX{} in 30 minutes}
