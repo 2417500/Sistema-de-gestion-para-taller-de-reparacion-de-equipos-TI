@@ -1,2 +1,232 @@
 \chapter{Desarrollo}
-Desarrollo del proyecto, identifica la metodología  Agiles (sea SCRUM, KABAN, etc. )describe cada una de las fases del proceso de desarrollo de su proyecto. 
+
+En este capítulo se describe el proceso seguido para desarrollar el sistema de gestión del taller de reparación de equipos de Tecnologías de la Información (TI). Se presentan la metodología de trabajo, el análisis de requerimientos y reglas de negocio, el diseño de la solución, la implementación de sus módulos y la configuración del entorno para las pruebas y el despliegue. La descripción se basa en el acta constitutiva, el cronograma del proyecto, la especificación del sistema y la estructura implementada en Laravel. Las capturas de pantalla se integrarán posteriormente.
+
+\section{Metodología de desarrollo y organización del proyecto}
+
+El proyecto se organizó mediante la metodología ágil Scrum, apoyada por un tablero Kanban para visualizar las tareas y por Git y GitHub para administrar los cambios del código fuente. Esta combinación permitió ordenar el trabajo por prioridades, distribuir responsabilidades entre los integrantes y dar seguimiento a las actividades de análisis, diseño, implementación, pruebas y documentación.
+
+\subsection{Aplicación de la metodología Scrum}
+
+Scrum se utilizó como marco de trabajo iterativo para construir el sistema en incrementos funcionales. Al inicio se identificaron las necesidades del taller y se establecieron los requerimientos prioritarios; posteriormente, el equipo trabajó en ciclos de planificación, desarrollo, revisión y ajuste. Cada incremento atendió componentes relacionados, como la estructura de datos, la autenticación, las vistas por perfil y los módulos operativos.
+
+El equipo coordinó las actividades mediante reuniones y revisiones periódicas del avance. En estas sesiones se identificaron bloqueos, se acordaron las tareas siguientes y se verificó que los cambios respondieran a las necesidades descritas en el acta constitutiva. La especificación del proyecto confirma el uso de Sprints, aunque no establece una duración o una cantidad fija; por ello, el cronograma se presenta por fases y periodos, sin atribuirles una numeración o duración que no esté documentada.
+
+\subsection{Organización de roles y responsabilidades del equipo}
+
+Las responsabilidades se asignaron de acuerdo con las funciones descritas en el acta constitutiva:
+
+\begin{itemize}
+    \item \textbf{Asesor académico.} Supervisa los entregables académicos, proporciona orientación metodológica y valida los avances.
+    \item \textbf{Desarrollador del sistema, Ángel Francisco Ávila Vargas.} Implementa la lógica de negocio, migraciones, modelos, middleware, servicios, controladores y vistas; también coordina el repositorio de GitHub.
+    \item \textbf{Responsable de seguridad y pruebas, José Emilio Fernández González.} Implementa controles de seguridad y acceso, realiza pruebas funcionales y participa en la configuración y despliegue del sistema.
+    \item \textbf{Responsable de planificación y documentación, Ana Lucía Delgado Villagarcia.} Elabora el acta y el cronograma, organiza las actividades, redacta la memoria técnica en \LaTeX{} y recopila las evidencias de las pruebas.
+    \item \textbf{Equipo de proyecto.} Participa en las actividades colaborativas, en la elaboración del modelo entidad-relación y en la revisión de los incrementos.
+\end{itemize}
+
+El acta define estas funciones de trabajo, pero no asigna formalmente los papeles de Product Owner y Scrum Master. Por ello, en esta memoria se describen las responsabilidades efectivamente documentadas y no se atribuyen cargos adicionales.
+
+\subsection{Planificación de actividades y distribución de los Sprints}
+
+El cronograma establece tres fases principales. La fase de inicio y planificación se programó del 13 al 23 de octubre de 2026 e incluyó el levantamiento de requerimientos, las reglas de negocio, la elaboración del acta, la creación del proyecto Laravel y del repositorio, y el diseño inicial de la base de datos. La fase de diseño e implementación se estableció del 26 de octubre al 16 de noviembre e incluyó migraciones, modelos, seeders, diseño de interfaces, middleware RBAC, servicios, controladores, vistas y pruebas. La fase de cierre y entrega se programó del 17 al 30 de noviembre e incluye pruebas de usuario, despliegue, documentación y entrega final.
+
+El cronograma de actividades distribuye el trabajo de manera progresiva: primero se prepara el entorno y se definen los requerimientos; después se construyen la base de datos y los componentes funcionales; finalmente se integran los módulos, se ejecutan pruebas y se prepara la puesta en operación. Los Sprints se utilizaron como ciclos de trabajo del equipo dentro de esa planificación. Debido a que el documento fuente no indica fechas de inicio y fin para cada Sprint, la distribución que se presenta corresponde a las fases oficiales del cronograma.
+
+\subsection{Seguimiento del proyecto mediante el tablero Kanban}
+
+El tablero Kanban complementa la planificación de Scrum al mostrar el estado de cada actividad durante el desarrollo. Las tareas se visualizan de acuerdo con su situación, como pendientes, en proceso o completadas. Esta vista permite identificar el trabajo activo, reconocer actividades que requieren atención y mantener una referencia común del avance para todo el equipo.
+
+Las tareas del tablero abarcan, entre otras, el análisis de requerimientos, el diseño entidad-relación, la creación de migraciones y seeders, la elaboración de vistas Blade, la implementación de servicios y middleware, las pruebas funcionales, la documentación y el despliegue. La actualización del tablero permite relacionar el avance diario con las fechas y entregables del cronograma.
+
+\subsection{Control de versiones y trabajo colaborativo con Git y GitHub}
+
+Git se empleó para registrar la evolución del código mediante cambios versionados, de modo que fuera posible revisar las modificaciones y conservar un historial del desarrollo. GitHub se utilizó como repositorio remoto para centralizar el proyecto y facilitar la colaboración entre los integrantes.
+
+El repositorio contiene el código de Laravel, las migraciones, las vistas, las pruebas y los archivos de configuración necesarios para construir la aplicación. La coordinación del repositorio permite que los cambios de cada integrante se integren al proyecto común y que el equipo pueda relacionar los avances del software con las tareas del tablero y los entregables establecidos.
+
+\section{Análisis y especificación del sistema}
+
+El análisis se realizó a partir de la problemática del taller y de las necesidades documentadas por el equipo. Se definieron los procesos que debían digitalizarse, los datos necesarios para dar seguimiento a cada servicio y las condiciones que el sistema debe cumplir para proteger la información y mantener la continuidad del historial operativo.
+
+\subsection{Identificación de requerimientos funcionales}
+
+Los requerimientos funcionales especifican las acciones que la aplicación debe permitir. La especificación del sistema identifica los siguientes grupos:
+
+\begin{itemize}
+    \item \textbf{RF-01, gestión de usuarios.} Permitir el registro, inicio y cierre de sesión, recuperación de contraseñas mediante token, asignación de roles y administración de cuentas internas.
+    \item \textbf{RF-02, gestión de clientes.} Registrar y actualizar información, consultar el historial de órdenes, reconocer la antigüedad y relacionar los equipos recibidos con su propietario.
+    \item \textbf{RF-03, recepción de equipos.} Registrar computadoras, impresoras y periféricos, sus características, accesorios, condición física y evidencias fotográficas, generando un folio único para cada orden.
+    \item \textbf{RF-04 y RF-05, diagnóstico y cotizaciones.} Documentar fallas, pruebas y recomendaciones; generar cotizaciones con conceptos, importes, descuentos, vigencia e historial de versiones.
+    \item \textbf{RF-06, aprobaciones.} Registrar la aceptación o el rechazo de las cotizaciones, su versión, la fecha y, cuando corresponda, el motivo. La reparación requiere las autorizaciones establecidas.
+    \item \textbf{RF-07, seguimiento de reparaciones.} Asignar técnicos y registrar tareas, tiempos, refacciones utilizadas, incidencias y cambios de estado.
+    \item \textbf{RF-08, control de almacén.} Administrar refacciones y herramientas, movimientos de entrada y salida, existencias mínimas, reservas y avisos de faltantes.
+    \item \textbf{RF-09, gestión de pagos.} Registrar anticipos, pagos parciales autorizados, liquidaciones, saldos pendientes, descuentos y comprobantes internos.
+    \item \textbf{RF-10, entregas y garantías.} Registrar las pruebas finales, la fecha y responsables de la entrega, el pago correspondiente y la garantía asociada con la orden original.
+    \item \textbf{RF-11, consulta del cliente.} Permitir que cada cliente revise sus órdenes, diagnósticos, cotizaciones, pagos y garantías, además de responder a los presupuestos.
+    \item \textbf{RF-12, reportes y bitácora.} Generar reportes operativos y financieros y registrar las acciones importantes realizadas por los usuarios.
+\end{itemize}
+
+\subsection{Identificación de requerimientos no funcionales}
+
+Los requerimientos no funcionales describen las características de calidad y operación esperadas:
+
+\begin{itemize}
+    \item \textbf{RNF-01, seguridad.} Proteger las contraseñas mediante mecanismos de hash y resguardar las sesiones.
+    \item \textbf{RNF-02, control de acceso.} Limitar las funciones disponibles a las permitidas para cada rol.
+    \item \textbf{RNF-03, integridad.} Evitar folios duplicados, pagos inconsistentes y reparaciones sin las aprobaciones requeridas.
+    \item \textbf{RNF-04, disponibilidad.} Mantener el sistema disponible durante el horario de operación, de acuerdo con la infraestructura desplegada.
+    \item \textbf{RNF-05, usabilidad.} Presentar interfaces claras, en español, que faciliten la captura y consulta de información.
+    \item \textbf{RNF-06, compatibilidad.} Permitir el uso desde navegadores modernos en computadoras, tabletas y teléfonos.
+    \item \textbf{RNF-07, rendimiento.} Responder en tiempos adecuados a las consultas y operaciones habituales.
+    \item \textbf{RNF-08, respaldo.} Establecer copias de seguridad de la base de datos y procedimientos para recuperar la información.
+    \item \textbf{RNF-09, trazabilidad.} Conservar el usuario responsable y el momento de los cambios relevantes.
+    \item \textbf{RNF-10, mantenibilidad.} Mantener módulos separados y código organizado para facilitar futuras modificaciones.
+\end{itemize}
+
+\subsection{Definición de reglas de negocio}
+
+Las reglas de negocio formalizan las condiciones que deben cumplirse durante la atención de una orden. Entre las principales se encuentran:
+
+\begin{itemize}
+    \item Los usuarios que se registran desde el portal reciben el rol Cliente y no pueden asignarse otros roles. La administración puede crear y gestionar las cuentas internas.
+    \item Cada equipo recibido se relaciona con una orden de servicio y un folio único. Recepción registra sus características, accesorios, estado físico y evidencias disponibles.
+    \item Las cotizaciones indican fecha, versión, vigencia, servicios, refacciones, descuentos e importe. Toda modificación de precio, alcance, mano de obra o piezas genera una versión nueva y conserva las anteriores.
+    \item El cliente acepta o rechaza la versión vigente. Una reparación no inicia hasta contar con la aceptación, las autorizaciones internas que apliquen y el anticipo requerido. Si se detectan trabajos adicionales, se documentan y se solicita autorización antes de ejecutarlos.
+    \item Las refacciones reservadas para una orden no se asignan a otra si no existe disponibilidad. Si la orden se cancela antes de utilizarlas, las reservas se liberan. El almacén registra entradas, salidas, entregas y faltantes.
+    \item El anticipo ordinario corresponde al 50\,\% del importe autorizado, salvo una excepción aprobada por el Administrador. Antes de entregar el equipo se verifica la liquidación y el registro de las pruebas finales.
+    \item Los descuentos se aplican de acuerdo con las políticas de antigüedad y fidelidad, se registra el importe autorizado y no se acumulan automáticamente.
+    \item Cada pago, cambio de estado, aprobación, modificación de cotización, movimiento de inventario y entrega debe conservar su relación con la orden y con el usuario responsable.
+    \item Las garantías se vinculan con la orden original y conservan sus condiciones y vigencia. Los reingresos por una posible garantía se relacionan con el servicio que originó la reparación.
+\end{itemize}
+
+\subsection{Identificación de actores y funcionalidades por rol}
+
+El análisis identificó cinco perfiles con responsabilidades diferenciadas:
+
+\begin{itemize}
+    \item \textbf{Administrador.} Configura servicios, permisos, políticas y garantías; administra usuarios internos; autoriza excepciones; supervisa operaciones y consulta reportes.
+    \item \textbf{Recepción.} Registra clientes y equipos, captura evidencias, genera órdenes, consulta su estado y formaliza la entrega.
+    \item \textbf{Técnico.} Revisa los equipos, documenta diagnósticos, cotizaciones, tareas, tiempos e incidencias; realiza reparaciones autorizadas y registra pruebas finales.
+    \item \textbf{Almacén.} Controla las existencias, registra movimientos, reserva y entrega refacciones, administra herramientas y comunica faltantes.
+    \item \textbf{Cliente.} Se registra, consulta únicamente sus órdenes y documentos, revisa y responde cotizaciones, consulta pagos y verifica las condiciones de garantía.
+\end{itemize}
+
+\section{Diseño de la solución}
+
+El diseño tradujo los requerimientos y las reglas de negocio en una arquitectura de aplicación web, un modelo de datos relacional, interfaces por perfil y controles de acceso. La solución se desarrolló con Laravel y el patrón MVC. La configuración actual de Docker utiliza MySQL 8.4; el uso de MariaDB en el alojamiento previsto se validará durante la preparación del despliegue.
+
+\subsection{Diseño de la arquitectura del sistema MVC}
+
+La arquitectura Modelo-Vista-Controlador separa las responsabilidades principales de la aplicación. Los modelos Eloquent representan las entidades y administran su relación con la base de datos; las vistas Blade presentan la información y los formularios; y los controladores o funciones de ruta reciben las solicitudes, coordinan la lógica y devuelven una vista o respuesta. Los servicios de aplicación agrupan operaciones reutilizables, mientras que los middleware verifican autenticación, rol y condiciones de acceso.
+
+En el flujo típico, el navegador envía una solicitud HTTP, Laravel identifica la ruta correspondiente y aplica los middleware definidos. La acción asociada consulta o actualiza los modelos y servicios y, cuando corresponde, entrega los resultados a una vista. La aplicación se ejecuta en PHP-FPM, mientras Nginx atiende las solicitudes web y MySQL conserva los datos en el entorno local Docker.
+
+\subsection{Diseño del modelo entidad-relación}
+
+El modelo entidad-relación representa las entidades del taller y las asociaciones necesarias para seguir cada servicio. Entre las entidades centrales se encuentran Usuario, Rol, Cliente, Equipo y Orden de Servicio. El cliente se vincula con sus equipos, y cada equipo recibido se documenta mediante una orden que conserva su estado e historial.
+
+Alrededor de la orden se organizan los diagnósticos, las cotizaciones y sus versiones, los detalles de mano de obra y refacciones, las aprobaciones, las reparaciones, las incidencias, las pruebas finales, los pagos, las entregas y las garantías. El inventario se relaciona con refacciones, solicitudes y reservas; las herramientas se relacionan con sus préstamos; y las notificaciones y acciones de auditoría identifican a los usuarios y procesos involucrados.
+
+\subsection{Diseño de la base de datos y sus relaciones}
+
+El diseño relacional se implementó en Laravel mediante migraciones, que describen de forma versionada la creación y modificación de las tablas. Estas estructuras permiten relacionar usuarios y roles, clientes y equipos, equipos y órdenes, y órdenes con diagnósticos, cotizaciones, pagos, reparaciones y garantías. Las claves y restricciones correspondientes mantienen la integridad de las asociaciones y evitan que los registros operativos queden aislados de su orden.
+
+Los modelos Eloquent proporcionan el acceso de la aplicación a las entidades. Las migraciones se complementan con seeders para preparar datos iniciales requeridos por el sistema. El entorno de ejecución actual utiliza MySQL 8.4; el acta contempla MariaDB para el alojamiento, por lo que la compatibilidad de las migraciones y los datos se revisará antes de realizar esa transición.
+
+\subsection{Diseño de interfaces y navegación del sistema}
+
+Las interfaces se organizaron en una sección pública y vistas privadas asociadas con el perfil autenticado. La parte pública presenta información del taller y ofrece acceso a las funciones de consulta y registro de clientes. Después de la autenticación, la navegación conduce a las funciones permitidas para Administración, Recepción, Técnico, Almacén o Cliente.
+
+Las vistas Blade presentan formularios para capturar clientes, equipos, diagnósticos, cotizaciones, pagos y movimientos de inventario, además de listados y paneles para consultar el avance. La estructura visual se implementa con recursos de frontend compilados mediante Vite y estilos responsivos para facilitar su uso desde distintos tamaños de pantalla. Las capturas de estas interfaces se agregarán en una etapa posterior.
+
+\subsection{Diseño del control de acceso basado en roles (RBAC)}
+
+El diseño RBAC asigna permisos a partir del rol y no de manera indiscriminada a cada usuario. La autenticación identifica a la persona y los middleware comprueban si su rol puede acceder a la ruta o ejecutar la operación solicitada. Para los recursos de clientes, las verificaciones también deben asegurar que el usuario consulte únicamente información propia.
+
+El Administrador cuenta con funciones de supervisión y configuración; Recepción administra ingresos y entregas; el Técnico registra diagnósticos, trabajo y pruebas; Almacén gestiona piezas, herramientas y movimientos; y el Cliente consulta y responde únicamente sobre sus servicios. Esta separación reduce accesos indebidos y mantiene responsabilidades verificables en las operaciones del taller.
+
+\section{Implementación de los módulos del sistema}
+
+La implementación se organizó en módulos relacionados con el flujo de atención del taller. Cada módulo utiliza las rutas, vistas, modelos, servicios y controles de acceso que corresponden a su función y comparte la información mediante las órdenes de servicio y las relaciones de la base de datos.
+
+\subsection{Desarrollo del sitio público y autenticación}
+
+El sitio público presenta la información general del taller y sirve como punto de entrada para las funciones disponibles a visitantes y clientes. El sistema incorpora procesos de registro, inicio y cierre de sesión, verificación de identidad y administración de sesiones. El registro desde el portal asigna el perfil Cliente, mientras que las cuentas internas se administran conforme a los permisos del sistema.
+
+La recuperación de contraseña mediante token se encuentra contemplada como un flujo simulado para el correo o teléfono, de acuerdo con las limitaciones especificadas en el acta. La autenticación y las rutas privadas se complementan con controles de acceso en el servidor.
+
+\subsection{Gestión de usuarios y clientes}
+
+El módulo de usuarios administra las cuentas internas, sus roles y su estado. El módulo de clientes conserva los datos de contacto, la antigüedad y la relación con los equipos y órdenes de servicio. Esta información permite reconocer al cliente al recibir un dispositivo, consultar su historial y determinar si cumple con las reglas de descuentos por lealtad o antigüedad.
+
+Los permisos distinguen las operaciones administrativas de la consulta que realiza el cliente. La creación de una cuenta por parte del usuario en el portal no le permite seleccionar un rol privilegiado ni consultar expedientes de otras personas.
+
+\subsection{Recepción de equipos y gestión de órdenes de servicio}
+
+Recepción registra los datos del cliente y del equipo, incluyendo tipo, marca, modelo, número de serie cuando está disponible, accesorios entregados y condición física. Cuando se requiere, se agregan fotografías para documentar las condiciones del dispositivo al ingreso. El sistema genera un folio único que permite identificar la orden durante su ciclo de atención.
+
+La orden concentra el problema reportado, la prioridad, las observaciones y el estado del servicio. También mantiene la relación con el cliente, el equipo y las actividades posteriores, de manera que el historial pueda consultarse desde las áreas autorizadas.
+
+\subsection{Asignación de técnicos y seguimiento de reparaciones}
+
+Las órdenes se asignan a los técnicos de acuerdo con las necesidades y prioridades del taller. Durante la atención se registran tareas realizadas, tiempos de trabajo, observaciones, incidencias y cambios de estado. Esta información permite que el personal autorizado conozca el avance y que el cliente reciba actualizaciones sobre su servicio.
+
+Cuando se presenta una interrupción o una falla adicional, el técnico documenta la incidencia y solicita las autorizaciones necesarias antes de ampliar el trabajo. El historial de la orden conserva la secuencia de actividades desde la recepción hasta la reparación y su conclusión.
+
+\subsection{Diagnósticos técnicos y gestión de cotizaciones}
+
+El técnico documenta las fallas detectadas, las pruebas realizadas y las posibles soluciones. A partir del diagnóstico se genera una cotización con los conceptos de servicio y refacciones, mano de obra, descuentos, importe total y vigencia. Cada modificación que afecte el precio o el alcance se conserva como una nueva versión para mantener el historial de los acuerdos.
+
+El cliente puede aceptar o rechazar la cotización vigente. El sistema registra la respuesta y su relación con la versión correspondiente. La reparación no debe comenzar sin la aprobación requerida y el anticipo establecido; si durante el trabajo se requiere una intervención adicional, esta se documenta y se solicita autorización antes de realizarla.
+
+\subsection{Administración de almacén, refacciones y herramientas}
+
+El módulo de almacén registra las existencias y los movimientos de refacciones y herramientas. Las necesidades detectadas por los técnicos se relacionan con la orden correspondiente para que Almacén pueda revisar las solicitudes y gestionar la entrega de los recursos disponibles. Las reservas evitan asignar a varias órdenes una misma pieza cuando no existe stock suficiente.
+
+También se registra el préstamo y devolución de herramientas, así como los faltantes y las existencias mínimas que requieren atención. El sistema apoya la administración y el seguimiento interno; la compra física, la negociación con proveedores y la reposición de recursos continúan bajo responsabilidad del personal.
+
+\subsection{Gestión de pagos, entregas y garantías}
+
+El módulo financiero registra anticipos, pagos parciales, liquidaciones, saldos y comprobantes internos. Como regla general, antes de iniciar la reparación debe cubrirse un anticipo equivalente al 50\,\% del importe autorizado, salvo que el Administrador apruebe una excepción. Los descuentos por antigüedad o fidelidad se registran conforme a las políticas del taller.
+
+Antes de la entrega, el Técnico registra las pruebas finales del equipo. Recepción confirma los datos de entrega y el pago del saldo pendiente. La garantía generada conserva su folio, vigencia y condiciones, y se vincula con la orden original para facilitar la atención de un posible reingreso.
+
+\subsection{Portal de clientes, reportes y bitácora de actividades}
+
+El portal permite que cada cliente consulte el estado de sus órdenes, revise diagnósticos y cotizaciones, responda a los presupuestos y consulte pagos y garantías. Las consultas están limitadas a los servicios asociados con su propia cuenta. Las notificaciones informan eventos relevantes, como la disponibilidad de una cotización o el avance de una orden.
+
+El módulo administrativo consolida reportes de órdenes por estado y técnico, tiempos de reparación, cotizaciones, consumo de refacciones, pagos y reingresos por garantía. La bitácora registra acciones críticas, como cambios de estado, aprobaciones, rechazos, modificaciones de cotización, pagos y movimientos de inventario, junto con el usuario responsable y el momento de la operación.
+
+\section{Configuración del entorno, pruebas y despliegue}
+
+La última fase contempla integrar los módulos, verificar los controles de acceso y ejecutar las pruebas funcionales antes de preparar el despliegue. El sistema ya cuenta con un entorno local basado en Docker; el despliegue en Hostinger y la transición a MariaDB quedan sujetos a la etapa de cierre establecida en el cronograma.
+
+\subsection{Configuración del entorno de desarrollo con Docker}
+
+Docker Compose coordina los servicios necesarios para ejecutar la aplicación en el entorno local. El contenedor de aplicación utiliza PHP 8.4 con PHP-FPM y ejecuta Laravel; Nginx recibe las solicitudes web y se comunica con PHP-FPM; MySQL 8.4 almacena los datos. El proceso de construcción compila los recursos frontend con Node.js, Vite y Tailwind.
+
+Los servicios se conectan mediante una red interna y utilizan volúmenes para conservar los datos de la base de datos y los recursos instalados o compilados. Esta separación hace reproducible la configuración y facilita que el equipo pruebe la aplicación sin instalar cada servicio directamente en el sistema operativo anfitrión.
+
+\subsection{Implementación de pruebas funcionales y automatizadas}
+
+El proyecto incorpora pruebas automatizadas con Pest y PHPUnit. La configuración de PHPUnit utiliza SQLite en memoria para aislar las pruebas de la base de datos de desarrollo. Entre los componentes cubiertos por pruebas se encuentran autenticación, registro de usuarios, servicios de órdenes, cotizaciones, diagnósticos, reparaciones, inventario, préstamos de herramientas, pagos, descuentos, notificaciones y bitácora.
+
+Las pruebas funcionales verifican condiciones importantes del negocio, como impedir una reparación sin cotización aceptada o anticipo, evitar una entrega con saldo pendiente o sin prueba final, conservar los movimientos de inventario y asignar el rol Cliente al registro público. El resultado de cada ejecución deberá registrarse como evidencia durante la validación del cierre.
+
+\subsection{Verificación de permisos y seguridad}
+
+La verificación de seguridad considera la autenticación, el almacenamiento de contraseñas mediante hash, la protección de sesiones y la aplicación de middleware para limitar el acceso según el rol. También se comprueba que las rutas que modifican información validen los datos en el servidor y que las operaciones que afectan cotizaciones, pagos, órdenes e inventario requieran las autorizaciones previstas.
+
+Para el perfil Cliente se verifica la propiedad de los recursos consultados, con el fin de evitar el acceso a órdenes pertenecientes a otras cuentas. Las pruebas deben confirmar que un usuario no pueda ejecutar funciones asignadas a otro rol y que las acciones críticas queden asociadas con el usuario que las realizó.
+
+\subsection{Despliegue local y preparación del entorno de alojamiento}
+
+El despliegue local mediante Docker ya forma parte del entorno de trabajo y permite iniciar la aplicación, el servidor Nginx y la base de datos MySQL en conjunto. La preparación para Hostinger se contempla en la fase de cierre del cronograma, pero aún no se presenta como un despliegue realizado.
+
+Antes de publicarlo será necesario revisar la compatibilidad de la versión de PHP y sus extensiones, preparar las variables de entorno y credenciales, configurar el directorio público de Laravel y respaldar los datos. El acta considera MariaDB para el alojamiento, por lo que también se deberá validar la migración desde MySQL 8.4 y probar las consultas, relaciones y restricciones de la base de datos en el nuevo entorno.
+
+\subsection{Integración y validación final del sistema}
+
+La validación final integra los módulos en un flujo completo: registro del cliente y recepción del equipo, generación de la orden y folio, diagnóstico, emisión y respuesta a la cotización, autorización y anticipo, asignación de recursos, reparación, pruebas finales, liquidación, entrega y emisión de garantía. En cada etapa se comprueba que el estado de la orden, los datos relacionados y los permisos de usuario sean consistentes.
+
+La revisión de cierre también considera el funcionamiento de los reportes, las notificaciones y la bitácora, además de la ejecución de las pruebas automatizadas y funcionales. De acuerdo con el cronograma, estas actividades se desarrollan en la fase del 17 al 30 de noviembre de 2026, junto con la preparación del alojamiento y la entrega de la memoria técnica. Las evidencias visuales de las pruebas y de las interfaces se incorporarán posteriormente.
